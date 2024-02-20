@@ -16,9 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { ChatBarButton } from "@api/ChatButtons";
+import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { openModal } from "@utils/modal";
-import { Button, ButtonLooks, ButtonWrapperClasses, Tooltip } from "@webpack/common";
+import { Alerts, Forms } from "@webpack/common";
 
 import { settings } from "./settings";
 import { TranslateModal } from "./TranslateModal";
@@ -37,31 +39,46 @@ export function TranslateIcon({ height = 24, width = 24, className }: { height?:
     );
 }
 
-export function TranslateChatBarIcon({ slateProps }: { slateProps: { type: { analyticsName: string; }; }; }) {
+export const TranslateChatBarIcon: ChatBarButton = ({ isMainChat }) => {
     const { autoTranslate } = settings.use(["autoTranslate"]);
     const { autoFluent } = settings.use(["autoFluent"]);
 
-    if (slateProps.type.analyticsName !== "normal")
-        return null;
+    if (!isMainChat) return null;
 
+<<<<<<< HEAD
     const toggle = () => settings.store.autoTranslate = !autoTranslate;
     const toggle2 = () => settings.store.autoFluent = !autoFluent;
+=======
+    const toggle = () => {
+        const newState = !autoTranslate;
+        settings.store.autoTranslate = newState;
+        if (newState && settings.store.showAutoTranslateAlert !== false)
+            Alerts.show({
+                title: "Vencord Auto-Translate Enabled",
+                body: <>
+                    <Forms.FormText>
+                        You just enabled auto translate (by right clicking the Translate icon). Any message you send will automatically be translated before being sent.
+                    </Forms.FormText>
+                    <Forms.FormText className={Margins.top16}>
+                        If this was an accident, disable it again, or it will change your message content before sending.
+                    </Forms.FormText>
+                </>,
+                cancelText: "Disable Auto-Translate",
+                confirmText: "Got it",
+                secondaryConfirmText: "Don't show again",
+                onConfirmSecondary: () => settings.store.showAutoTranslateAlert = false,
+                onCancel: () => settings.store.autoTranslate = false
+            });
+    };
+>>>>>>> upstream/main
 
     return (
-        <Tooltip text="Open Translate Modal">
-            {({ onMouseEnter, onMouseLeave }) => (
-                <div style={{ display: "flex" }}>
-                    <Button
-                        aria-haspopup="dialog"
-                        aria-label="Open Translate Modal"
-                        size=""
-                        look={ButtonLooks.BLANK}
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
-                        innerClassName={ButtonWrapperClasses.button}
-                        onClick={e => {
-                            if (e.shiftKey) return toggle();
+        <ChatBarButton
+            tooltip="Open Translate Modal"
+            onClick={e => {
+                if (e.shiftKey) return toggle();
 
+<<<<<<< HEAD
                             if (e.ctrlKey) return toggle2();
 
                             openModal(props => (
@@ -79,5 +96,18 @@ export function TranslateChatBarIcon({ slateProps }: { slateProps: { type: { ana
                 </div>
             )}
         </Tooltip>
+=======
+                openModal(props => (
+                    <TranslateModal rootProps={props} />
+                ));
+            }}
+            onContextMenu={() => toggle()}
+            buttonProps={{
+                "aria-haspopup": "dialog"
+            }}
+        >
+            <TranslateIcon className={cl({ "auto-translate": autoTranslate, "chat-button": true })} />
+        </ChatBarButton>
+>>>>>>> upstream/main
     );
-}
+};

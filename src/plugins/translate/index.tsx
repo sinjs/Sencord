@@ -18,11 +18,11 @@
 
 import "./styles.css";
 
+import { addChatBarButton, removeChatBarButton } from "@api/ChatButtons";
 import { addContextMenuPatch, findGroupChildrenByChildId, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { addAccessory, removeAccessory } from "@api/MessageAccessories";
 import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
 import { addButton, removeButton } from "@api/MessagePopover";
-import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { ChannelStore, Menu, FluxDispatcher, UserStore } from "@webpack/common";
@@ -77,29 +77,27 @@ const autoTranslate = async ( msg ) => {
 
 
 export default definePlugin({
+<<<<<<< HEAD
     name: "EnhancedTranslate",
     description: "Translate messages with Google Translate\nEnhanced by TechFun",
     authors: [Devs.Ven, Devs.TechFun],
     dependencies: ["MessageAccessoriesAPI", "MessagePopoverAPI", "MessageEventsAPI"],
+=======
+    name: "Translate",
+    description: "Translate messages with Google Translate",
+    authors: [Devs.Ven],
+    dependencies: ["MessageAccessoriesAPI", "MessagePopoverAPI", "MessageEventsAPI", "ChatInputButtonAPI"],
+>>>>>>> upstream/main
     settings,
     // not used, just here in case some other plugin wants it or w/e
     translate,
-
-    patches: [
-        {
-            find: "ChannelTextAreaButtons",
-            replacement: {
-                match: /(\i)\.push.{1,30}disabled:(\i),.{1,20}\},"gift"\)\)/,
-                replace: "$&,(()=>{try{$2||$1.push($self.chatBarIcon(arguments[0]))}catch{}})()",
-            }
-        },
-    ],
 
     start() {
         FluxDispatcher.subscribe("MESSAGE_CREATE", autoTranslate);
         addAccessory("vc-translation", props => <TranslationAccessory message={props.message} />);
 
         addContextMenuPatch("message", messageCtxPatch);
+        addChatBarButton("vc-translate", TranslateChatBarIcon);
 
         addButton("vc-translate", message => {
             if (!message.content) return null;
@@ -128,13 +126,8 @@ export default definePlugin({
         FluxDispatcher.unsubscribe("MESSAGE_CREATE", autoTranslate);
         removePreSendListener(this.preSend);
         removeContextMenuPatch("message", messageCtxPatch);
+        removeChatBarButton("vc-translate");
         removeButton("vc-translate");
         removeAccessory("vc-translation");
     },
-
-    chatBarIcon: (slateProps: any) => (
-        <ErrorBoundary noop>
-            <TranslateChatBarIcon slateProps={slateProps} />
-        </ErrorBoundary>
-    )
 });

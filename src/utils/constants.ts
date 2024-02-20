@@ -42,6 +42,7 @@ export interface Dev {
  * If you are fine with attribution but don't want the badge, add badge: false
  */
 export const Devs = /* #__PURE__*/ Object.freeze({
+<<<<<<< HEAD
     TechFun: {
         name: "TechFun",
         id: 412734949716656129n
@@ -49,6 +50,11 @@ export const Devs = /* #__PURE__*/ Object.freeze({
     Airbus: {
         name: "Airbus A330-200",
         id: 437019658374348801n
+=======
+    Nobody: {
+        name: "Nobody",
+        id: 0n,
+>>>>>>> upstream/main
     },
     Ven: {
         name: "Vendicated",
@@ -367,10 +373,6 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         name: "bb010g",
         id: 72791153467990016n,
     },
-    Lumap: {
-        name: "lumap",
-        id: 635383782576357407n
-    },
     Dolfies: {
         name: "Dolfies",
         id: 852892297661906993n,
@@ -415,6 +417,14 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         name: "Grzesiek11",
         id: 368475654662127616n,
     },
+    Samwich: {
+        name: "Samwich",
+        id: 976176454511509554n,
+    },
+    coolelectronics: {
+        name: "coolelectronics",
+        id: 696392247205298207n,
+    }
 } satisfies Record<string, Dev>);
 
 // iife so #__PURE__ works correctly
