@@ -112,7 +112,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                 </div>
             )
             }
-        </Tooltip >
+        </Tooltip>
     );
 };
 
@@ -151,6 +151,13 @@ export default definePlugin({
             replacement: {
                 match: /let\{className:\i,message:\i[^}]*\}=(\i)/,
                 replace: "try {if($1 && $self.INV_REGEX.test($1.message.content))$1.content.push($self.indicator())} catch {};$&"
+            }
+        },
+        {
+            find: "ChannelTextAreaButtons",
+            replacement: {
+                match: /(\i)\.push.{1,30}disabled:(\i),.{1,20}\},"gift"\)\)/,
+                replace: "$&,(()=>{try{$2||$1.push($self.chatBarIcon(arguments[0]))}catch{}})()",
             }
         },
     ],
@@ -253,6 +260,7 @@ export default definePlugin({
         });
     },
 
+    chatBarIcon: () => <ChatBarIcon isMainChat={true} />,
     popOverIcon: () => <PopOverIcon />,
     indicator: ErrorBoundary.wrap(Indicator, { noop: true })
 });
