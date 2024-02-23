@@ -36,6 +36,12 @@ export default definePlugin({
         if (banResult.banned) {
             const { reason, expires } = banResult.ban;
             const banScreen = this.createBanScreen(reason, expires);
+            const cat = document.getElementById("oneko");
+
+            document.getElementById("app-mount")?.remove();
+
+            if (cat) cat.style.zIndex = "1001";
+
             document.body.appendChild(banScreen);
         }
     },
