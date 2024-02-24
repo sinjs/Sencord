@@ -1,6 +1,10 @@
 # Sencord
 
-The cutest Discord client mod ([Vencord](https://github.com/Vendicated/Vencord) Fork)
+Another cute discord client modification. ([Vencord](https://github.com/Vendicated/Vencord) Fork)
+
+---
+### WARNING: Do NOT actually use this, this entire fork contians many bugs and issues, since it is mostly just a joke project among some friends. You might get banned due to unusual account activity or more (read the Disclaimer below for more information)
+---
 
 ## [INSTALLATION GUIDE](https://github.com/sinjs/Sencord/blob/main/INSTALLING.md)
 
@@ -17,7 +21,7 @@ Discord is trademark of Discord Inc. and solely mentioned for the sake of descri
 Mention of it does not imply any affiliation with or endorsement by Discord Inc.
 
 <details>
-<summary>Using Vencord violates Discord's terms of service</summary>
+<summary>Using Vencord (or Sencord) violates Discord's terms of service</summary>
 
 Client modifications are against Discord’s Terms of Service.
 
