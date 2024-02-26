@@ -1,5 +1,6 @@
 # Sencord
 
+
 Another cute discord client modification. ([Vencord](https://github.com/Vendicated/Vencord) Fork)
 
 ---
