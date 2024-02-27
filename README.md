@@ -1,5 +1,6 @@
 # Sencord
 
+
 Another cute discord client modification. ([Vencord](https://github.com/Vendicated/Vencord) Fork)
 
 ---
@@ -7,6 +8,10 @@ Another cute discord client modification. ([Vencord](https://github.com/Vendicat
 ---
 
 ## [INSTALLATION GUIDE](https://github.com/sinjs/Sencord/blob/main/INSTALLING.md)
+
+## Source code for the API
+
+The source code for the API worker is located at [sinjs/nc-api-worker](https://github.com/sinjs/nc-api-worker/)
 
 ## Plugins added
 
