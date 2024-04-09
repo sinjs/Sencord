@@ -8,24 +8,44 @@ import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
+const possible = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
 const change = async (_, message) => {
     if (!message.content) return;
     message.content = message.content
-        .replace(/\b([dn]iggers?)\b/gi, function (match) {
+        .replace(/(\wigger)/gi, function (match) {
             return match.replace(/./g, function (char, index) {
-                if (match[index] === "d") return "n";
-                if (match[index] === "D") return "N";
-                if (match[index] === "n") return "d";
-                if (match[index] === "N") return "D";
+                if (index == 0) {
+                    if (match[0] === "n") {
+                        return possible[Math.floor(Math.random() * possible.length)];
+                    }
+                    if (match[0] === "N") {
+                        return possible[Math.floor(Math.random() * possible.length)].toUpperCase();
+                    }
+                    if (match[0] == match[0].toLowerCase()) {
+                        return "n";
+                    }
+                    return "N"
+                }
+
                 return match[index];
             });
         })
-        .replace(/\b([dn]iggas?)\b/gi, function (match) {
+        .replace(/(\wigga)/gi, function (match) {
             return match.replace(/./g, function (char, index) {
-                if (match[index] === "d") return "n";
-                if (match[index] === "D") return "N";
-                if (match[index] === "n") return "d";
-                if (match[index] === "N") return "D";
+                if (index == 0) {
+                    if (match[0] === "n") {
+                        return possible[Math.floor(Math.random() * possible.length)];
+                    }
+                    if (match[0] === "N") {
+                        return possible[Math.floor(Math.random() * possible.length)].toUpperCase();
+                    }
+                    if (match[0] == match[0].toLowerCase()) {
+                        return "n";
+                    }
+                    return "N"
+                }
+
                 return match[index];
             });
         });
