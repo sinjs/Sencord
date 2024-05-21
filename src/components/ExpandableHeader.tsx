@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./ExpandableHeader.css";
+import "@components\ExpandableHeader.css";
 
 import { classNameFactory } from "@api/Styles";
 import { Text, Tooltip, useState } from "@webpack/common";

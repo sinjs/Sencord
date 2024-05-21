@@ -17,13 +17,12 @@
 */
 
 import { Settings } from "@api/Settings";
+import { persistNotification } from "@api\Notifications\notificationLog";
+import NotificationComponent from "@api\Notifications\NotificationComponent";
 import { Queue } from "@utils/Queue";
 import { ReactDOM } from "@webpack/common";
 import type { ReactNode } from "react";
 import type { Root } from "react-dom/client";
-
-import NotificationComponent from "./NotificationComponent";
-import { persistNotification } from "./notificationLog";
 
 const NotificationQueue = new Queue();
 

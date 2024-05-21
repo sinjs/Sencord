@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { makeLazy } from "./lazy";
-import { EXTENSION_BASE_URL } from "./web-metadata";
+import { makeLazy } from "@utils\lazy";
+import { EXTENSION_BASE_URL } from "@utils\web-metadata";
 
 /*
     Add dynamically loaded dependencies for plugins here.

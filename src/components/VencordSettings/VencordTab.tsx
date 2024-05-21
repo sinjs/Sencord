@@ -21,13 +21,12 @@ import { Settings, useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
 import DonateButton from "@components/DonateButton";
 import { ErrorCard } from "@components/ErrorCard";
+import { SettingsTab, wrapTab } from "@components\VencordSettings\shared";
 import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
 import { relaunch, showItemInFolder } from "@utils/native";
 import { useAwaiter } from "@utils/react";
 import { Button, Card, Forms, React, Select, Slider, Switch } from "@webpack/common";
-
-import { SettingsTab, wrapTab } from "./shared";
 
 const cl = classNameFactory("vc-settings-");
 

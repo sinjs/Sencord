@@ -17,8 +17,8 @@
 */
 
 // eslint-disable-next-line path-alias/no-relative
-import { findByPropsLazy, waitFor } from "../webpack";
-import type * as t from "./types/menu";
+import type * as t from "@webpack\common\types\menu";
+import { findByPropsLazy, waitFor } from "@webpack\webpack";
 
 export let Menu = {} as t.Menu;
 

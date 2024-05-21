@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./Switch.css";
+import "@components\Switch.css";
 
 import { classes } from "@utils/misc";
 import { findByPropsLazy } from "@webpack";

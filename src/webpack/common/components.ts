@@ -18,9 +18,8 @@
 
 // eslint-disable-next-line path-alias/no-relative
 import { filters, findByPropsLazy, waitFor } from "@webpack";
-
-import { waitForComponent } from "./internal";
-import * as t from "./types/components";
+import * as t from "@webpack\common\types\components";
+import { waitForComponent } from "@webpack\common\internal";
 
 export let Forms = {} as {
     FormTitle: t.FormTitle,

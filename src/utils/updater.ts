@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import gitHash from "~git-hash";
+import { IpcRes } from "@utils\types";
+import { relaunch } from "@utils\native";
+import { Logger } from "@utils\Logger";
 
-import { Logger } from "./Logger";
-import { relaunch } from "./native";
-import { IpcRes } from "./types";
+import gitHash from "~git-hash";
 
 export const UpdateLogger = /* #__PURE__*/ new Logger("Updater", "white");
 export let isOutdated = false;

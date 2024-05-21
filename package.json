@@ -75,6 +75,7 @@
     },
     "packageManager": "pnpm@9.1.0",
     "pnpm": {
+        "allowNonAppliedPatches": true,
         "patchedDependencies": {
             "eslint-plugin-path-alias@1.0.0": "patches/eslint-plugin-path-alias@1.0.0.patch",
             "eslint@8.46.0": "patches/eslint@8.46.0.patch"

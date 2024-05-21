@@ -19,7 +19,7 @@
 import { DraftType } from "@webpack/common";
 import { Channel, Guild, Role } from "discord-types/general";
 
-import { FluxDispatcher, FluxEvents } from "./utils";
+import { FluxDispatcher, FluxEvents } from "@webpack\common\types\utils";
 
 type GenericFunction = (...args: any[]) => any;
 
