@@ -22,6 +22,8 @@ import { Flex } from "@components/Flex";
 import { DeleteIcon } from "@components/Icons";
 import { Link } from "@components/Link";
 import PluginModal from "@components/PluginSettings/PluginModal";
+import { AddonCard } from "@components\VencordSettings\AddonCard";
+import { SettingsTab, wrapTab } from "@components\VencordSettings\shared";
 import type { UserThemeHeader } from "@main/themes";
 import { openInviteModal } from "@utils/discord";
 import { Margins } from "@utils/margins";
@@ -32,9 +34,6 @@ import { useAwaiter } from "@utils/react";
 import { findByPropsLazy, findLazy } from "@webpack";
 import { Button, Card, Forms, React, showToast, TabBar, TextArea, useEffect, useRef, useState } from "@webpack/common";
 import type { ComponentType, Ref, SyntheticEvent } from "react";
-
-import { AddonCard } from "./AddonCard";
-import { SettingsTab, wrapTab } from "./shared";
 
 type FileInput = ComponentType<{
     ref: Ref<HTMLInputElement>;

@@ -16,9 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { Heart } from "@components\Heart";
 import { Button } from "@webpack/common";
-
-import { Heart } from "./Heart";
 
 export default function DonateButton(props: any) {
     return (

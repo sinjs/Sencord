@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./settingsStyles.css";
-import "./themesStyles.css";
+import "@components\VencordSettings\settingsStyles.css";
+import "@components\VencordSettings\themesStyles.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
 import { handleComponentFailed } from "@components/handleComponentFailed";

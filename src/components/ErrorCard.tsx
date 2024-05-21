@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./ErrorCard.css";
+import "@components\ErrorCard.css";
 
 import { classes } from "@utils/misc";
 import type { HTMLProps } from "react";

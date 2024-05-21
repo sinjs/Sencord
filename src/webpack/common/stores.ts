@@ -16,12 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import * as t from "@webpack\common\types\stores";
+import { waitForStore } from "@webpack\common\internal";
 import type * as Stores from "discord-types/stores";
 
 // eslint-disable-next-line path-alias/no-relative
 import { findByPropsLazy } from "../webpack";
-import { waitForStore } from "./internal";
-import * as t from "./types/stores";
 
 export const Flux: t.Flux = findByPropsLazy("connectStores");
 

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./styles.css";
+import "@components\PluginSettings\styles.css";
 
 import * as DataStore from "@api/DataStore";
 import { showNotice } from "@api/Notices";

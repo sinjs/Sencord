@@ -18,11 +18,11 @@ import {
     ButtonLooks,
     ButtonWrapperClasses,
     ChannelStore,
+    Constants,
     FluxDispatcher,
     RestAPI,
     Tooltip,
     UserStore,
-    Constants,
 } from "@webpack/common";
 import { Message } from "discord-types/general";
 
@@ -90,7 +90,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                         innerClassName={ButtonWrapperClasses.button}
-                        onClick={(e) => {
+                        onClick={e => {
                             if (e.shiftKey) return toggle();
 
                             if (e.ctrlKey) return toggle2();
@@ -98,7 +98,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                             buildEncModal();
                         }}
                         onContextMenu={() => toggle()}
-                        onAuxClick={(e) => {
+                        onAuxClick={e => {
                             if (e.button === 1) toggle2();
                         }}
                         style={{ padding: "0 2px", scale: "0.9" }}
@@ -200,7 +200,7 @@ export default definePlugin({
         const { default: StegCloak } = await getStegCloak();
         steggo = new StegCloak(true, false);
 
-        addButton("invDecrypt", (message) => {
+        addButton("invDecrypt", message => {
             if (this.INV_REGEX.test(message?.content)) {
                 return {
                     label: "Decrypt Message",
@@ -238,7 +238,7 @@ export default definePlugin({
             );
         });
         const outerThis = this;
-        this.processMessageFunction = (message) =>
+        this.processMessageFunction = message =>
             outerThis.processMessage.apply(outerThis, [message]);
         FluxDispatcher.subscribe("MESSAGE_CREATE", this.processMessageFunction);
     },
