@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "@components\iconStyles.css";
+import "./iconStyles.css";
 
 import { classes } from "@utils/misc";
 import { i18n } from "@webpack/common";

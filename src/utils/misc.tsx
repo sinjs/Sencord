@@ -16,8 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { DevsById } from "@utils\constants";
 import { Clipboard, Toasts } from "@webpack/common";
+
+import { DevsById } from "./constants";
 
 /**
  * Calls .join(" ") on the arguments
