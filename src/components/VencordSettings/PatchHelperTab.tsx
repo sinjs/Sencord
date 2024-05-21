@@ -17,7 +17,6 @@
 */
 
 import { CodeBlock } from "@components/CodeBlock";
-import { SettingsTab, wrapTab } from "@components\VencordSettings\shared";
 import { debounce } from "@shared/debounce";
 import { Margins } from "@utils/margins";
 import { canonicalizeMatch, canonicalizeReplace } from "@utils/patches";
@@ -25,6 +24,8 @@ import { makeCodeblock } from "@utils/text";
 import { Patch, ReplaceFn } from "@utils/types";
 import { search } from "@webpack";
 import { Button, Clipboard, Forms, Parser, React, Switch, TextArea, TextInput } from "@webpack/common";
+
+import { SettingsTab, wrapTab } from "./shared";
 
 // Do not include diff in non dev builds (side effects import)
 if (IS_DEV) {

@@ -20,11 +20,12 @@ import { showNotification } from "@api/Notifications";
 import { Settings, useSettings } from "@api/Settings";
 import { CheckedTextInput } from "@components/CheckedTextInput";
 import { Link } from "@components/Link";
-import { SettingsTab, wrapTab } from "@components\VencordSettings\shared";
 import { authorizeCloud, cloudLogger, deauthorizeCloud, getCloudAuth, getCloudUrl } from "@utils/cloud";
 import { Margins } from "@utils/margins";
 import { deleteCloudSettings, getCloudSettings, putCloudSettings } from "@utils/settingsSync";
 import { Alerts, Button, Forms, Switch, Tooltip } from "@webpack/common";
+
+import { SettingsTab, wrapTab } from "./shared";
 
 function validateUrl(url: string) {
     try {
