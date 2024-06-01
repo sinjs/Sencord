@@ -8,21 +8,22 @@ import "./style.css";
 
 import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
 import { addButton, removeButton } from "@api/MessagePopover";
+import { updateMessage } from "@api/MessageUpdater";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
 import { getStegCloak } from "@utils/dependencies";
-import definePlugin, { OptionType } from "@utils/types";
+import definePlugin, { OptionType, ReporterTestable } from "@utils/types";
 import {
     Button,
     ButtonLooks,
     ButtonWrapperClasses,
     ChannelStore,
+    Constants,
     FluxDispatcher,
     RestAPI,
     Tooltip,
     UserStore,
-    Constants,
 } from "@webpack/common";
 import { Message } from "discord-types/general";
 
@@ -90,7 +91,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                         innerClassName={ButtonWrapperClasses.button}
-                        onClick={(e) => {
+                        onClick={e => {
                             if (e.shiftKey) return toggle();
 
                             if (e.ctrlKey) return toggle2();
@@ -98,7 +99,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                             buildEncModal();
                         }}
                         onContextMenu={() => toggle()}
-                        onAuxClick={(e) => {
+                        onAuxClick={e => {
                             if (e.button === 1) toggle2();
                         }}
                         style={{ padding: "0 2px", scale: "0.9" }}
@@ -111,9 +112,8 @@ const ChatBarIcon = ({ isMainChat }) => {
                                 height="32"
                                 viewBox={"0 0 64 64"}
                                 style={{ scale: "1.1" }}
-                                className={`${
-                                    autoEncrypt ? "vc-auto-encrypt" : ""
-                                } ${autoDecrypt ? "vc-auto-decrypt" : ""}`}
+                                className={`${autoEncrypt ? "vc-auto-encrypt" : ""
+                                    } ${autoDecrypt ? "vc-auto-decrypt" : ""}`}
                             >
                                 <path
                                     fill="currentColor"
@@ -152,11 +152,15 @@ export const settings = definePluginSettings({
 });
 
 export default definePlugin({
+
     name: "EnhancedEncryption",
     description:
         "Encrypt your Messages in a non-suspicious way!\nEnhanced by TechFun",
     authors: [Devs.SammCheese, Devs.TechFun],
-    dependencies: ["MessagePopoverAPI", "MessageEventsAPI"],
+
+    dependencies: ["MessagePopoverAPI", "ChatInputButtonAPI", "MessageUpdaterAPI"],
+    reporterTestable: ReporterTestable.Patches,
+
     patches: [
         {
             // Indicator
@@ -200,7 +204,7 @@ export default definePlugin({
         const { default: StegCloak } = await getStegCloak();
         steggo = new StegCloak(true, false);
 
-        addButton("invDecrypt", (message) => {
+        addButton("invDecrypt", message => {
             if (this.INV_REGEX.test(message?.content)) {
                 return {
                     label: "Decrypt Message",
@@ -238,7 +242,7 @@ export default definePlugin({
             );
         });
         const outerThis = this;
-        this.processMessageFunction = (message) =>
+        this.processMessageFunction = message =>
             outerThis.processMessage.apply(outerThis, [message]);
         FluxDispatcher.subscribe("MESSAGE_CREATE", this.processMessageFunction);
     },
@@ -277,14 +281,7 @@ export default definePlugin({
             if (embed) message.embeds.push(embed);
         }
 
-        this.updateMessage(message);
-    },
-
-    updateMessage: (message: any) => {
-        FluxDispatcher.dispatch({
-            type: "MESSAGE_UPDATE",
-            message,
-        });
+        updateMessage(message.channel_id, message.id, { embeds: message.embeds });
     },
 
     chatBarIcon: () => <ChatBarIcon isMainChat={true} />,
