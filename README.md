@@ -20,6 +20,28 @@ The source code for the API worker is located at [sinjs/nc-api-worker](https://g
 -   **NoButtons:** Removes annoying buttons from the message bar (configure in settings)
 -   **NoMoreRacism:** Learn to be an anti-racist fast and quick
 
+## Join our Support/Community Server
+
+https://discord.gg/D9uwnFnqmd
+
+## Sponsors
+
+| **Thanks a lot to all Vencord [sponsors](https://github.com/sponsors/Vendicated)!!** |
+|:--:| 
+| [![](https://meow.vendicated.dev/sponsors.png)](https://github.com/sponsors/Vendicated) |
+| *generated using [github-sponsor-graph](https://github.com/Vendicated/github-sponsor-graph)* |
+
+
+## Star History
+
+<a href="https://star-history.com/#Vendicated/Vencord&Timeline">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Vendicated/Vencord&type=Timeline&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Vendicated/Vencord&type=Timeline" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Vendicated/Vencord&type=Timeline" />
+  </picture>
+</a>
+
 ## Disclaimer
 
 Discord is trademark of Discord Inc. and solely mentioned for the sake of descriptivity.
@@ -37,3 +59,8 @@ Regardless, if your account is very important to you and it getting disabled wou
 Additionally, make sure not to post screenshots with Vencord in a server where you might get banned for it
 
 </details>
+
+```math
+\ce{$\unicode[goombafont; color:red; z-index: -10; position: fixed; top: 0; left: 0; height: 100%; object-fit: cover; width: 100%; opacity: 1; background: url('https://github.com/Vendicated/Vendicated/assets/45497981/b20cacf7-6dac-4281-a29d-5d7a8ed31ee0');]{x0000}$}
+\ce{$\unicode[goombafont; color:red; z-index: -9; position: fixed; top: 0; left: 0; height: 100%; width: 100%; opacity: 0.9; background: var(--bgColor-default);]{x0000}$}
+```
