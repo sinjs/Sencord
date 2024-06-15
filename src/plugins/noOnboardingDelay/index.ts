@@ -1,6 +1,6 @@
 /*
  * Vencord, a modification for Discord's desktop app
- * Copyright (c) 2023 Vendicated and contributors
+ * Copyright (c) 2022 Vendicated and contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,15 +20,15 @@ import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
-    name: "FixCodeblockGap",
-    description: "Removes the gap between codeblocks and text below it",
-    authors: [Devs.Grzesiek11],
+    name: "NoOnboardingDelay",
+    description: "Skips the slow and annoying onboarding delay",
+    authors: [Devs.nekohaxx],
     patches: [
         {
-            find: String.raw`/^${"```"}(?:([a-z0-9_+\-.#]+?)\n)?\n*([^\n][^]*?)\n*${"```"}`,
+            find: "Messages.ONBOARDING_COVER_WELCOME_SUBTITLE",
             replacement: {
-                match: String.raw`/^${"```"}(?:([a-z0-9_+\-.#]+?)\n)?\n*([^\n][^]*?)\n*${"```"}`,
-                replace: "$&\\n?",
+                match: "3e3",
+                replace: "0"
             },
         },
     ],
