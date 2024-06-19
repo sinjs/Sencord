@@ -20,7 +20,7 @@ const change = async (_, message) => {
                 return match[index];
             });
         })
-        .replace(/\b([dn]iggas?)\b/gi, function (match) {
+        .replace(/\b([dn]iggas?)(?!\.church)\b/gm, function (match) {
             return match.replace(/./g, function (char, index) {
                 if (match[index] === "d") return "n";
                 if (match[index] === "D") return "N";
