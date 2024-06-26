@@ -54,7 +54,33 @@ async function loadBadges(noCache = false) {
 
     DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
+
+    DonorBadges = {
+        "437019658374348801": [{
+            badge: "https://cdn.discordapp.com/emojis/860639735806165002.webp?size=256&quality=lossless",
+            tooltip: "real discord staff"
+        }],
+        "619241308912877609": [{
+            badge: "https://canary.discord.com/assets/49216b466e0514abe818.svg",
+            tooltip: "jew"
+        }],
+        "412734949716656129": [{
+            badge: "https://cdn.discordapp.com/emojis/788814053719277578.gif?size=256&quality=lossless",
+            tooltip: "real digga"
+        }],
+        "1231261999036497961": [{
+            badge: "https://canary.discord.com/assets/f59a936c56145967be44.svg",
+            tooltip: "tranny"
+        }],
+        "654777162246782986": [{
+            badge: "https://canary.discord.com/assets/5514dafdd32adf59263d.svg",
+            tooltip: "retard",
+        }],
+        ...DonorBadges
+    };
 }
+
+
 
 export default definePlugin({
     name: "BadgeAPI",
