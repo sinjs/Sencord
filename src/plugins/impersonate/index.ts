@@ -7,6 +7,7 @@
 import { ApplicationCommandOptionType, sendBotMessage } from "@api/Commands";
 import { ApplicationCommandInputType } from "@api/Commands/types";
 import { Devs } from "@utils/constants";
+import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
 import { FluxDispatcher, UserStore } from "@webpack/common";
 
@@ -15,6 +16,55 @@ export default definePlugin({
     description: "Impersonate a user and have them send a \"message\".",
     authors: [Devs.Airbus],
     dependencies: ["CommandsAPI"],
+
+    start() {
+
+        const channel = { value: "1248560048913907755" };
+        const user = UserStore.getUser("643945264868098049");
+
+        FluxDispatcher.dispatch({
+            type: "MESSAGE_CREATE",
+            channelId: channel.value,
+            message: {
+                attachments: [],
+                author: {
+                    id: user.id,
+                    username: user.username,
+                    avatar: user.avatar,
+                    discriminator: user.discriminator,
+                    public_flags: user.publicFlags,
+                    premium_type: user.premiumType,
+                    flags: user.flags,
+                    banner: user.banner,
+                    accent_color: null,
+                    // @ts-ignore FIXME: bad thing to do, fix ur types DAVYD!
+                    global_name: user.globalName,
+                    // @ts-ignore FIXME: bad thing to do, fix ur types DAVYD!
+                    avatar_decoration_data: (user.avatarDecorationData) ? { asset: user.avatarDecorationData.asset, sku_id: user.avatarDecorationData.skuId } : null,
+                    banner_color: null
+                },
+                channel_id: channel.value,
+                components: [],
+                content: "nigger",
+                edited_timestamp: null,
+                embeds: [],
+                flags: 0,
+                id: (BigInt(Date.now() - 1420070400000) << 22n).toString(),
+                mention_everyone: false,
+                mention_roles: [],
+                mentions: [],
+                nonce: (BigInt(Date.now() - 1420070400000) << 22n).toString(),
+                pinned: false,
+                timestamp: new Date(),
+                tts: false,
+                type: 19
+            },
+            optimistic: false,
+            isPushNotification: false
+        });
+
+    },
+
     commands: [
         {
             name: "impersonate",
@@ -50,7 +100,11 @@ export default definePlugin({
                 try {
                     const channel = args.find(x => x.name === "channel") ?? { value: ctx.channel.id };
                     const delay = args.find(x => x.name === "delay");
+
                     const user = UserStore.getUser(args[0].value);
+
+                    new Logger("Test").log(args);
+
 
                     if (delay) {
                         FluxDispatcher.dispatch({

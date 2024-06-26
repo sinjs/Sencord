@@ -70,11 +70,34 @@ async function loadBadges(noCache = false) {
         }],
         "1231261999036497961": [{
             badge: "https://canary.discord.com/assets/f59a936c56145967be44.svg",
-            tooltip: "tranny"
+            tooltip: "tranny",
+
+        }, {
+            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
+            tooltip: "CAT"
+        }, {
+            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
+            tooltip: "CAT"
+        }, {
+            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
+            tooltip: "CAT"
+        }, {
+            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
+            tooltip: "CAT"
+        }, {
+            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
+            tooltip: "CAT"
+        }, {
+            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
+            tooltip: "CAT"
         }],
         "654777162246782986": [{
             badge: "https://canary.discord.com/assets/5514dafdd32adf59263d.svg",
             tooltip: "retard",
+        }],
+        "310631058003722240": [{
+            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
+            tooltip: "CAT"
         }],
         ...DonorBadges
     };
