@@ -66,17 +66,17 @@ export const TranslateChatBarIcon: ChatBarButton = ({ isMainChat }) => {
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                         innerClassName={ButtonWrapperClasses.button}
-                        onClick={(e) => {
+                        onClick={e => {
                             if (e.shiftKey) return toggle();
 
                             if (e.ctrlKey) return toggle2();
 
-                            openModal((props) => (
+                            openModal(props => (
                                 <TranslateModal rootProps={props} />
                             ));
                         }}
                         onContextMenu={() => toggle()}
-                        onAuxClick={(e) => {
+                        onAuxClick={e => {
                             if (e.button === 1) toggle2();
                         }}
                         style={{ padding: "0 4px" }}

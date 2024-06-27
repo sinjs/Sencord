@@ -113,7 +113,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                                 viewBox={"0 0 64 64"}
                                 style={{ scale: "1.1" }}
                                 className={`${autoEncrypt ? "vc-auto-encrypt" : ""
-                                    } ${autoDecrypt ? "vc-auto-decrypt" : ""}`}
+                                } ${autoDecrypt ? "vc-auto-decrypt" : ""}`}
                             >
                                 <path
                                     fill="currentColor"
