@@ -69,21 +69,14 @@ async function loadBadges(noCache = false) {
             tooltip: "real digga"
         }],
         "1231261999036497961": [{
-            badge: "https://canary.discord.com/assets/f59a936c56145967be44.svg",
-            tooltip: "tranny",
-
+            badge: "https://cdn.discordapp.com/emojis/1133428132746104872.gif?size=96&quality=lossless",
+            tooltip: "S"
         }, {
-            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
-            tooltip: "CAT"
+            badge: "https://cdn.discordapp.com/emojis/1133428072461373471.gif?size=96&quality=lossless",
+            tooltip: "I"
         }, {
-            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
-            tooltip: "CAT"
-        }, {
-            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
-            tooltip: "CAT"
-        }, {
-            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
-            tooltip: "CAT"
+            badge: "https://cdn.discordapp.com/emojis/1133428103495024671.gif?size=96&quality=lossless",
+            tooltip: "N"
         }, {
             badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
             tooltip: "CAT"
