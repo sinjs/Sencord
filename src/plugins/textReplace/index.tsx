@@ -22,6 +22,7 @@ import { definePluginSettings } from "@api/Settings";
 import { Flex } from "@components/Flex";
 import { DeleteIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
+import { getCurrentChannel } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
@@ -30,7 +31,7 @@ import { Button, Forms, React, TextInput, useState } from "@webpack/common";
 const STRING_RULES_KEY = "TextReplace_rulesString";
 const REGEX_RULES_KEY = "TextReplace_rulesRegex";
 
-type Rule = Record<"find" | "replace" | "onlyIfIncludes", string>;
+type Rule = Record<"find" | "replace" | "onlyIfIncludes" | "onlyInChannelIds", string>;
 
 interface TextReplaceProps {
     title: string;
@@ -42,7 +43,8 @@ interface TextReplaceProps {
 const makeEmptyRule: () => Rule = () => ({
     find: "",
     replace: "",
-    onlyIfIncludes: ""
+    onlyIfIncludes: "",
+    onlyInChannelIds: "",
 });
 const makeEmptyRuleArray = () => [makeEmptyRule()];
 
@@ -168,6 +170,11 @@ function TextReplace({ title, rulesArray, rulesKey, update }: TextReplaceProps) 
                                         initialValue={rule.onlyIfIncludes}
                                         onChange={e => onChange(e, index, "onlyIfIncludes")}
                                     />
+                                    <Input
+                                        placeholder="Channels (comma seperated ids)"
+                                        initialValue={rule.onlyInChannelIds}
+                                        onChange={e => onChange(e, index, "onlyInChannelIds")}
+                                    />
                                 </Flex>
                                 <Button
                                     size={Button.Sizes.MIN}
@@ -215,6 +222,7 @@ function applyRules(content: string): string {
         for (const rule of stringRules) {
             if (!rule.find) continue;
             if (rule.onlyIfIncludes && !content.includes(rule.onlyIfIncludes)) continue;
+            if (rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(getCurrentChannel().id)) continue;
 
             content = ` ${content} `.replaceAll(rule.find, rule.replace.replaceAll("\\n", "\n")).replace(/^\s|\s$/g, "");
         }
@@ -224,6 +232,7 @@ function applyRules(content: string): string {
         for (const rule of regexRules) {
             if (!rule.find) continue;
             if (rule.onlyIfIncludes && !content.includes(rule.onlyIfIncludes)) continue;
+            if (rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(getCurrentChannel().id)) continue;
 
             try {
                 const regex = stringToRegex(rule.find);
