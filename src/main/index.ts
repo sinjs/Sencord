@@ -134,15 +134,3 @@ if (IS_DISCORD_DESKTOP) {
     require("./patcher");
 }
 
-// you just got git history changed
-// lol
-
-function hack(user) {
-    console.log("you just got hacked!!!");
-}
-
-const enable_haxx0r_m0d3 = true;
-
-if (enable_haxx0r_m0d3) {
-    hack(this); // hack user
-}
