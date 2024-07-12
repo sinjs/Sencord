@@ -44,6 +44,7 @@ const ContributorBadge: ProfileBadge = {
 };
 
 let DonorBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
+let SencordBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
 
 async function loadBadges(noCache = false) {
     DonorBadges = {};
@@ -55,43 +56,15 @@ async function loadBadges(noCache = false) {
     DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
 
+    console.log("BADGES!", DonorBadges);
+
+    const res = (await fetch("https://api.sinsose.dev/v1/badges", init)
+        .then(r => r.json()) as any[]);
+
+    SencordBadges = Object.fromEntries(res.map(item => [item.userId, [item]]));
+
     DonorBadges = {
-        "437019658374348801": [{
-            badge: "https://cdn.discordapp.com/emojis/860639735806165002.webp?size=256&quality=lossless",
-            tooltip: "real discord staff"
-        }],
-        "619241308912877609": [{
-            badge: "https://canary.discord.com/assets/49216b466e0514abe818.svg",
-            tooltip: "jew"
-        }],
-        "412734949716656129": [{
-            badge: "https://cdn.discordapp.com/emojis/788814053719277578.gif?size=256&quality=lossless",
-            tooltip: "real digga"
-        }],
-        "1231261999036497961": [{
-            badge: "https://cdn.discordapp.com/emojis/1133428132746104872.gif?size=96&quality=lossless",
-            tooltip: "S"
-        }, {
-            badge: "https://cdn.discordapp.com/emojis/1133428072461373471.gif?size=96&quality=lossless",
-            tooltip: "I"
-        }, {
-            badge: "https://cdn.discordapp.com/emojis/1133428103495024671.gif?size=96&quality=lossless",
-            tooltip: "N"
-        }, {
-            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
-            tooltip: "CAT"
-        }, {
-            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
-            tooltip: "CAT"
-        }],
-        "654777162246782986": [{
-            badge: "https://canary.discord.com/assets/5514dafdd32adf59263d.svg",
-            tooltip: "retard",
-        }],
-        "310631058003722240": [{
-            badge: "https://cdn.discordapp.com/emojis/1197786968633901137.webp?size=256&quality=lossless",
-            tooltip: "CAT"
-        }],
+        ...SencordBadges,
         ...DonorBadges
     };
 }
