@@ -25,32 +25,35 @@ const settings = definePluginSettings({
         description: "The URL to the image to use for the cat",
         type: OptionType.STRING,
         default: "https://git.sinsose.dev/sencord/oneko/raw/branch/main/oneko.gif",
-        onChange: () => reloadPlugin()
+        onChange: () => reload()
     }
 });
 
-const plugin = definePlugin({
+function start() {
+    fetch("https://git.sinsose.dev/sencord/oneko/raw/branch/main/oneko.js")
+        .then(r => r.text())
+        .then(s => s.replace("$$nekofile$$", settings.store.image))
+        .then(eval);
+}
+
+function stop() {
+    document.getElementById("oneko")?.remove();
+}
+
+function reload() {
+    stop();
+    start();
+}
+
+export default definePlugin({
     name: "oneko",
     description: "cat follow mouse (real)",
     // Listing adryd here because this literally just evals her script
     authors: [Devs.sin, Devs.Ven, Devs.adryd],
     settings,
 
-    start() {
-        fetch("https://git.sinsose.dev/sencord/oneko/raw/branch/main/oneko.js")
-            .then(r => r.text())
-            .then(s => s.replace("$$nekofile$$", settings.store.image))
-            .then(eval);
-    },
-
-    stop() {
-        document.getElementById("oneko")?.remove();
-    }
+    start,
+    stop,
 });
 
-function reloadPlugin() {
-    plugin.stop();
-    plugin.start();
-}
 
-export default plugin;
