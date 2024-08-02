@@ -78,6 +78,12 @@ export const settings = definePluginSettings({
         description: "Show a tooltip on the ChatBar button whenever a message is automatically translated",
         default: true
     },
+    autoFluent: {
+        type: OptionType.BOOLEAN,
+        description:
+            "Instantly become fluent in all languages. You can also ctrl/scroll click the translate button to toggle this",
+        default: false,
+    },
 }).withPrivateSettings<{
     showAutoTranslateAlert: boolean;
 }>();

@@ -41,6 +41,7 @@ export function TranslateIcon({ height = 24, width = 24, className }: { height?:
 export let setShouldShowTranslateEnabledTooltip: undefined | ((show: boolean) => void);
 
 export const TranslateChatBarIcon: ChatBarButton = ({ isMainChat }) => {
+    const { autoFluent } = settings.use(["autoFluent"]);
     const { autoTranslate, showChatBarButton } = settings.use(["autoTranslate", "showChatBarButton"]);
 
     const [shouldShowTranslateEnabledTooltip, setter] = useState(false);
@@ -72,6 +73,8 @@ export const TranslateChatBarIcon: ChatBarButton = ({ isMainChat }) => {
             });
     };
 
+    const toggle2 = () => (settings.store.autoFluent = !autoFluent);
+
     const button = (
         <ChatBarButton
             tooltip="Open Translate Modal"
@@ -87,7 +90,12 @@ export const TranslateChatBarIcon: ChatBarButton = ({ isMainChat }) => {
                 "aria-haspopup": "dialog"
             }}
         >
-            <TranslateIcon className={cl({ "auto-translate": autoTranslate, "chat-button": true })} />
+            <TranslateIcon
+                                className={cl({
+                                    "auto-translate": autoTranslate,
+                                    "auto-fluent": autoFluent,
+                                })}
+                            />
         </ChatBarButton>
     );
 

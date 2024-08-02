@@ -25,7 +25,7 @@ import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
 import { addButton, removeButton } from "@api/MessagePopover";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { ChannelStore, Menu } from "@webpack/common";
+import { ChannelStore, Menu, UserStore,FluxDispatcher } from "@webpack/common";
 
 import { settings } from "./settings";
 import { setShouldShowTranslateEnabledTooltip, TranslateChatBarIcon, TranslateIcon } from "./TranslateIcon";
@@ -51,6 +51,31 @@ const messageCtxPatch: NavContextMenuPatchCallback = (children, { message }) => 
     ));
 };
 
+
+const alphabets = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,./<>?;'’:\"[]{}\\|`~!@#$%^&*()_+-=\n ";
+
+const autoTranslate = async msg => {
+    const { message } = msg;
+
+    if (!settings.store.autoFluent) return;
+
+    if (!message.content) return;
+
+    if (message.author.id === UserStore.getCurrentUser().id && msg?.sendMessageOptions) return;
+
+    if (new RegExp(/( \u200c|\u200d |[\u2060-\u2064])[^\u200b]/).test(message.content)) return;
+
+    message.content = message.content.replaceAll("­", "");
+
+    if (message.content.split("").every(c => alphabets.includes(c))) return;
+
+    const trans = await translate("received", message.content);
+
+    if (trans.sourceLanguage === "en") return;
+
+    handleTranslate(message.id, trans);
+};
+
 export default definePlugin({
     name: "Translate",
     description: "Translate messages with Google Translate or DeepL",
@@ -64,6 +89,8 @@ export default definePlugin({
     translate,
 
     start() {
+        FluxDispatcher.subscribe("MESSAGE_CREATE", autoTranslate);
+    
         addAccessory("vc-translation", props => <TranslationAccessory message={props.message} />);
 
         addChatBarButton("vc-translate", TranslateChatBarIcon);
@@ -99,6 +126,8 @@ export default definePlugin({
     },
 
     stop() {
+        FluxDispatcher.unsubscribe("MESSAGE_CREATE", autoTranslate);
+
         removePreSendListener(this.preSend);
         removeChatBarButton("vc-translate");
         removeButton("vc-translate");
