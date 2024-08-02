@@ -12,6 +12,10 @@ import {
     ButtonLooks,
     ButtonWrapperClasses,
     Tooltip,
+    Alerts, 
+    Forms, 
+    useEffect, 
+    useState 
 } from "@webpack/common";
 
 import { settings } from "./settings";
@@ -42,6 +46,8 @@ export function TranslateIcon({
     );
 }
 
+export let setShouldShowTranslateEnabledTooltip: undefined | ((show: boolean) => void);
+
 export const TranslateChatBarIcon: ChatBarButton = ({ isMainChat }) => {
     const { autoFluent } = settings.use(["autoFluent"]);
     const { autoTranslate, showChatBarButton } = settings.use([
@@ -49,49 +55,60 @@ export const TranslateChatBarIcon: ChatBarButton = ({ isMainChat }) => {
         "showChatBarButton",
     ]);
 
+    const [shouldShowTranslateEnabledTooltip, setter] = useState(false);
+    useEffect(() => {
+        setShouldShowTranslateEnabledTooltip = setter;
+        return () => setShouldShowTranslateEnabledTooltip = undefined;
+    }, []);
+
     if (!isMainChat || !showChatBarButton) return null;
 
-    const toggle = () => (settings.store.autoTranslate = !autoTranslate);
-    const toggle2 = () => (settings.store.autoFluent = !autoFluent);
+    const toggle = () => {
+        const newState = !autoTranslate;
+        settings.store.autoTranslate = newState;
+        if (newState && settings.store.showAutoTranslateAlert !== false)
+            Alerts.show({
+                title: "Vencord Auto-Translate Enabled",
+                body: <>
+                    <Forms.FormText>
+                        You just enabled Auto Translate! Any message <b>will automatically be translated</b> before being sent.
+                    </Forms.FormText>
+                </>,
+                confirmText: "Disable Auto-Translate",
+                cancelText: "Got it",
+                secondaryConfirmText: "Don't show again",
+                onConfirmSecondary: () => settings.store.showAutoTranslateAlert = false,
+                onConfirm: () => settings.store.autoTranslate = false,
+                // troll
+                confirmColor: "vc-notification-log-danger-btn",
+            });
+    };
 
-    return (
-        <Tooltip text="Open Translate Modal">
-            {({ onMouseEnter, onMouseLeave }) => (
-                <div style={{ display: "flex" }}>
-                    <Button
-                        aria-haspopup="dialog"
-                        aria-label="Open Translate Modal"
-                        size=""
-                        look={ButtonLooks.BLANK}
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
-                        innerClassName={ButtonWrapperClasses.button}
-                        onClick={e => {
-                            if (e.shiftKey) return toggle();
+    const button = (
+        <ChatBarButton
+            tooltip="Open Translate Modal"
+            onClick={e => {
+                if (e.shiftKey) return toggle();
 
-                            if (e.ctrlKey) return toggle2();
-
-                            openModal(props => (
-                                <TranslateModal rootProps={props} />
-                            ));
-                        }}
-                        onContextMenu={() => toggle()}
-                        onAuxClick={e => {
-                            if (e.button === 1) toggle2();
-                        }}
-                        style={{ padding: "0 4px" }}
-                    >
-                        <div className={ButtonWrapperClasses.buttonWrapper}>
-                            <TranslateIcon
-                                className={cl({
-                                    "auto-translate": autoTranslate,
-                                    "auto-fluent": autoFluent,
-                                })}
-                            />
-                        </div>
-                    </Button>
-                </div>
-            )}
-        </Tooltip>
+                openModal(props => (
+                    <TranslateModal rootProps={props} />
+                ));
+            }}
+            onContextMenu={toggle}
+            buttonProps={{
+                "aria-haspopup": "dialog"
+            }}
+        >
+            <TranslateIcon className={cl({ "auto-translate": autoTranslate, "chat-button": true })} />
+        </ChatBarButton>
     );
+
+    if (shouldShowTranslateEnabledTooltip && settings.store.showAutoTranslateTooltip)
+        return (
+            <Tooltip text="Auto Translate Enabled" forceOpen>
+                {() => button}
+            </Tooltip>
+        );
+
+    return button;
 };
