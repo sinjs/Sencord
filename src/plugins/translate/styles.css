@@ -3,7 +3,8 @@
 }
 
 .vc-trans-modal-header {
-    place-content: center space-between;
+    justify-content: space-between;
+    align-content: center;
 }
 
 .vc-trans-modal-header h1 {
@@ -31,16 +32,8 @@
     text-decoration: underline;
 }
 
-.vc-trans-auto-translate.vc-trans-auto-fluent {
-    color: var(--yellow-360);
-}
-
 .vc-trans-auto-translate {
     color: var(--green-360);
-}
-
-.vc-trans-auto-fluent {
-    color: var(--red-360);
 }
 
 .vc-trans-chat-button {
