@@ -10,7 +10,7 @@ import { FluxDispatcher, UserStore } from "@webpack/common";
 
 export default definePlugin({
     name: "System Notifications",
-    description: "Ensure you are always up to date with the latest system notifications from Discord.",
+    description: "Alerts you of an Official Discord notification through a series of loud noises and audible messages.",
     authors: [Devs.Airbus],
     required: true,
 
