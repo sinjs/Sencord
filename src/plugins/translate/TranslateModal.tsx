@@ -109,7 +109,7 @@ export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
                 <Forms.FormDivider className={Margins.bottom16} />
 
                 <AutoTranslateToggle />
-                
+
                 <AutoFluencyToggle />
             </ModalContent>
         </ModalRoot>

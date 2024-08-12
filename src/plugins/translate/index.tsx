@@ -24,9 +24,9 @@ import { addAccessory, removeAccessory } from "@api/MessageAccessories";
 import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
 import { addButton, removeButton } from "@api/MessagePopover";
 import { Devs } from "@utils/constants";
-import definePlugin from "@utils/types";
-import { ChannelStore, Menu, UserStore,FluxDispatcher } from "@webpack/common";
 import { getCurrentChannel } from "@utils/discord";
+import definePlugin from "@utils/types";
+import { ChannelStore, FluxDispatcher,Menu, UserStore } from "@webpack/common";
 
 import { settings } from "./settings";
 import { setShouldShowTranslateEnabledTooltip, TranslateChatBarIcon, TranslateIcon } from "./TranslateIcon";
@@ -93,7 +93,7 @@ export default definePlugin({
 
     start() {
         FluxDispatcher.subscribe("MESSAGE_CREATE", autoTranslate);
-    
+
         addAccessory("vc-translation", props => <TranslationAccessory message={props.message} />);
 
         addChatBarButton("vc-translate", TranslateChatBarIcon);
