@@ -16,7 +16,7 @@ export default definePlugin({
 
     start() {
        FluxDispatcher.subscribe("USER_UPDATE", ({ user }) => {
-            if (user.id === UserStore.getCurrentUser().id) {
+            if (user.id === UserStore.getCurrentUser().id && UserStore.getCurrentUser().hasUrgentMessages()) {
                 this.notify();
             }
        });
