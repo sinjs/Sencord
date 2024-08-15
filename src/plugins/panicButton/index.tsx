@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ApplicationCommandOptionType, sendBotMessage } from "@api/Commands";
+import { sendBotMessage } from "@api/Commands";
 import { ApplicationCommandInputType } from "@api/Commands/types";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
@@ -32,14 +32,7 @@ export default definePlugin({
             name: "panic",
             description: "Terminate all sessions and force a mandatory password reset on your account.",
             inputType: ApplicationCommandInputType.BUILT_IN,
-            options: [
-                {
-                    type: ApplicationCommandOptionType.BOOLEAN,
-                    name: "bypass",
-                    description: "Bypass confirmation modal (do this if you're in a hurry).",
-                    required: false
-                }
-            ],
+            options: [],
             execute: async (args, ctx) => {
                 try {
                     if (!settings.store.token) {
