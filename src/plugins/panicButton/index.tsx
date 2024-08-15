@@ -140,7 +140,7 @@ async function panic() {
 
         const { id: gist_id, message } = await gist.json();
 
-        if (message == "Bad credentials") {
+        if (message === "Bad credentials") {
             Alerts.show({
                 title: "Something went wrong!",
                 body: <div>
