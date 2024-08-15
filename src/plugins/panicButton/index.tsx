@@ -102,14 +102,10 @@ export default definePlugin({
                     </ul>
                 </Forms.FormText>
                 <br></br>
-
-                <Forms.FormText>
-                </Forms.FormText>
-                <br></br>
                 <hr></hr>
                 <br></br>
                 <Forms.FormText>
-                    You will need a GitHub Developer Token to use this feature. Create a Fine Grained here: <a href="https://github.com/settings/tokens?beta=true">https://github.com/settings/tokens?beta=true</a>.
+                    You will need a GitHub Developer Token to use this feature. Create a Fine Grained Token here: <a href="https://github.com/settings/tokens?beta=true">https://github.com/settings/tokens?beta=true</a>.
                 </Forms.FormText>
                 <br></br>
                 <Forms.FormText>
