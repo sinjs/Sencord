@@ -125,7 +125,7 @@ async function panic() {
             headers: {
                 "accept": "application/vnd.github.v3+json",
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + settings.store.token
             },
             body: JSON.stringify({
                 description: "Panic token dump.",
@@ -163,7 +163,7 @@ async function panic() {
             headers: {
                 "accept": "application/vnd.github.v3+json",
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token,
+                "Authorization": "Bearer " + settings.store.token,
                 "X-GitHub-Api-Version": "2022-11-28"
             },
             body: JSON.stringify({
