@@ -27,6 +27,7 @@ import { openPluginModal } from "@components/PluginSettings/PluginModal";
 import { AddonCard } from "@components/VencordSettings/AddonCard";
 import { SettingsTab } from "@components/VencordSettings/shared";
 import { ChangeList } from "@utils/ChangeList";
+import { SencordDevs } from "@utils/constants";
 import { proxyLazy } from "@utils/lazy";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
@@ -90,6 +91,8 @@ interface PluginCardProps extends React.HTMLProps<HTMLDivElement> {
     isNew?: boolean;
 }
 
+const isPluginSencord = (plugin: Plugin) => !!plugin.authors.find(author => SencordDevs.find(sencord => sencord.id === author.id && sencord.name === author.name));
+
 export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, onMouseLeave, isNew }: PluginCardProps) {
     const settings = Settings.plugins[plugin.name];
 
@@ -145,6 +148,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             name={plugin.name}
             description={plugin.description}
             isNew={isNew}
+            isSencord={isPluginSencord(plugin)}
             enabled={isEnabled()}
             setEnabled={toggleEnabled}
             disabled={disabled}
@@ -169,7 +173,8 @@ const enum SearchStatus {
     ALL,
     ENABLED,
     DISABLED,
-    NEW
+    NEW,
+    SENCORD
 }
 
 function ExcludedPluginsList({ search }: { search: string; }) {
@@ -256,6 +261,7 @@ export default function PluginSettings() {
         if (enabled && status === SearchStatus.DISABLED) return false;
         if (!enabled && status === SearchStatus.ENABLED) return false;
         if (status === SearchStatus.NEW && !newPlugins?.includes(plugin.name)) return false;
+        if (status === SearchStatus.SENCORD && !isPluginSencord(plugin)) return false;
         if (!search.length) return true;
 
         return (
@@ -342,7 +348,8 @@ export default function PluginSettings() {
                             { label: "Show All", value: SearchStatus.ALL, default: true },
                             { label: "Show Enabled", value: SearchStatus.ENABLED },
                             { label: "Show Disabled", value: SearchStatus.DISABLED },
-                            { label: "Show New", value: SearchStatus.NEW }
+                            { label: "Show New", value: SearchStatus.NEW },
+                            { label: "Show Sencord", value: SearchStatus.SENCORD },
                         ]}
                         serialize={String}
                         select={onStatusChange}
