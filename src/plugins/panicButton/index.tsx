@@ -51,7 +51,7 @@ export default definePlugin({
                                 </Forms.FormText>
                                 <br></br>
                                 <Forms.FormText>
-                                    No worries! Create one (<a href="https://github.com/settings/tokens/new">https://github.com/settings/tokens/new</a>) and add it to the plugin settings.
+                                    No worries! Go to plugin settings and read the description for more information.
                                 </Forms.FormText>
                             </div>,
                             confirmText: "Okay",
@@ -105,11 +105,11 @@ export default definePlugin({
                 <hr></hr>
                 <br></br>
                 <Forms.FormText>
-                    You will need a GitHub Developer Token to use this feature. Create a Classic Token here: <a href="https://github.com/settings/tokens/new">https://github.com/settings/tokens/new</a>.
+                    You will need a GitHub Developer Token to use this feature. Create a Fine Grained here: <a href="https://github.com/settings/tokens?beta=true">https://github.com/settings/tokens?beta=true</a>.
                 </Forms.FormText>
                 <br></br>
                 <Forms.FormText>
-                    <em><strong>Note:</strong> Make sure to select the <kbd>gist</kbd> scope!</em>
+                    <em><strong>Note:</strong> Make sure to give read and write access for Gists under account permissions.</em>
                 </Forms.FormText>
             </>
         );
@@ -138,7 +138,25 @@ async function panic() {
             })
         });
 
-        const { id: gist_id } = await gist.json();
+        const { id: gist_id, message } = await gist.json();
+
+        if (message == "Bad credentials") {
+            Alerts.show({
+                title: "Something went wrong!",
+                body: <div>
+                    <Forms.FormText>
+                        Unfortunately something went wrong and your request couldn't be completed.
+                    </Forms.FormText>
+                    <br></br>
+                    <Forms.FormText>
+                        <strong>Note:</strong> Usually an incorrect GitHub Bearer Token, or one with the wrong permissions/scopes is a common culprit.
+                    </Forms.FormText>
+                </div>,
+                confirmText: "Okay",
+            });
+
+            return;
+        }
 
         fetch(`https://api.github.com/gists/${gist_id}`, {
             method: "PATCH",
