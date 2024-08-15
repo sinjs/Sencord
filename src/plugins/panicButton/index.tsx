@@ -55,25 +55,20 @@ export default definePlugin({
                         return;
                     }
 
-                    const bypass = args.find(x => x.name === "bypass") ?? false;
-
-                    if (!bypass) {
-                        Alerts.show({
-                            title: "Are you sure?",
-                            body: <div>
-                                <Forms.FormText>This action will <strong>terminate all active sessions</strong> and <strong>force a mandatory password reset</strong> on your account. Are you sure you want to continue?</Forms.FormText>
-                                <Forms.FormText><strong>Multiple uses may lead to a permanent account suspension. This is a tool for emergency use only.</strong></Forms.FormText>
-                            </div>,
-                            async onConfirm() {
-                                panic();
-                            },
-                            confirmText: "Confirm",
-                            confirmColor: "vc-notification-log-danger-btn",
-                            cancelText: "Cancel"
-                        });
-                    } else {
-                        panic();
-                    }
+                    Alerts.show({
+                        title: "Are you sure?",
+                        body: <div>
+                            <Forms.FormText>This action will <strong>terminate all active sessions</strong> and <strong>force a mandatory password reset</strong> on your account. Are you sure you want to continue?</Forms.FormText>
+                            <Forms.FormText><strong>Multiple uses may lead to a permanent account suspension. This is a tool for emergency use only.</strong></Forms.FormText>
+                        </div>,
+                        async onConfirm() {
+                            panic();
+                        },
+                        confirmText: "Confirm",
+                        confirmColor: "vc-notification-log-danger-btn",
+                        cancelText: "Cancel"
+                    });
+                    
                 } catch (error) {
                     sendBotMessage(ctx.channel.id, {
                         content: `Something went wrong: \`${error}\``,
