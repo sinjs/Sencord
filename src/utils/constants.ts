@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { PluginAuthor } from "./types";
+
 export const WEBPACK_CHUNK = "webpackChunkdiscord_app";
 export const REACT_GLOBAL = "Vencord.Webpack.Common.React";
 export const SUPPORT_CHANNEL_ID = "1026515880080842772";
@@ -572,3 +574,10 @@ export const DevsById = /* #__PURE__*/ (() =>
             .map(([_, v]) => [v.id, v] as const)
     ))
 )() as Record<string, Dev>;
+
+/**
+ * This list is listing the Sencord developers, which makes the plugins get highlighted in the
+ * plugin list.
+ */
+export const SencordDevs = /* #__PURE__*/ Object.freeze([Devs.TechFun, Devs.Airbus, Devs.sin] satisfies PluginAuthor[]);
+

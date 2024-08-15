@@ -21,6 +21,14 @@
     box-shadow: var(--elevation-high);
 }
 
+.vc-addon-card-sencord {
+    background-color: rgb(36, 0, 36);
+}
+
+.vc-addon-card-sencord:hover {
+    background-color: rgb(56, 0, 56) !important;
+}
+
 .vc-addon-header {
     margin-top: auto;
     display: flex;
