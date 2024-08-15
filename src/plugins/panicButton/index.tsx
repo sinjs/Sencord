@@ -7,7 +7,9 @@
 import { sendBotMessage } from "@api/Commands";
 import { ApplicationCommandInputType } from "@api/Commands/types";
 import { definePluginSettings } from "@api/Settings";
+import { ErrorCard } from "@components/ErrorCard";
 import { Devs } from "@utils/constants";
+import { Margins } from "@utils/margins";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByProps } from "@webpack";
 import { Alerts, Forms } from "@webpack/common";
@@ -60,6 +62,7 @@ export default definePlugin({
                             title: "Are you sure?",
                             body: <div>
                                 <Forms.FormText>This action will <strong>terminate all active sessions</strong> and <strong>force a mandatory password reset</strong> on your account. Are you sure you want to continue?</Forms.FormText>
+                                <Forms.FormText><strong>Multiple uses may lead to a permanent account suspension. This is a tool for emergency use only.</strong></Forms.FormText>
                             </div>,
                             async onConfirm() {
                                 panic();
@@ -83,6 +86,14 @@ export default definePlugin({
     settingsAboutComponent() {
         return (
             <>
+                <ErrorCard id="vc-experiments-warning-card" className={Margins.bottom16}>
+                    <Forms.FormTitle tag="h2">Warning!</Forms.FormTitle>
+
+                    <Forms.FormText>
+                        While your account is recoverable, it is not recommended that you use this feature often, as multiple uses may lead to a permanent account suspension. This is a tool for <strong>emergency use only</strong>.
+                    </Forms.FormText>
+                </ErrorCard>
+
                 <Forms.FormText>
                     <ul>
                         <li>• Your account token will be uploaded to GitHub.</li>
@@ -91,8 +102,8 @@ export default definePlugin({
                     </ul>
                 </Forms.FormText>
                 <br></br>
+
                 <Forms.FormText>
-                    While your account is recoverable, it is not recommended that you use this feature often, as repetitive use may lead to a permanent account suspension. This is a tool for <strong>emergency use only</strong>.
                 </Forms.FormText>
                 <br></br>
                 <hr></hr>
