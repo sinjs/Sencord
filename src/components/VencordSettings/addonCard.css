@@ -22,11 +22,11 @@
 }
 
 .vc-addon-card-sencord {
-    background-color: rgb(36, 0, 36);
+    background-color: #240024;
 }
 
 .vc-addon-card-sencord:hover {
-    background-color: rgb(56, 0, 56) !important;
+    background-color: #380038 !important;
 }
 
 .vc-addon-header {
