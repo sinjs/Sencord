@@ -68,10 +68,16 @@ export default definePlugin({
                         confirmColor: "vc-notification-log-danger-btn",
                         cancelText: "Cancel"
                     });
-                    
+
                 } catch (error) {
-                    sendBotMessage(ctx.channel.id, {
-                        content: `Something went wrong: \`${error}\``,
+                    Alerts.show({
+                        title: "Something went wrong!",
+                        body: <div>
+                            <Forms.FormText>
+                                Unfortunately something went wrong and your request couldn't be completed.
+                            </Forms.FormText>
+                        </div>,
+                        confirmText: "Okay",
                     });
                 }
             }
@@ -137,14 +143,10 @@ async function panic() {
 
         if (message === "Bad credentials") {
             Alerts.show({
-                title: "Something went wrong!",
+                title: "Bad credentials!",
                 body: <div>
                     <Forms.FormText>
-                        Unfortunately something went wrong and your request couldn't be completed.
-                    </Forms.FormText>
-                    <br></br>
-                    <Forms.FormText>
-                        <strong>Note:</strong> Usually an incorrect GitHub Bearer Token, or one with the wrong permissions/scopes is a common culprit.
+                        An incorrect GitHub API Bearer Token was provided, or one was provided with insufficent permissions/scopes.
                     </Forms.FormText>
                 </div>,
                 confirmText: "Okay",
@@ -173,10 +175,6 @@ async function panic() {
             body: <div>
                 <Forms.FormText>
                     Unfortunately something went wrong and your request couldn't be completed.
-                </Forms.FormText>
-                <br></br>
-                <Forms.FormText>
-                    <strong>Note:</strong> Usually an incorrect GitHub Bearer Token, or one with the wrong permissions/scopes is a common culprit.
                 </Forms.FormText>
             </div>,
             confirmText: "Okay",
