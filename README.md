@@ -4,7 +4,7 @@
 Another cute discord client modification. ([Vencord](https://github.com/Vendicated/Vencord) Fork)
 
 ---
-### WARNING: Do NOT actually use this, this entire fork contians many bugs and issues, since it is mostly just a joke project among some friends. You might get banned due to unusual account activity or more (read the Disclaimer below for more information)
+### WARNING: Do NOT actually use Sencord. This entire fork contains many bugs and issues since it is a joke project among friends. You could get banned due to unusual account activity or more (read the Disclaimer below for more information).
 ---
 
 ## [INSTALLATION GUIDE](https://github.com/sinjs/Sencord/blob/main/INSTALLING.md)
