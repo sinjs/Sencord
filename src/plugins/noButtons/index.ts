@@ -27,13 +27,19 @@ const settings = definePluginSettings({
         restartNeeded: true
     },
     hideStickerButton: {
-        description: "Hide the sticker button in the mesage bar",
+        description: "Hide the sticker button in the message bar",
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: true
     },
     hideGifButton: {
-        description: "Hide the gif button",
+        description: "Hide the GIF button",
+        type: OptionType.BOOLEAN,
+        default: true,
+        restartNeeded: true
+    },
+    hideAppsButton: {
+        description: "Hide the Apps button",
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: true
@@ -54,7 +60,8 @@ export default definePlugin({
             { setting: "hideGiftButton", label: "Send a gift" },
             { setting: "hideBoostButton", label: "Boost this server" },
             { setting: "hideStickerButton", label: "Open sticker picker" },
-            { setting: "hideGifButton", label: "Open GIF picker" }
+            { setting: "hideGifButton", label: "Open GIF picker" },
+            { setting: "hideAppsButton", label: "Apps" }
         ];
         let css = "";
 
