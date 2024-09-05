@@ -215,6 +215,8 @@ function TextReplaceTesting() {
 }
 
 function applyRules(content: string): string {
+    const currentChannel = getCurrentChannel();
+
     if (content.length === 0)
         return content;
 
@@ -222,7 +224,7 @@ function applyRules(content: string): string {
         for (const rule of stringRules) {
             if (!rule.find) continue;
             if (rule.onlyIfIncludes && !content.includes(rule.onlyIfIncludes)) continue;
-            if (rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(getCurrentChannel().id)) continue;
+            if (currentChannel && rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(currentChannel.id)) continue;
 
             content = ` ${content} `.replaceAll(rule.find, rule.replace.replaceAll("\\n", "\n")).replace(/^\s|\s$/g, "");
         }
@@ -232,7 +234,7 @@ function applyRules(content: string): string {
         for (const rule of regexRules) {
             if (!rule.find) continue;
             if (rule.onlyIfIncludes && !content.includes(rule.onlyIfIncludes)) continue;
-            if (rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(getCurrentChannel().id)) continue;
+            if (currentChannel && rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(currentChannel.id)) continue;
 
             try {
                 const regex = stringToRegex(rule.find);

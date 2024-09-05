@@ -26,7 +26,7 @@ import { addButton, removeButton } from "@api/MessagePopover";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { ChannelStore, FluxDispatcher,Menu, UserStore } from "@webpack/common";
+import { ChannelStore, FluxDispatcher, Menu, UserStore } from "@webpack/common";
 
 import { settings } from "./settings";
 import { setShouldShowTranslateEnabledTooltip, TranslateChatBarIcon, TranslateIcon } from "./TranslateIcon";
@@ -64,7 +64,7 @@ const autoTranslate = async msg => {
 
     if (message.author.id === UserStore.getCurrentUser().id && msg?.sendMessageOptions) return;
 
-    if (getCurrentChannel().id !== message.channel_id) return;
+    if (getCurrentChannel()?.id !== message.channel_id) return;
 
     if (new RegExp(/( \u200c|\u200d |[\u2060-\u2064])[^\u200b]/).test(message.content)) return;
 
