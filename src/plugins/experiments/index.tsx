@@ -19,10 +19,11 @@
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { findByPropsLazy } from "@webpack";
+import { findByPropsLazy, findLazy } from "@webpack";
 import { Forms, React } from "@webpack/common";
 
 const KbdStyles = findByPropsLazy("key", "combo");
+const BugReporterExperiment = findLazy(m => m?.definition?.id === "2024-09_bug_reporter");
 
 const settings = definePluginSettings({
     toolbarDevMenu: {
@@ -66,8 +67,8 @@ export default definePlugin({
         {
             find: "toolbar:function",
             replacement: {
-                match: /\i\.isStaff\(\)/,
-                replace: "true"
+                match: /hasBugReporterAccess:(\i)/,
+                replace: "_hasBugReporterAccess:$1=true"
             },
             predicate: () => settings.store.toolbarDevMenu
         },
@@ -78,6 +79,14 @@ export default definePlugin({
             replacement: {
                 match: /\i\.isDM\(\)\|\|\i\.isThread\(\)/,
                 replace: "false",
+            }
+        },
+        // enable option to always record clips even if you are not streaming
+        {
+            find: "isDecoupledGameClippingEnabled(){",
+            replacement: {
+                match: /\i\.isStaff\(\)/,
+                replace: "true"
             }
         }
     ],
