@@ -11,7 +11,7 @@ import definePlugin from "@utils/types";
 const change = async (_, message) => {
     if (!message.content) return;
     message.content = message.content
-        .replace(/\b([dn]iggers?)\b/gi, function (match) {
+        .replace(/\b([dn]iggers?)(?!\.church)\b/gi, function (match) {
             return match.replace(/./g, function (char, index) {
                 if (match[index] === "d") return "n";
                 if (match[index] === "D") return "N";
