@@ -164,7 +164,7 @@ export default definePlugin({
     patches: [
         {
             // Indicator
-            find: ".Messages.MESSAGE_EDITED,",
+            find: "#{intl::MESSAGE_EDITED}",
             replacement: {
                 match: /let\{className:\i,message:\i[^}]*\}=(\i)/,
                 replace:
