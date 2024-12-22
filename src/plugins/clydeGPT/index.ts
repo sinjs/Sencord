@@ -18,7 +18,7 @@
 
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { FluxDispatcher,UserStore } from "@webpack/common";
+import { FluxDispatcher } from "@webpack/common";
 
 const runGPT = async msg => {
     const { message } = msg;
@@ -26,8 +26,7 @@ const runGPT = async msg => {
         return;
     }
 
-    console.log(message)
-    if (message.state != "SENDING") {
+    if (message.state !== "SENDING") {
         return;
     }
 
