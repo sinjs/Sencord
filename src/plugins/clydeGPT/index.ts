@@ -22,12 +22,12 @@ import { FluxDispatcher,UserStore } from "@webpack/common";
 
 const runGPT = async msg => {
     const { message } = msg;
-
-    if (!message.content.includes("@Clyde")) {
+    if (!(message.content.includes("@Clyde") || message.content.includes("@clyde") || message.content.includes("<@1081004946872352958>"))) {
         return;
     }
 
-    if (message.author.id !== UserStore.getCurrentUser().id) {
+    console.log(message)
+    if (message.state != "SENDING") {
         return;
     }
 
