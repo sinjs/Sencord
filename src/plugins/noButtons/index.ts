@@ -12,6 +12,7 @@ import definePlugin, { OptionType } from "@utils/types";
 const STYLE_ELEMENT_ID = "551041413043978242-removeGiftButton";
 
 const logger = new Logger("NoButtonsPlugin", "#f542d7");
+let storedHTML = "";
 
 const settings = definePluginSettings({
     hideGiftButton: {
@@ -43,6 +44,12 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: true
+    },
+    hideActivitiesPlayAgain: {
+        description: "Remove Activities \"Play Again\" suggestions.",
+        type: OptionType.BOOLEAN,
+        default: true,
+        restartNeeded: true
     }
 });
 
@@ -61,13 +68,24 @@ export default definePlugin({
             { setting: "hideBoostButton", label: "Boost this server" },
             { setting: "hideStickerButton", label: "Open sticker picker" },
             { setting: "hideGifButton", label: "Open GIF picker" },
-            { setting: "hideAppsButton", label: "Apps" }
+            { setting: "hideAppsButton", label: "Apps" },
+            { setting: "hideActivitiesPlayAgain", label: "container_e5a9ed" }
         ];
         let css = "";
 
         for (const { label, setting } of buttonsToHide) {
             const shouldHideButton = settings.store[setting];
             if (shouldHideButton) {
+                if (label == "container_e5a9ed") {
+                    setTimeout(() => {
+                        if (document.getElementsByClassName(label)[0]?.innerHTML && document.getElementsByClassName(label)[0]?.innerHTML !== "") {
+                            storedHTML = document.getElementsByClassName(label)[0]?.innerHTML;
+                        }
+                        
+                        document.getElementsByClassName(label)[0].innerHTML = "";
+                    }, 5000);
+                }
+
                 css = css.concat(`[aria-label="${label}"]{display:none}`);
             }
             logger.debug(`Hide button (Label: "${label}", Setting: "${setting}"): ${shouldHideButton}"`);
@@ -91,5 +109,7 @@ export default definePlugin({
             logger.error("Cannot remove style element: Style element is null");
             throw new Error("Style element is null");
         }
+
+        document.getElementsByClassName("container_e5a9ed")[0].innerHTML = storedHTML;
     },
 });
