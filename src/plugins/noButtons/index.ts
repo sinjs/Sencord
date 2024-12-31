@@ -76,17 +76,17 @@ export default definePlugin({
         for (const { label, setting } of buttonsToHide) {
             const shouldHideButton = settings.store[setting];
             if (shouldHideButton) {
-                if (label == "container_e5a9ed") {
+                if (label === "container_e5a9ed") {
                     const hideLabel = () => {
                         if (document.getElementsByClassName(label)[0]?.innerHTML && document.getElementsByClassName(label)[0]?.innerHTML !== "") {
                             storedHTML = document.getElementsByClassName(label)[0]?.innerHTML;
                         }
-                        
+
                         document.getElementsByClassName(label)[0].innerHTML = "";
-                    }
+                    };
 
                     setTimeout(hideLabel, 5000); // wait for all components to load
-                    setInterval(hideLabel, 30 * 60 * 1000); // every 30 minutes
+                    setInterval(hideLabel, 15 * 60 * 1000); // every 15 minutes
                 }
 
                 css = css.concat(`[aria-label="${label}"]{display:none}`);
