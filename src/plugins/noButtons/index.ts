@@ -12,7 +12,6 @@ import definePlugin, { OptionType } from "@utils/types";
 const STYLE_ELEMENT_ID = "551041413043978242-removeGiftButton";
 
 const logger = new Logger("NoButtonsPlugin", "#f542d7");
-let storedHTML = "";
 
 const settings = definePluginSettings({
     hideGiftButton: {
@@ -50,6 +49,18 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: true
+    },
+    hideShop: {
+        description: "Remove the \"Shop\" button from DMs list.",
+        type: OptionType.BOOLEAN,
+        default: true,
+        restartNeeded: true
+    },
+    hideNitro: {
+        description: "Remove the \"Nitro\" button from DMs list.",
+        type: OptionType.BOOLEAN,
+        default: false,
+        restartNeeded: true
     }
 });
 
@@ -69,7 +80,9 @@ export default definePlugin({
             { setting: "hideStickerButton", label: "Open sticker picker" },
             { setting: "hideGifButton", label: "Open GIF picker" },
             { setting: "hideAppsButton", label: "Apps" },
-            { setting: "hideActivitiesPlayAgain", label: "container_e5a9ed" }
+            { setting: "hideActivitiesPlayAgain", label: "container_e5a9ed" },
+            { setting: "hideShop", label: "__shop" },
+            { setting: "hideNitro", label: "___nitro" },
         ];
         let css = "";
 
@@ -78,15 +91,18 @@ export default definePlugin({
             if (shouldHideButton) {
                 if (label === "container_e5a9ed") {
                     const hideLabel = () => {
-                        if (document.getElementsByClassName(label)[0]?.innerHTML && document.getElementsByClassName(label)[0]?.innerHTML !== "") {
-                            storedHTML = document.getElementsByClassName(label)[0]?.innerHTML;
-                        }
-
-                        document.getElementsByClassName(label)[0].innerHTML = "";
+                        document.getElementsByClassName(label)[0].remove();
                     };
 
                     setTimeout(hideLabel, 5000); // wait for all components to load
                     setInterval(hideLabel, 15 * 60 * 1000); // every 15 minutes
+                }
+
+                if (label.startsWith("__")) {
+                    setTimeout(() => {
+                        const element = document.querySelectorAll(`[data-list-item-id$="${label}"]`);
+                        (element[0]?.parentNode as Element)?.remove();
+                    }, 5000);
                 }
 
                 css = css.concat(`[aria-label="${label}"]{display:none}`);
@@ -112,7 +128,5 @@ export default definePlugin({
             logger.error("Cannot remove style element: Style element is null");
             throw new Error("Style element is null");
         }
-
-        document.getElementsByClassName("container_e5a9ed")[0].innerHTML = storedHTML;
     },
 });
