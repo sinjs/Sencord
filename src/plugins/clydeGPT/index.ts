@@ -18,7 +18,7 @@
 
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { FluxDispatcher } from "@webpack/common";
+import { FluxDispatcher, UserStore } from "@webpack/common";
 
 const runGPT = async msg => {
     const { message } = msg;
@@ -26,7 +26,7 @@ const runGPT = async msg => {
         return;
     }
 
-    if (message.state !== "SENDING") {
+    if (message.author.id === UserStore.getCurrentUser().id && message.state !== "SENDING") {
         return;
     }
 
