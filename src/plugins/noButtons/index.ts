@@ -109,7 +109,7 @@ export default definePlugin({
                     const removeElement = () => {
                         const element = document.querySelectorAll(`[data-list-item-id$="${label}"]`);
                         (element[0]?.parentNode as Element)?.remove();
-                    }
+                    };
 
                     setTimeout(removeElement, 1000);
 
