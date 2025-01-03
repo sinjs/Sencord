@@ -92,7 +92,11 @@ export default definePlugin({
             if (shouldHideButton) {
                 if (label === "container_e5a9ed") {
                     const hideLabel = () => {
-                        document.getElementsByClassName(label)[0].remove();
+                        try {
+                            document.getElementsByClassName(label)[0].innerHTML = "";
+                        } catch (error) {
+                            logger.error("Error removing Activities Play Again button", error);
+                        }
                     };
 
                     setTimeout(hideLabel, 1000);
@@ -107,8 +111,15 @@ export default definePlugin({
 
                 if (label.startsWith("__")) {
                     const removeElement = () => {
-                        const element = document.querySelectorAll(`[data-list-item-id$="${label}"]`);
-                        (element[0]?.parentNode as Element)?.remove();
+                        try {
+                            const element = document.querySelectorAll(`[data-list-item-id$="${label}"]`);
+                            const parentElement = element[0]?.parentNode as Element;
+                            if (parentElement) {
+                                parentElement.innerHTML = "";
+                            }
+                        } catch (error) {
+                            logger.error(`Error removing element with label "${label}"`, error);
+                        }
                     };
 
                     setTimeout(removeElement, 1000);
