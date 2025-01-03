@@ -8,6 +8,7 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
+import { ChannelStore,FluxDispatcher } from "@webpack/common";
 
 const STYLE_ELEMENT_ID = "551041413043978242-removeGiftButton";
 
@@ -94,15 +95,30 @@ export default definePlugin({
                         document.getElementsByClassName(label)[0].remove();
                     };
 
-                    setTimeout(hideLabel, 5000); // wait for all components to load
-                    setInterval(hideLabel, 15 * 60 * 1000); // every 15 minutes
+                    setTimeout(hideLabel, 1000);
+
+                    FluxDispatcher.subscribe("CHANNEL_SELECT", ({ channelId }) => {
+                        const channel = ChannelStore.getChannel(channelId);
+                        if (channel && (channel.type === 1 || channel.type === 3)) {
+                            setTimeout(hideLabel, 1000);
+                        }
+                    });
                 }
 
                 if (label.startsWith("__")) {
-                    setTimeout(() => {
+                    const removeElement = () => {
                         const element = document.querySelectorAll(`[data-list-item-id$="${label}"]`);
                         (element[0]?.parentNode as Element)?.remove();
-                    }, 5000);
+                    }
+
+                    setTimeout(removeElement, 1000);
+
+                    FluxDispatcher.subscribe("CHANNEL_SELECT", ({ channelId }) => {
+                        const channel = ChannelStore.getChannel(channelId);
+                        if (channel && (channel.type === 1 || channel.type === 3)) {
+                            removeElement();
+                        }
+                    });
                 }
 
                 css = css.concat(`[aria-label="${label}"]{display:none}`);
@@ -128,5 +144,7 @@ export default definePlugin({
             logger.error("Cannot remove style element: Style element is null");
             throw new Error("Style element is null");
         }
+
+        FluxDispatcher.unsubscribe("CHANNEL_SELECT", () => {});
     },
 });
