@@ -6,7 +6,7 @@
 
 import { classNameFactory } from "@api/Styles";
 import { findComponentByCodeLazy } from "@webpack";
-import { merge } from "lodash";
+import { lodash } from "@webpack/common";
 
 import { getToken } from "./auth";
 
@@ -51,7 +51,7 @@ export interface RequestOptions<Req = unknown> {
 export async function rest<Res = unknown, Req = unknown>(method: HttpMethod, path: string, options: RequestOptions<Req> = {}): Promise<Res> {
     const url = API_BASE_URL + path;
 
-    const merged = merge(options, {
+    const merged = lodash.merge(options, {
         method,
         headers: { Authorization: `Bearer ${await getToken()}` },
         body: JSON.stringify(options.body)
