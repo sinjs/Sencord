@@ -8,6 +8,7 @@ import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
 import { UserStore } from "@webpack/common";
+import { Settings } from "Vencord";
 
 type BansResult = {
     banned: true;
@@ -107,7 +108,7 @@ export default definePlugin({
     },
 
     async checkBan(userID: string) {
-        const response = await fetch(`https://api.sinsose.dev/sencord/bans?user_id=${encodeURIComponent(userID)}`);
+        const response = await fetch(`${Settings.sencordApiBaseUrl}/sencord/bans?user_id=${encodeURIComponent(userID)}`);
         const result = await response.json() as BansResult;
         return result;
     },

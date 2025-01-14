@@ -52,6 +52,7 @@ export interface Settings {
     | "under-page"
     | "window"
     | undefined;
+    sencordApiBaseUrl: string;
     disableMinSize: boolean;
     winNativeTitleBar: boolean;
     plugins: {
@@ -89,6 +90,7 @@ const DefaultSettings: Settings = {
     macosVibrancyStyle: undefined,
     disableMinSize: false,
     winNativeTitleBar: false,
+    sencordApiBaseUrl: "https://api.sinsose.dev",
     plugins: {},
 
     notifications: {

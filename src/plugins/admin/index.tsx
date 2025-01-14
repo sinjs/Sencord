@@ -14,7 +14,7 @@ import { closeAllModals, ModalCloseButton, ModalContent, ModalFooter, ModalHeade
 import definePlugin from "@utils/types";
 import { Button, Forms, Icons, Text, TextInput, Timestamp, Toasts, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
 
-import { authorize, getAuth, initAuth, updateAuth } from "./auth";
+import { authorize, clearAuth, getAuth, initAuth } from "./auth";
 import { Badge, Ban, cl, Page, rest, SetPage, UserMentionComponent } from "./util";
 
 
@@ -398,8 +398,8 @@ function AdminModal({ modalProps }: { modalProps: ModalProps; }) {
                 }}>
                     <Icons.ArrowLargeLeftIcon />
                 </Button>
-                <Button title="Logout" look={Button.Looks.BLANK} size={Button.Sizes.ICON} onClick={() => {
-                    updateAuth({});
+                <Button title="Logout" look={Button.Looks.BLANK} size={Button.Sizes.ICON} onClick={async () => {
+                    await clearAuth();
                     closeAllModals();
                 }}>
                     <Icons.DoorExitIcon />

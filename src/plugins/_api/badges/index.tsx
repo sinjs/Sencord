@@ -32,6 +32,7 @@ import { closeModal, Modals, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
+import { Settings } from "Vencord";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
 
@@ -58,7 +59,7 @@ async function loadBadges(noCache = false) {
 
     console.log("BADGES!", DonorBadges);
 
-    const res = (await fetch("https://api.sinsose.dev/v1/badges", init)
+    const res = (await fetch(`${Settings.sencordApiBaseUrl}/v1/badges`, init)
         .then(r => r.json()) as any[]);
 
     SencordBadges = Object.fromEntries(res.map(item => [item.userId, [item]]));
