@@ -28,7 +28,7 @@ import { relaunch, showItemInFolder } from "@utils/native";
 import { useAwaiter } from "@utils/react";
 import { Button, Card, Forms, React, Select, Switch } from "@webpack/common";
 
-import { Flex, FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "..";
+import { CheckedTextInput, Flex, FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "..";
 import { openNotificationSettingsModal } from "./NotificationSettings";
 import { QuickAction, QuickActionCard } from "./quickActions";
 import { SettingsTab, wrapTab } from "./shared";
@@ -160,6 +160,15 @@ function VencordSettings() {
                 ))}
             </Forms.FormSection>
 
+            <Forms.FormSection className={Margins.top16} title="Sencord Settings" tag="h5">
+                <Forms.FormTitle className={Margins.top8}>API Base URL</Forms.FormTitle>
+                <CheckedTextInput
+                    value={settings.sencordApiBaseUrl}
+                    onChange={v => settings.sencordApiBaseUrl = v}
+                    validate={url => url.endsWith("/") ? "Must not have a trailing slash" : true}
+                />
+            </Forms.FormSection>
+
 
             {needsVibrancySettings && <>
                 <Forms.FormTitle tag="h5">Window vibrancy style (requires restart)</Forms.FormTitle>
@@ -235,6 +244,8 @@ function VencordSettings() {
                     </Button>
                 </Flex>
             </Forms.FormSection>
+
+
         </SettingsTab>
     );
 }

@@ -9,8 +9,7 @@ import { Logger } from "@utils/Logger";
 import { openModal } from "@utils/modal";
 import { findByPropsLazy } from "@webpack";
 import { showToast, Toasts, UserStore } from "@webpack/common";
-
-import { API_BASE_URL } from "./util";
+import { Settings } from "Vencord";
 
 const DATA_STORE_KEY = "admin-auth";
 
@@ -50,6 +49,13 @@ export async function updateAuth(newAuth: AdminAuth) {
     });
 }
 
+export async function clearAuth() {
+    await DataStore.update(DATA_STORE_KEY, auth => {
+        auth[UserStore.getCurrentUser().id] = undefined;
+        return auth;
+    });
+}
+
 export let Auth: AdminAuth;
 
 export function authorize(callback?: any) {
@@ -58,7 +64,7 @@ export function authorize(callback?: any) {
             {...props}
             scopes={["identify"]}
             responseType="code"
-            redirectUri={API_BASE_URL + "/v2/auth/login"}
+            redirectUri={Settings.sencordApiBaseUrl + "/v2/auth/login"}
             permissions={0n}
             clientId="1328369311873499136"
             cancelCompletesFlow={false}

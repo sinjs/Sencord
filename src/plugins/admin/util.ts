@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Settings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
 import { findComponentByCodeLazy } from "@webpack";
 import { lodash } from "@webpack/common";
@@ -13,9 +14,6 @@ import { getToken } from "./auth";
 export const cl = classNameFactory("vc-admin-");
 
 export const UserMentionComponent = findComponentByCodeLazy(".USER_MENTION)");
-
-export const API_BASE_URL = "http://localhost:3333";
-// export const API_BASE_URL = "https://api.nigga.church";
 
 export type Page = "root" | "bans" | "badges";
 export type SetPage = (page: Page) => void;
@@ -49,7 +47,7 @@ export interface RequestOptions<Req = unknown> {
 }
 
 export async function rest<Res = unknown, Req = unknown>(method: HttpMethod, path: string, options: RequestOptions<Req> = {}): Promise<Res> {
-    const url = API_BASE_URL + path;
+    const url = Settings.sencordApiBaseUrl + path;
 
     const merged = lodash.merge(options, {
         method,
