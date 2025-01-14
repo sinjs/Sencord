@@ -90,8 +90,14 @@ export function _getBadges(args: BadgeUserArgs) {
                 : badges.push(...b);
         }
     }
-    const donorBadges = (Plugins.BadgeAPI as unknown as typeof import("../plugins/_api/badges").default).getDonorBadges(args.userId);
+
+    const badgePlugin = (Plugins.BadgeAPI as unknown as typeof import("../plugins/_api/badges").default);
+
+    const donorBadges = badgePlugin.getDonorBadges(args.userId);
     if (donorBadges) badges.unshift(...donorBadges);
+
+    const sencordBadges = badgePlugin.getSencordBadges(args.userId);
+    if (sencordBadges) badges.unshift(...sencordBadges);
 
     return badges;
 }

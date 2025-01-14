@@ -30,7 +30,7 @@ import { Margins } from "@utils/margins";
 import { isPluginDev } from "@utils/misc";
 import { closeModal, Modals, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Forms, Toasts, UserStore } from "@webpack/common";
+import { Button, Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
 import { Settings } from "Vencord";
 
@@ -49,6 +49,7 @@ let SencordBadges = {} as Record<string, Array<Record<"tooltip" | "badge", strin
 
 async function loadBadges(noCache = false) {
     DonorBadges = {};
+    SencordBadges = {};
 
     const init = {} as RequestInit;
     if (noCache)
@@ -57,17 +58,10 @@ async function loadBadges(noCache = false) {
     DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
 
-    console.log("BADGES!", DonorBadges);
-
     const res = (await fetch(`${Settings.sencordApiBaseUrl}/v1/badges`, init)
         .then(r => r.json()) as any[]);
 
     SencordBadges = Object.fromEntries(res.map(item => [item.userId, [item]]));
-
-    DonorBadges = {
-        ...SencordBadges,
-        ...DonorBadges
-    };
 }
 
 
@@ -140,6 +134,72 @@ export default definePlugin({
         const Component = badge.component!;
         return <Component {...badge} />;
     }, { noop: true }),
+
+    getSencordBadges(userId: string) {
+        return SencordBadges[userId]?.map(badge => ({
+            image: badge.badge,
+            description: badge.tooltip,
+            position: BadgePosition.START,
+            props: {
+                style: {
+                    borderRadius: "50%",
+                    transform: "scale(0.9)" // The image is a bit too big compared to default badges
+                }
+            },
+            onClick() {
+                const modalKey = openModal(props => (
+                    <ErrorBoundary noop onError={() => {
+                        closeModal(modalKey);
+                    }}>
+                        <Modals.ModalRoot {...props}>
+                            <Modals.ModalHeader>
+                                <Flex style={{ width: "100%", justifyContent: "center" }}>
+                                    <Forms.FormTitle
+                                        tag="h2"
+                                        style={{
+                                            width: "100%",
+                                            textAlign: "center",
+                                            margin: 0
+                                        }}
+                                    >
+                                        <Heart />
+                                        Sencord Badge
+                                    </Forms.FormTitle>
+                                </Flex>
+                            </Modals.ModalHeader>
+                            <Modals.ModalContent>
+                                <Flex style={{ paddingTop: "1em" }}>
+                                    <img
+                                        role="presentation"
+                                        src="https://git.sinsose.dev/sencord/website/raw/branch/master/public/assets/sencord_64x64.png"
+                                        alt=""
+                                        style={{ margin: "auto" }}
+                                    />
+                                </Flex>
+                                <div style={{ padding: "1em", textAlign: "center" }}>
+                                    <Forms.FormText>
+                                        Oh, hello there :3
+                                    </Forms.FormText>
+                                </div>
+                            </Modals.ModalContent>
+                            <Modals.ModalFooter>
+                                <Flex style={{ width: "100%", justifyContent: "center" }}>
+                                    <Button
+                                        {...props}
+                                        look={Button.Looks.LINK}
+                                        color={Button.Colors.TRANSPARENT}
+                                        onClick={() => VencordNative.native.openExternal("https://github.com/sinjs/sencord")}
+                                    >
+                                        View source code
+                                    </Button>
+                                </Flex>
+                            </Modals.ModalFooter>
+                        </Modals.ModalRoot>
+                    </ErrorBoundary>
+                ));
+            }
+        }));
+    },
 
 
     getDonorBadges(userId: string) {
