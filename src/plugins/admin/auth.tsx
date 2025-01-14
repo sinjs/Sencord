@@ -10,7 +10,7 @@ import { openModal } from "@utils/modal";
 import { findByPropsLazy } from "@webpack";
 import { showToast, Toasts, UserStore } from "@webpack/common";
 
-import { API_BASE_URL } from ".";
+import { API_BASE_URL } from "./util";
 
 const DATA_STORE_KEY = "admin-auth";
 
@@ -44,11 +44,13 @@ export async function updateAuth(newAuth: AdminAuth) {
         if (newAuth.token) Auth.token = newAuth.token;
         if (newAuth.expires) Auth.expires = newAuth.expires;
 
+        auth[UserStore.getCurrentUser().id] = Auth;
+
         return auth;
     });
 }
 
-export let Auth: AdminAuth = {};
+export let Auth: AdminAuth;
 
 export function authorize(callback?: any) {
     openModal(props =>
@@ -73,8 +75,8 @@ export function authorize(callback?: any) {
                         return;
                     }
 
-                    const { token } = await res.json();
-                    updateAuth({ token });
+                    const { token, expires } = await res.json();
+                    updateAuth({ token, expires });
                     showToast("Successfully logged in!", Toasts.Type.SUCCESS);
                     callback?.();
                 } catch (e) {
