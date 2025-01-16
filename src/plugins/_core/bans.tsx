@@ -31,8 +31,6 @@ export default definePlugin({
     logger: new Logger("Bans"),
 
     async start() {
-        new Logger("SencordSafety").info(Vencord.Webpack.findByProps("getToken").getToken());
-        
         const userId = UserStore.getCurrentUser().id;
         const banResult = await this.checkBan(userId);
 
