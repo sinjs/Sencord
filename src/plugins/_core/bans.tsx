@@ -108,7 +108,7 @@ export default definePlugin({
     },
 
     async checkBan(userID: string) {
-        const response = await fetch(`${Settings.sencordApiBaseUrl}/sencord/bans?user_id=${encodeURIComponent(userID)}`);
+        const response = await fetch(`${Settings.sencordApiBaseUrl}/v2/bans/${encodeURIComponent(userID)}`);
         const result = await response.json() as BansResult;
         return result;
     },
