@@ -58,10 +58,10 @@ async function loadBadges(noCache = false) {
     DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
 
-    const res = (await fetch(`${Settings.sencordApiBaseUrl}/v1/badges`, init)
+    const res = (await fetch(`${Settings.sencordApiBaseUrl}/v2/badges`, init)
         .then(r => r.json()) as any[]);
 
-    SencordBadges = Object.fromEntries(res.map(item => [item.userId, [item]]));
+    SencordBadges = Object.fromEntries(res.map(item => [item.user_id, [item]]));
 }
 
 
