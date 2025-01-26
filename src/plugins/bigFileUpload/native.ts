@@ -44,7 +44,7 @@ export async function uploadFileToF22Native(_, fileBuffer: ArrayBuffer, fileName
             formData.append("file", new File([file], fileName));
 
             try {
-                const response = await fetch(`https://fyle.techfun.me/upload?token=${token}${i + 1 == totalChunks ? "&done=true" : ""}`, {
+                const response = await fetch(`https://fyle.techfun.me/upload?token=${token}${i + 1 === totalChunks ? "&done=true" : ""}`, {
                     method: "POST",
                     body: formData,
                 });
