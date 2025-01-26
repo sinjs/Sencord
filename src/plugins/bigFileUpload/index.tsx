@@ -612,7 +612,7 @@ async function uploadFileToF22(file: File, channelId: string) {
         showToast("File Upload Failed", Toasts.Type.FAILURE);
         UploadManager.clearAll(channelId, DraftType.SlashCommand);
     }
-};
+}
 
 async function uploadFileToGofile(file: File, channelId: string) {
     try {
