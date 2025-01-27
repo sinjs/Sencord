@@ -40,7 +40,7 @@ export async function uploadFileToF22Native(_, fileBuffer: ArrayBuffer, fileName
         for (let i = 0; i < totalChunks; i++) {
             const chunk = fileBuffer.slice(i * CHUNK_SIZE, Math.min((i + 1) * CHUNK_SIZE, fileBuffer.byteLength));
             const formData = new FormData();
-            const file = new Blob([fileBuffer], { type: fileType });
+            const file = new Blob([chunk], { type: fileType });
             formData.append("file", new File([file], fileName));
 
             try {
@@ -51,8 +51,9 @@ export async function uploadFileToF22Native(_, fileBuffer: ArrayBuffer, fileName
 
                 if (!response.ok) {
                     failedCounter++;
+                    console.log(`Failed to upload chunk ${i + 1} of ${totalChunks}`);
                     if (failedCounter >= 3) {
-                        console.log(`Failed to upload chunk ${i + 1} of ${totalChunks}`);
+                        console.log(`Failed to upload chunk ${i + 1} of ${totalChunks}, Retried 3 times.`);
                         throw new Error(`Failed to upload chunk ${i + 1} of ${totalChunks}`);
                     }
                     i--;
@@ -64,7 +65,7 @@ export async function uploadFileToF22Native(_, fileBuffer: ArrayBuffer, fileName
 
                 console.log(`Chunk ${i + 1}/${totalChunks} uploaded successfully.`);
             } catch (error) {
-                console.log(error);
+                console.log(`Error on chunk ${i + 1} of ${totalChunks}: ${error}`);
                 throw error;
             }
         }
