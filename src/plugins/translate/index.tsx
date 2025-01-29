@@ -18,11 +18,7 @@
 
 import "./styles.css";
 
-import { addChatBarButton, removeChatBarButton } from "@api/ChatButtons";
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { addAccessory, removeAccessory } from "@api/MessageAccessories";
-import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
-import { addButton, removeButton } from "@api/MessagePopover";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin from "@utils/types";
@@ -79,11 +75,14 @@ const autoTranslate = async msg => {
     handleTranslate(message.id, trans);
 };
 
+let tooltipTimeout: any;
+
+
 export default definePlugin({
     name: "Translate",
     description: "Translate messages with Google Translate or DeepL",
     authors: [Devs.Ven, Devs.AshtonMemer, Devs.TechFun],
-    dependencies: ["MessageAccessoriesAPI", "MessagePopoverAPI", "MessageEventsAPI", "ChatInputButtonAPI"],
+
     settings,
     contextMenus: {
         "message": messageCtxPatch
@@ -91,49 +90,43 @@ export default definePlugin({
     // not used, just here in case some other plugin wants it or w/e
     translate,
 
+    // FIXME: Start/Stop is some old stuff, idk what exactly this is supposed to do
     start() {
         FluxDispatcher.subscribe("MESSAGE_CREATE", autoTranslate);
-
-        addAccessory("vc-translation", props => <TranslationAccessory message={props.message} />);
-
-        addChatBarButton("vc-translate", TranslateChatBarIcon);
-
-        addButton("vc-translate", message => {
-            if (!message.content) return null;
-
-            return {
-                label: "Translate",
-                icon: TranslateIcon,
-                message,
-                channel: ChannelStore.getChannel(message.channel_id),
-                onClick: async () => {
-                    const trans = await translate("received", message.content);
-                    handleTranslate(message.id, trans);
-                }
-            };
-        });
-
-        let tooltipTimeout: any;
-        this.preSend = addPreSendListener(async (_, message) => {
-            if (!settings.store.autoTranslate) return;
-            if (!message.content) return;
-
-            setShouldShowTranslateEnabledTooltip?.(true);
-            clearTimeout(tooltipTimeout);
-            tooltipTimeout = setTimeout(() => setShouldShowTranslateEnabledTooltip?.(false), 2000);
-
-            const trans = await translate("sent", message.content);
-            message.content = trans.text;
-
-        });
     },
 
     stop() {
         FluxDispatcher.unsubscribe("MESSAGE_CREATE", autoTranslate);
-
-        removePreSendListener(this.preSend);
-        removeChatBarButton("vc-translate");
-        removeButton("vc-translate");
-        removeAccessory("vc-translation");
     },
+
+    renderMessageAccessory: props => <TranslationAccessory message={props.message} />,
+
+    renderChatBarButton: TranslateChatBarIcon,
+
+    renderMessagePopoverButton(message) {
+        if (!message.content) return null;
+
+        return {
+            label: "Translate",
+            icon: TranslateIcon,
+            message,
+            channel: ChannelStore.getChannel(message.channel_id),
+            onClick: async () => {
+                const trans = await translate("received", message.content);
+                handleTranslate(message.id, trans);
+            }
+        };
+    },
+
+    async onBeforeMessageSend(_, message) {
+        if (!settings.store.autoTranslate) return;
+        if (!message.content) return;
+
+        setShouldShowTranslateEnabledTooltip?.(true);
+        clearTimeout(tooltipTimeout);
+        tooltipTimeout = setTimeout(() => setShouldShowTranslateEnabledTooltip?.(false), 2000);
+
+        const trans = await translate("sent", message.content);
+        message.content = trans.text;
+    }
 });
