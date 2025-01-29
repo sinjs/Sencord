@@ -7,12 +7,13 @@
 import "./styles.css";
 
 import { Flex } from "@components/Flex";
+import { BackIcon, DoorExitIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import { Margins } from "@utils/margins";
 import { closeAllModals, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Button, Forms, Icons, Text, TextInput, Timestamp, Toasts, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
+import { Button, Forms, Text, TextInput, Timestamp, Toasts, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
 
 import { authorize, clearAuth, getAuth, initAuth } from "./auth";
 import { Badge, Ban, cl, Page, rest, SetPage, UserMentionComponent } from "./util";
@@ -396,13 +397,13 @@ function AdminModal({ modalProps }: { modalProps: ModalProps; }) {
                 <Button title="Back" look={Button.Looks.BLANK} size={Button.Sizes.ICON} onClick={() => {
                     setPage(previousPage ?? "root");
                 }}>
-                    <Icons.ArrowLargeLeftIcon />
+                    <BackIcon />
                 </Button>
                 <Button title="Logout" look={Button.Looks.BLANK} size={Button.Sizes.ICON} onClick={async () => {
                     await clearAuth();
                     closeAllModals();
                 }}>
-                    <Icons.DoorExitIcon />
+                    <DoorExitIcon />
                 </Button>
             </Flex>
         </ModalFooter>

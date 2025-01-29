@@ -44,6 +44,37 @@ function Icon({ height = 24, width = 24, className, children, viewBox, ...svgPro
     );
 }
 
+export function BackIcon({ height = 24, width = 24, className }: IconProps) {
+    return (
+        <Icon
+            width={width}
+            height={height}
+            className={classes(className, "vc-back-icon")}
+            viewBox="0 0 24 24"
+        >
+            <path fill="var(--interactive-normal)" d="M3.3 11.3a1 1 0 0 0 0 1.4l8 8a1 1 0 1 0 1.4-1.4L6.42 13H20a1 1 0 1 0 0-2H6.41l6.3-6.3a1 1 0 0 0-1.42-1.4l-8 8Z" />
+        </Icon>
+
+    );
+}
+
+
+export function DoorExitIcon({ height = 24, width = 24, className }: IconProps) {
+    return (
+        <Icon
+            width={width}
+            height={height}
+            className={classes(className, "vc-door-exit-icon")}
+            viewBox="0 0 24 24"
+        >
+            <path fill="currentColor" d="M9 12a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1Z" />
+            <path fill="currentColor" fillRule="evenodd" d="M2.75 3.02A3 3 0 0 1 5 2h10a3 3 0 0 1 3 3v7.64c0 .44-.55.7-.95.55a3 3 0 0 0-3.17 4.93l.02.03a.5.5 0 0 1-.35.85h-.05a.5.5 0 0 0-.5.5 2.5 2.5 0 0 1-3.68 2.2l-5.8-3.09A3 3 0 0 1 2 16V5a3 3 0 0 1 .76-1.98Zm1.3 1.95A.04.04 0 0 0 4 5v11c0 .36.2.68.49.86l5.77 3.08a.5.5 0 0 0 .74-.44V8.02a.5.5 0 0 0-.32-.46l-6.63-2.6Z" clipRule="evenodd" />
+            <path fill="currentColor" d="M15.3 16.7a1 1 0 0 1 1.4-1.4l4.3 4.29V16a1 1 0 1 1 2 0v6a1 1 0 0 1-1 1h-6a1 1 0 1 1 0-2h3.59l-4.3-4.3Z" />
+        </Icon>
+
+    );
+}
+
 /**
  * Discord's link icon, as seen in the Message context menu "Copy Message Link" option
  */
