@@ -265,7 +265,8 @@ export default definePlugin({
         updateMessage(message.channel_id, message.id, { embeds: message.embeds });
     },
 
-    chatBarIcon: () => <ChatBarIcon isMainChat={true} />,
+    // FIXME? go fix this whoever wrote this
+    // chatBarIcon: () => <ChatBarIcon isMainChat={true} />,
     popOverIcon: () => <PopOverIcon />,
     indicator: ErrorBoundary.wrap(Indicator, { noop: true }),
 });
