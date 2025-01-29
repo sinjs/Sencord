@@ -6,8 +6,7 @@
 
 import "./style.css";
 
-import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
-import { addButton, removeButton } from "@api/MessagePopover";
+import { ChatBarButtonFactory } from "@api/ChatButtons";
 import { updateMessage } from "@api/MessageUpdater";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
@@ -16,7 +15,6 @@ import { getStegCloak } from "@utils/dependencies";
 import definePlugin, { OptionType, ReporterTestable } from "@utils/types";
 import {
     Button,
-    ButtonLooks,
     ButtonWrapperClasses,
     ChannelStore,
     Constants,
@@ -63,7 +61,8 @@ function Indicator() {
     );
 }
 
-const ChatBarIcon = ({ isMainChat }) => {
+
+const ChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
     if (!isMainChat) return null;
 
     const { autoEncrypt } = settings.use(["autoEncrypt"]);
@@ -87,7 +86,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                         aria-haspopup="dialog"
                         aria-label="Encrypt Message"
                         size=""
-                        look={ButtonLooks.BLANK}
+                        look={Button.Looks.BLANK}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                         innerClassName={ButtonWrapperClasses.button}
@@ -113,7 +112,7 @@ const ChatBarIcon = ({ isMainChat }) => {
                                 viewBox={"0 0 64 64"}
                                 style={{ scale: "1.1" }}
                                 className={`${autoEncrypt ? "vc-auto-encrypt" : ""
-                                } ${autoDecrypt ? "vc-auto-decrypt" : ""}`}
+                                    } ${autoDecrypt ? "vc-auto-decrypt" : ""}`}
                             >
                                 <path
                                     fill="currentColor"
@@ -157,7 +156,6 @@ export default definePlugin({
     description:
         "Encrypt your Messages in a non-suspicious way!\nEnhanced by TechFun",
     authors: [Devs.SammCheese, Devs.TechFun],
-
     dependencies: ["MessagePopoverAPI", "ChatInputButtonAPI", "MessageUpdaterAPI"],
     reporterTestable: ReporterTestable.Patches,
 
@@ -200,47 +198,11 @@ export default definePlugin({
         const res = await tryMasterPassword(message);
         if (res) return void this.buildEmbed(message, res);
     },
+
+    // FIXME: start/stop maybe
     async start() {
         const { default: StegCloak } = await getStegCloak();
         steggo = new StegCloak(true, false);
-
-        addButton("invDecrypt", message => {
-            if (this.INV_REGEX.test(message?.content)) {
-                return {
-                    label: "Decrypt Message",
-                    icon: this.popOverIcon,
-                    message: message,
-                    channel: ChannelStore.getChannel(message.channel_id),
-                    onClick: async () => {
-                        await iteratePasswords(message).then(
-                            (res: string | false) => {
-                                if (res)
-                                    return void this.buildEmbed(message, res);
-                                return void buildDecModal({ message });
-                            }
-                        );
-                    },
-                };
-            } else return null;
-        });
-
-        this.preSend = addPreSendListener(async (_, message) => {
-            if (!settings.store.autoEncrypt) return;
-            if (!message.content) return;
-
-            let cover = "";
-            if (message.content.includes(" -c ")) {
-                [message.content, cover] = message.content.split(" -c ");
-            } else if (message.content.includes(" --cover ")) {
-                [message.content, cover] = message.content.split(" --cover ");
-            }
-
-            message.content = await encrypt(
-                message.content,
-                settings.store.savedPasswords,
-                (cover || settings.store.cover) + "­ ­"
-            );
-        });
         const outerThis = this;
         this.processMessageFunction = message =>
             outerThis.processMessage.apply(outerThis, [message]);
@@ -248,13 +210,32 @@ export default definePlugin({
     },
 
     stop() {
-        removeButton("invDecrypt");
-        removePreSendListener(this.preSend);
         FluxDispatcher.unsubscribe(
             "MESSAGE_CREATE",
             this.processMessageFunction
         );
     },
+
+    renderMessagePopoverButton(message) {
+        return this.INV_REGEX.test(message?.content)
+            ? {
+                label: "Decrypt Message",
+                icon: this.popOverIcon,
+                message: message,
+                channel: ChannelStore.getChannel(message.channel_id),
+                onClick: async () => {
+                    const res = await iteratePasswords(message);
+
+                    if (res)
+                        this.buildEmbed(message, res);
+                    else
+                        buildDecModal({ message });
+                }
+            }
+            : null;
+    },
+
+    renderChatBarButton: ChatBarIcon,
 
     // Gets the Embed of a Link
     async getEmbed(url: URL): Promise<Object | {}> {
