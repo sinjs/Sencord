@@ -335,6 +335,3 @@ export interface DateUtils {
     dateFormat(date: Date, format: string): string;
     diffAsUnits(start: Date, end: Date, stopAtOneSecond?: boolean): Record<"days" | "hours" | "minutes" | "seconds", number>;
 }
-
-// @sencord Re-exported Channel from discord-types
-export { Channel };
