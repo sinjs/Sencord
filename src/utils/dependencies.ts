@@ -76,4 +76,7 @@ export const shikiOnigasmSrc = "https://unpkg.com/@vap/shiki@0.10.3/dist/onig.wa
 export const getStegCloak = /* #__PURE__*/ makeLazy(() => import("https://unpkg.com/stegcloak-dist@1.0.0/index.js"));
 
 // @ts-expect-error
+export const getSocketIO = /* #__PURE__*/ makeLazy(() => import("https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.esm.min.js"));
+
+// @ts-expect-error
 export const getKatex = /* #__PURE__*/ makeLazy(async () => (await import("https://unpkg.com/katex@0.16.9/dist/katex.mjs")).default);
