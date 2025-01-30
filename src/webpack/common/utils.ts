@@ -17,7 +17,6 @@
 */
 
 import { runtimeHashMessageKey } from "@utils/intlHash";
-import type { Channel } from "discord-types/general";
 
 // eslint-disable-next-line path-alias/no-relative
 import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "../webpack";
@@ -135,7 +134,7 @@ export const UserUtils = {
 
 export const UploadManager = findByPropsLazy("clearAll", "addFile");
 export const UploadHandler = {
-    promptToUpload: findByCodeLazy("#{intl::ATTACHMENT_TOO_MANY_ERROR_TITLE}") as (files: File[], channel: Channel, draftType: Number) => void
+    promptToUpload: findByCodeLazy("#{intl::ATTACHMENT_TOO_MANY_ERROR_TITLE}") as (files: File[], channel: t.Channel, draftType: Number) => void
 };
 
 export const ApplicationAssetUtils = findByPropsLazy("fetchAssetIds", "getAssetImage") as {
@@ -206,3 +205,6 @@ export const DateUtils: t.DateUtils = mapMangledModuleLazy("millisecondsInUnit:"
     isSameDay: filters.byCode("Math.abs(+"),
     diffAsUnits: filters.byCode("days:0", "millisecondsInUnit")
 });
+
+// @sencord Added Discord Channel Class
+export const Channel: t.Channel = findByCodeLazy("computeLurkerPermissionsAllowList");
