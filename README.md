@@ -1,46 +1,37 @@
 # Sencord
 
-
 Another cute discord client modification. ([Vencord](https://github.com/Vendicated/Vencord) Fork)
 
 ---
-### WARNING: Do NOT actually use Sencord. This entire fork contains many bugs and issues since it is a joke project among friends. You could get banned due to unusual account activity or more (read the Disclaimer below for more information).
+
+### WARNING: This entire fork contains many bugs and issues since it is a joke project among friends. You could get banned due to unusual account activity or more (read the Disclaimer below for more information).
+
 ---
 
 ## [INSTALLATION GUIDE](https://github.com/sinjs/Sencord/blob/main/INSTALLING.md)
 
 ## Source code for the API
 
-The source code for the API worker is located at [sinjs/nc-api-worker](https://github.com/sinjs/nc-api-worker/)
+The source code for the API worker is located at [sinjs/nc-api](https://github.com/sinjs/nc-api/)
 
-## Plugins added
+## Plugins added or modified
 
+You can filter the plugin list to only show these plugins by selecting the `Show Sencord` option. You can see all changes in the [diff view](https://github.com/Vendicated/Vencord/compare/main...sinjs:Sencord:main)
+
+-   **BigFileUpload:** Bypass Discord's upload limit by uploading files and they'll get uploaded as links into chat via other services
 -   **ClydeGPT:** Bring back Clyde on Discord
+-   **EnhancedEncryption** Encrypt your Messages in a non-suspicious way!
+-   **Experiments** Enable Access to Experiments & other dev-only features in Discord!
 -   **Impersonate:** Impersonate a user by "sending" a fake message on their behalf
+-   **Jumpscare:** Adds a configurable chance of jumpscaring you whenever you open a channel.
+-   **LaTeX:** LaTeX in messages, written as \`$x$\` or \`$$x$$\`.
+-   **MassDelete:** Mass deletes / Purges an amount of messages from a channel.
 -   **NoButtons:** Removes annoying buttons from the message bar (configure in settings)
 -   **NoMoreRacism:** Learn to be an anti-racist fast and quick
-
-## Join our Support/Community Server
-
-https://discord.gg/D9uwnFnqmd
-
-## Sponsors
-
-| **Thanks a lot to all Vencord [sponsors](https://github.com/sponsors/Vendicated)!!** |
-|:--:| 
-| [![](https://meow.vendicated.dev/sponsors.png)](https://github.com/sponsors/Vendicated) |
-| *generated using [github-sponsor-graph](https://github.com/Vendicated/github-sponsor-graph)* |
-
-
-## Star History
-
-<a href="https://star-history.com/#Vendicated/Vencord&Timeline">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Vendicated/Vencord&type=Timeline&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Vendicated/Vencord&type=Timeline" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Vendicated/Vencord&type=Timeline" />
-  </picture>
-</a>
+-   **oneko:** cat follow mouse (real)
+-   **PanicButton:** Quickly terminate all sessions and force a mandatory password reset on your account.
+-   **Translate:** Translate messages with Google Translate or DeepL
+-   **WigglyText:** Adds a new markdown formatting that makes text wiggly.
 
 ## Disclaimer
 
