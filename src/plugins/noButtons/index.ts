@@ -81,7 +81,7 @@ export default definePlugin({
             { setting: "hideStickerButton", label: "Open sticker picker" },
             { setting: "hideGifButton", label: "Open GIF picker" },
             { setting: "hideAppsButton", label: "Apps" },
-            { setting: "hideActivitiesPlayAgain", label: "container_e5a9ed" },
+            { setting: "hideActivitiesPlayAgain", label: "container__675e5" },
             { setting: "hideShop", label: "__shop" },
             { setting: "hideNitro", label: "___nitro" },
         ];
@@ -90,7 +90,7 @@ export default definePlugin({
         for (const { label, setting } of buttonsToHide) {
             const shouldHideButton = settings.store[setting];
             if (shouldHideButton) {
-                if (label === "container_e5a9ed") {
+                if (label === "container__675e5") {
                     const hideLabel = () => {
                         try {
                             document.getElementsByClassName(label)[0].innerHTML = "";
