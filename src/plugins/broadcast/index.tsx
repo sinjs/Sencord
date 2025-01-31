@@ -23,6 +23,7 @@ import definePlugin, { OptionType } from "@utils/types";
 import { showToast, Toasts, FluxDispatcher, ChannelStore, Channel } from "@webpack/common";
 
 import { authorize, getAuth } from "./auth";
+import { channel } from "diagnostics_channel";
 
 export const settings = definePluginSettings({
     broadcastChannels: {
@@ -36,13 +37,20 @@ export const settings = definePluginSettings({
         description: "JSON in the format {channelId: [...trustedBroadcasters]} to listen",
         default: "",
         hidden: false
+    },
+    proxyChannels: {
+        type: OptionType.STRING,
+        description: "proxy channel id",
+        default: "",
+        hidden: false
     }
 });
 
-const allowedEvents = ["MESSAGE_CREATE", "MESSAGE_UPDATE", "MESSAGE_DELETE", "MESSAGE_REACTION_ADD", "MESSAGE_REACTION_REMOVE", "CHANNEL_CREATE"];
+const allowedEvents = ["MESSAGE_CREATE", "MESSAGE_UPDATE", "MESSAGE_DELETE", "MESSAGE_REACTION_ADD", "MESSAGE_REACTION_REMOVE"];
 let socket;
 let broadcastChannels: Object = {};
 let listenChannels: Object = {};
+let proxyChannels: Object = {};
 
 const handleConnection = message => {
     Object.entries(broadcastChannels).forEach(([channelId, allowedUsers]) => {
@@ -65,19 +73,37 @@ const handleIncoming = payload => {
 
     if (!allowedEvents.includes(payload.event.type)) return;
 
-    payload.event.channelId = "1334995417099931648";
-    if (payload.event.message) payload.event.message.channel_id = "1334995417099931648";
+    payload.event.channelId = proxyChannels[payload.channelId];
+    if (payload.event.message) payload.event.message.channel_id = proxyChannels[payload.channelId];
+    FluxDispatcher.dispatch(payload.event);
+};
+
+const handleListen = payload => {
+    if (!(payload.channelId in broadcastChannels)) return;
+
+    if (!allowedEvents.includes(payload.event.type)) return;
+
     FluxDispatcher.dispatch(payload.event);
 };
 
 const onEvent = payload => {
     const channelId = payload.channelId ?? payload.message?.channel_id;
-    if (!(channelId in broadcastChannels)) return;
+    if (channelId in broadcastChannels) {
+        return socket.emit("broadcast_event", {
+            channelId: channelId,
+            event: payload
+        });
+    }
 
-    socket.emit("broadcast_event", {
-        channelId: channelId,
-        event: payload
-    });
+    if (Object.values(proxyChannels).includes(channelId)) {
+        const newId = Object.keys(proxyChannels).find(k => proxyChannels[k] === channelId);
+        payload.channelId = newId;
+        if (payload.message) payload.message.channel_id = newId;
+        socket.emit("listen_event", {
+            channelId: newId,
+            event: payload
+        });
+    }
 };
 
 export default definePlugin({
@@ -122,6 +148,12 @@ export default definePlugin({
             listenChannels = {};
         }
 
+        try {
+            proxyChannels = JSON.parse(settings.store.proxyChannels);
+        } catch (e) {
+            proxyChannels = {};
+        }
+
         const auth = await getAuth();
         if (!auth?.token || (auth?.expires && (auth.expires < Date.now() / 1000))) {
             return console.error("No auth token found or token expired.");
@@ -140,6 +172,7 @@ export default definePlugin({
 
         socket.on("connect", handleConnection);
         socket.on("broadcast_event", handleIncoming);
+        socket.on("listen_event", handleListen);
 
         socket.connect();
     },
@@ -153,6 +186,7 @@ export default definePlugin({
         FluxDispatcher.unsubscribe("MESSAGE_REACTION_REMOVE", onEvent);
 
         socket.off("broadcast_event", handleIncoming);
+        socket.off("listen_event", handleListen);
 
         socket.disconnect();
     }
