@@ -16,12 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { authorize, getAuth } from "./auth";
 import { definePluginSettings } from "@api/Settings";
-import { getSocketIO } from "@utils/dependencies";
 import { Devs } from "@utils/constants";
+import { getSocketIO } from "@utils/dependencies";
 import definePlugin, { OptionType } from "@utils/types";
 import { showToast, Toasts, FluxDispatcher, ChannelStore, Channel } from "@webpack/common";
+
+import { authorize, getAuth } from "./auth";
 
 export const settings = definePluginSettings({
     broadcastChannels: {
