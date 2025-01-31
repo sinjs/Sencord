@@ -20,10 +20,9 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { getSocketIO } from "@utils/dependencies";
 import definePlugin, { OptionType } from "@utils/types";
-import { showToast, Toasts, FluxDispatcher, ChannelStore, Channel } from "@webpack/common";
+import { showToast, Toasts, FluxDispatcher, ChannelStore, UserStore } from "@webpack/common";
 
 import { authorize, getAuth } from "./auth";
-import { channel } from "diagnostics_channel";
 
 export const settings = definePluginSettings({
     broadcastChannels: {
@@ -90,17 +89,15 @@ const onEvent = payload => {
     const userId = payload.userId ?? payload.message?.author?.id;
     const channelId = payload.channelId ?? payload.message?.channel_id;
 
-    if ((broadcastChannels[channelId] || []).includes(userId)) return;
-    if ((listenChannels[channelId] || []).includes(userId)) return;
-
     if (channelId in broadcastChannels) {
+        if ((broadcastChannels[channelId] || []).includes(userId)) return;
         return socket.emit("broadcast_event", {
             channelId: channelId,
             event: payload
         });
     }
 
-    if (Object.values(proxyChannels).includes(channelId)) {
+    if (Object.values(proxyChannels).includes(channelId) && userId === UserStore.getCurrentUser()?.id) {
         const newId = Object.keys(proxyChannels).find(k => proxyChannels[k] === channelId);
         payload.channelId = newId;
         if (payload.message) payload.message.channel_id = newId;
@@ -168,9 +165,6 @@ export default definePlugin({
             auth: { token: auth.token },
             autoConnect: false,
         });
-
-        FluxDispatcher.subscribe("MESSAGE_CREATE", (payload) => {console.log(payload)});
-        FluxDispatcher.subscribe("MESSAGE_REACTION_ADD", (payload) => {console.log(payload)});
 
         FluxDispatcher.subscribe("MESSAGE_CREATE", onEvent);
         FluxDispatcher.subscribe("MESSAGE_UPDATE", onEvent);
