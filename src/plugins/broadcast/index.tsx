@@ -87,7 +87,11 @@ const handleListen = payload => {
 };
 
 const onEvent = payload => {
+    const userId = payload.userId ?? payload.message?.author?.id;
     const channelId = payload.channelId ?? payload.message?.channel_id;
+
+    if ((broadcastChannels[channelId] || []).includes(userId)) return;
+
     if (channelId in broadcastChannels) {
         return socket.emit("broadcast_event", {
             channelId: channelId,
@@ -163,6 +167,9 @@ export default definePlugin({
             auth: { token: auth.token },
             autoConnect: false,
         });
+
+        FluxDispatcher.subscribe("MESSAGE_CREATE", (payload) => {console.log(payload)});
+        FluxDispatcher.subscribe("MESSAGE_REACTION_ADD", (payload) => {console.log(payload)});
 
         FluxDispatcher.subscribe("MESSAGE_CREATE", onEvent);
         FluxDispatcher.subscribe("MESSAGE_UPDATE", onEvent);
