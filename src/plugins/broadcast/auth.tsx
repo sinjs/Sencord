@@ -10,7 +10,7 @@ import { openModal } from "@utils/modal";
 import { findByPropsLazy } from "@webpack";
 import { showToast, Toasts, UserStore } from "@webpack/common";
 
-const DATA_STORE_KEY = "broadcast-auth0";
+const DATA_STORE_KEY = "broadcast-auth10";
 
 const { OAuth2AuthorizeModal } = findByPropsLazy("OAuth2AuthorizeModal");
 

@@ -588,13 +588,65 @@ async function resolveFile(options: Argument[], ctx: CommandContext): Promise<Fi
     return null;
 }
 
+async function uploadFileToF22Native(fileBuffer: ArrayBuffer, fileName: string, fileType: string): Promise<string> {
+    try {
+
+        let token = "";
+        let failedCounter = 0;
+        const CHUNK_SIZE = 95 * 1024 * 1024; // Chunk size of 95 MB
+        const totalChunks = Math.ceil(fileBuffer.byteLength / CHUNK_SIZE);
+
+        for (let i = 0; i < totalChunks; i++) {
+            let chunk: any = fileBuffer.slice(i * CHUNK_SIZE, Math.min((i + 1) * CHUNK_SIZE, fileBuffer.byteLength));
+            let formData: any = new FormData();
+            let file: any = new Blob([chunk], { type: fileType });
+            formData.append("file", new File([file], fileName));
+
+            try {
+                const response = await fetch(`https://file.techfun.me/upload?token=${token}${i + 1 === totalChunks ? "&done=true" : ""}`, {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    failedCounter++;
+                    console.log(`Failed to upload chunk ${i + 1} of ${totalChunks}`);
+                    if (failedCounter >= 3) {
+                        console.log(`Failed to upload chunk ${i + 1} of ${totalChunks}, Retried 3 times.`);
+                        throw new Error(`Failed to upload chunk ${i + 1} of ${totalChunks}`);
+                    }
+                    i--;
+                    continue;
+                }
+
+                failedCounter = 0;
+                token = (await response.json()).token;
+
+                console.log(`Chunk ${i + 1}/${totalChunks} uploaded successfully.`);
+                formData = new FormData();
+                file = null;
+                chunk = null;
+            } catch (error) {
+                console.log(`Error on chunk ${i + 1} of ${totalChunks}: ${error}`);
+                throw error;
+            }
+        }
+
+        return `https://file.techfun.me/file/${token}`;
+
+    } catch (error) {
+        console.error("Error during fetch request:", error);
+        throw error;
+    }
+}
+
 async function uploadFileToF22(file: File, channelId: string) {
     try {
         const arrayBuffer = await file.arrayBuffer();
         const fileName = file.name;
         const fileType = file.type;
 
-        const uploadResult = await Native.uploadFileToF22Native(arrayBuffer, fileName, fileType);
+        const uploadResult = await uploadFileToF22Native(arrayBuffer, fileName, fileType);
 
         if (uploadResult !== "") {
             setTimeout(() => sendTextToChat(`${uploadResult} `), 10);
