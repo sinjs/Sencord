@@ -33,7 +33,7 @@ export const settings = definePluginSettings({
     },
     listenChannels: {
         type: OptionType.STRING,
-        description: "Comma-separated values of channel IDs to listen to",
+        description: "JSON in the format {channelId: [...trustedBroadcasters]} to listen",
         default: "",
         hidden: false
     }
@@ -65,10 +65,8 @@ const handleIncoming = payload => {
 
     if (!allowedEvents.includes(payload.event.type)) return;
 
-    if (payload.event.type === "CHANNEL_CREATE") {
-        return FluxDispatcher.dispatch(new Channel(payload.event));
-    }
-
+    payload.event.channelId = "1334995417099931648";
+    if (payload.event.message) payload.event.message.channel_id = "1334995417099931648";
     FluxDispatcher.dispatch(payload.event);
 };
 
