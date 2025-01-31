@@ -16,12 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { authorize, getAuth } from "./auth";
+import { definePluginSettings } from "@api/Settings";
+import { getSocketIO } from "@utils/dependencies";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { definePluginSettings } from "@api/Settings";
 import { showToast, Toasts, FluxDispatcher, ChannelStore, Channel } from "@webpack/common";
-import { authorize, getAuth } from "./auth";
-import { getSocketIO } from "@utils/dependencies";
 
 export const settings = definePluginSettings({
     broadcastChannels: {
@@ -43,7 +43,7 @@ let socket;
 let broadcastChannels: Object = {};
 let listenChannels: Object = {};
 
-const handleConnection = (message) => {
+const handleConnection = message => {
     Object.entries(broadcastChannels).forEach(([channelId, allowedUsers]) => {
         socket.emit("broadcast_channel", {
             channel: ChannelStore.getChannel(channelId),
@@ -59,20 +59,20 @@ const handleConnection = (message) => {
     });
 };
 
-const handleIncoming = (payload) => {
+const handleIncoming = payload => {
     if (!(payload.channelId in listenChannels)) return;
-    
+
     if (!allowedEvents.includes(payload.event.type)) return;
 
     if (payload.event.type === "CHANNEL_CREATE") {
-        return FluxDispatcher.dispatch(new Channel(payload.event))
+        return FluxDispatcher.dispatch(new Channel(payload.event));
     }
 
     FluxDispatcher.dispatch(payload.event);
-}
+};
 
-const onEvent = (payload) => {
-    const channelId = payload.channelId ?? payload.message?.channel_id
+const onEvent = payload => {
+    const channelId = payload.channelId ?? payload.message?.channel_id;
     if (!(channelId in broadcastChannels)) return;
 
     socket.emit("broadcast_event", {
@@ -93,7 +93,7 @@ export default definePlugin({
 
             if (!auth?.token || (auth?.expires && (auth.expires < Date.now() / 1000)))
                 return authorize();
-            
+
             showToast("You are already logged in!", Toasts.Type.SUCCESS);
         },
     },
@@ -102,7 +102,7 @@ export default definePlugin({
         {
             find: "v(this, \"handleMouseUp\", () => {",
             replacement: {
-                match: /\"loadMore\", function\(\) \{/,
+                match: /"loadMore", function\(\) \{/,
                 replace: "\"loadMore\", function() {console.log('intercepted');"
             }
         },
