@@ -128,7 +128,7 @@ export default definePlugin({
             return console.error("No auth token found or token expired.");
         }
 
-        socket = socketio.io("http://broadcast.techfun.me/", {
+        socket = socketio.io("https://broadcast.techfun.me/", {
             auth: { token: auth.token },
             autoConnect: false,
         });
