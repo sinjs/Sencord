@@ -45,14 +45,14 @@ let listenChannels: Object = {};
 
 const handleConnection = (message) => {
     Object.entries(broadcastChannels).forEach(([channelId, allowedUsers]) => {
-        socket.emit("create_virtual_channel", {
+        socket.emit("broadcast_channel", {
             channel: ChannelStore.getChannel(channelId),
             allowedUsers: allowedUsers
         });
     });
 
     Object.entries(listenChannels).forEach(([channelId, trustedUsers]) => {
-        socket.emit("listen_to_channel", {
+        socket.emit("listen_channel", {
             channelId: channelId,
             trusted: trustedUsers
         });
@@ -128,7 +128,7 @@ export default definePlugin({
             return console.error("No auth token found or token expired.");
         }
 
-        socket = socketio.io("https://broadcast.techfun.me/", {
+        socket = socketio.io("http://broadcast.techfun.me/", {
             auth: { token: auth.token },
             autoConnect: false,
         });
