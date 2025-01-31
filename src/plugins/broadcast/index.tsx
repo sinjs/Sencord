@@ -19,7 +19,7 @@
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { definePluginSettings } from "@api/Settings";
-import { showToast, Toasts, FluxDispatcher, ChannelStore } from "@webpack/common";
+import { showToast, Toasts, FluxDispatcher, ChannelStore, Channel } from "@webpack/common";
 import { authorize, getAuth } from "./auth";
 import { getSocketIO } from "@utils/dependencies";
 
@@ -39,54 +39,45 @@ export const settings = definePluginSettings({
 });
 
 const allowedEvents = ["MESSAGE_CREATE", "MESSAGE_UPDATE", "MESSAGE_DELETE", "MESSAGE_REACTION_ADD", "MESSAGE_REACTION_REMOVE", "CHANNEL_CREATE"];
-const allowedEvents2 = ["MessageCreate", "MessageEdit", "MessageDelete", "ReactionAdd", "ReactionRemove", "ChannelUpdate"];
 let socket;
-let broadcastChannels = {};
-let listenChannels: string[] = [];
+let broadcastChannels: Object = {};
+let listenChannels: Object = {};
 
 const handleConnection = (message) => {
     Object.entries(broadcastChannels).forEach(([channelId, allowedUsers]) => {
         socket.emit("create_virtual_channel", {
-            channelId: channelId,
-            channelData: ChannelStore.getChannel(channelId),
+            channel: ChannelStore.getChannel(channelId),
             allowedUsers: allowedUsers
         });
     });
 
-    listenChannels.forEach((channelId) => {
+    Object.entries(listenChannels).forEach(([channelId, trustedUsers]) => {
         socket.emit("listen_to_channel", {
-            channelId: channelId
+            channelId: channelId,
+            trusted: trustedUsers
         });
     });
 };
 
 const handleIncoming = (payload) => {
-    if (!listenChannels.includes(payload.channelId)) return;
+    if (!(payload.channelId in listenChannels)) return;
+    
+    if (!allowedEvents.includes(payload.event.type)) return;
 
-    if (!listenChannels.includes(payload.event.event.channelId ?? payload.event.event.message?.channel_id)) return;
-
-    if (!allowedEvents.includes(payload.event.event.type)) return;
-
-    if (payload.event.type === "ChannelUpdate") {
-        FluxDispatcher.dispatch({
-            type: "CHANNEL_CREATE",
-            ...payload.event.event
-        })
+    if (payload.event.type === "CHANNEL_CREATE") {
+        return FluxDispatcher.dispatch(new Channel(payload.event))
     }
 
-    FluxDispatcher.dispatch(payload.event.event);
+    FluxDispatcher.dispatch(payload.event);
 }
 
 const onEvent = (payload) => {
     const channelId = payload.channelId ?? payload.message?.channel_id
     if (!(channelId in broadcastChannels)) return;
 
-    socket.emit("broadcast_event_in_channel", {
+    socket.emit("broadcast_event", {
         channelId: channelId,
-        event: {
-            type: allowedEvents2[allowedEvents.indexOf(payload.type)],
-            event: payload
-        }
+        event: payload
     });
 };
 
@@ -125,14 +116,19 @@ export default definePlugin({
         } catch (e) {
             broadcastChannels = {};
         }
-        listenChannels = settings.store.listenChannels.replace(/\s/g, '').split(',');
+
+        try {
+            listenChannels = JSON.parse(settings.store.listenChannels);
+        } catch (e) {
+            listenChannels = {};
+        }
 
         const auth = await getAuth();
         if (!auth?.token || (auth?.expires && (auth.expires < Date.now() / 1000))) {
             return console.error("No auth token found or token expired.");
         }
 
-        socket = socketio.io("https://api.sinsose.dev/message_forwarding", {
+        socket = socketio.io("https://broadcast.techfun.me/", {
             auth: { token: auth.token },
             autoConnect: false,
         });
@@ -143,8 +139,8 @@ export default definePlugin({
         FluxDispatcher.subscribe("MESSAGE_REACTION_ADD", onEvent);
         FluxDispatcher.subscribe("MESSAGE_REACTION_REMOVE", onEvent);
 
-        socket.on("connection", handleConnection);
-        socket.on("broadcast_event_in_channel", handleIncoming);
+        socket.on("connect", handleConnection);
+        socket.on("broadcast_event", handleIncoming);
 
         socket.connect();
     },
@@ -157,13 +153,7 @@ export default definePlugin({
         FluxDispatcher.unsubscribe("MESSAGE_REACTION_ADD", onEvent);
         FluxDispatcher.unsubscribe("MESSAGE_REACTION_REMOVE", onEvent);
 
-        socket.off("broadcast_event_in_channel", handleIncoming);
-
-        Object.keys(broadcastChannels).forEach(channelId => {
-            socket.emit("delete_virtual_channel", {
-                channelId: channelId
-            });
-        });
+        socket.off("broadcast_event", handleIncoming);
 
         socket.disconnect();
     }

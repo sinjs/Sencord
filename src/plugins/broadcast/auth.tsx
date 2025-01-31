@@ -9,9 +9,8 @@ import { Logger } from "@utils/Logger";
 import { openModal } from "@utils/modal";
 import { findByPropsLazy } from "@webpack";
 import { showToast, Toasts, UserStore } from "@webpack/common";
-import { Settings } from "Vencord";
 
-const DATA_STORE_KEY = "broadcast-auth";
+const DATA_STORE_KEY = "broadcast-auth5";
 
 const { OAuth2AuthorizeModal } = findByPropsLazy("OAuth2AuthorizeModal");
 
@@ -63,9 +62,9 @@ export function authorize(callback?: any) {
             {...props}
             scopes={["identify"]}
             responseType="code"
-            redirectUri={Settings.sencordApiBaseUrl + "/v2/auth/login"}
+            redirectUri={"https://broadcast.techfun.me/callback"}
             permissions={0n}
-            clientId="1328369311873499136"
+            clientId="1326015343575040082"
             cancelCompletesFlow={false}
             callback={async (response: any) => {
                 try {
