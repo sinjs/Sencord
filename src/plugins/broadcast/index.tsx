@@ -91,6 +91,7 @@ const onEvent = payload => {
     const channelId = payload.channelId ?? payload.message?.channel_id;
 
     if ((broadcastChannels[channelId] || []).includes(userId)) return;
+    if ((listenChannels[channelId] || []).includes(userId)) return;
 
     if (channelId in broadcastChannels) {
         return socket.emit("broadcast_event", {
