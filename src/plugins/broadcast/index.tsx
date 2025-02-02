@@ -20,7 +20,7 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { getSocketIO } from "@utils/dependencies";
 import definePlugin, { OptionType } from "@utils/types";
-import { showToast, Toasts, FluxDispatcher, ChannelStore, UserStore } from "@webpack/common";
+import { ChannelStore, FluxDispatcher, showToast, Toasts, UserStore } from "@webpack/common";
 
 import { authorize, getAuth } from "./auth";
 
