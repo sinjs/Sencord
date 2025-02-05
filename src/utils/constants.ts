@@ -418,8 +418,8 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         id: 1022189106614243350n
     },
     sin: {
-        id: 1231261999036497961n,
-        name: "sinsoose",
+        id: 582735975151828992n,
+        name: "sauce",
     },
     Grzesiek11: {
         name: "Grzesiek11",
