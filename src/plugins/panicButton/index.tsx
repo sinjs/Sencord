@@ -22,7 +22,7 @@ const settings = definePluginSettings({
 });
 
 export default definePlugin({
-    name: "Panic Button",
+    name: "PanicButton",
     description: "Quickly terminate all sessions and force a mandatory password reset on your account.",
     settings,
     authors: [Devs.Airbus],
