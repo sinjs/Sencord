@@ -278,6 +278,7 @@ export const stylePlugin = {
         onResolve({ filter: /\.css\?managed$/, namespace: "file" }, ({ path, resolveDir }) => ({
             path: relative(process.cwd(), join(resolveDir, path.replace("?managed", ""))),
             namespace: "managed-style",
+            watchFiles: [relative(process.cwd(), join(resolveDir, path.replace("?managed", "")))]
         }));
         onLoad({ filter: /\.css$/, namespace: "managed-style" }, async ({ path }) => {
             const css = await readFile(path, "utf-8");
