@@ -30,6 +30,7 @@ import { useAwaiter } from "@utils/react";
 import { findLazy } from "@webpack";
 import { Card, Forms, React, showToast, TabBar, TextArea, useEffect, useRef, useState } from "@webpack/common";
 import type { ComponentType, Ref, SyntheticEvent } from "react";
+import { themes } from "themes";
 
 import Plugins from "~plugins";
 
@@ -149,11 +150,14 @@ function ThemeCard({ theme, enabled, onChange, onDelete }: ThemeCardProps) {
 
 enum ThemeTab {
     LOCAL,
-    ONLINE
+    ONLINE,
+    // @sencord Theme Library
+    LIBRARY
 }
 
 function ThemesTab() {
-    const settings = useSettings(["themeLinks", "enabledThemes"]);
+    // @sencord Theme Library
+    const settings = useSettings(["themeLinks", "enabledThemes", "enabledLibraryThemes"]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [currentTab, setCurrentTab] = useState(ThemeTab.LOCAL);
@@ -177,6 +181,16 @@ function ThemesTab() {
             settings.enabledThemes = [...settings.enabledThemes, fileName];
         } else {
             settings.enabledThemes = settings.enabledThemes.filter(f => f !== fileName);
+        }
+    }
+
+    // @sencord Theme Library
+    function onLibraryThemeChange(fileName: string, value: boolean) {
+        if (value) {
+            if (settings.enabledLibraryThemes.includes(fileName)) return;
+            settings.enabledLibraryThemes = [...settings.enabledLibraryThemes, fileName];
+        } else {
+            settings.enabledLibraryThemes = settings.enabledLibraryThemes.filter(f => f !== fileName);
         }
     }
 
@@ -324,6 +338,31 @@ function ThemesTab() {
         );
     }
 
+    // @sencord Theme Library
+    function renderLibraryThemes() {
+        return (
+            <>
+                <Forms.FormSection title="Theme Library">
+                    <div className={cl("grid")}>
+                        {themes.map(theme => (
+                            <ThemeCard
+                                key={theme.fileName}
+                                enabled={settings.enabledLibraryThemes.includes(theme.fileName)}
+                                onChange={enabled => onLibraryThemeChange(theme.fileName, enabled)}
+                                onDelete={async () => {
+                                    onLibraryThemeChange(theme.fileName, false);
+                                    refreshLocalThemes();
+                                }}
+                                theme={theme}
+                            />
+                        ))}
+                    </div>
+                </Forms.FormSection>
+            </>
+        );
+    }
+
+
     return (
         <SettingsTab title="Themes">
             <TabBar
@@ -345,10 +384,19 @@ function ThemesTab() {
                 >
                     Online Themes
                 </TabBar.Item>
+                {/* @sencord Theme Library */}
+                <TabBar.Item
+                    className="vc-settings-tab-bar-item"
+                    id={ThemeTab.LIBRARY}
+                >
+                    Library
+                </TabBar.Item>
             </TabBar>
 
             {currentTab === ThemeTab.LOCAL && renderLocalThemes()}
             {currentTab === ThemeTab.ONLINE && renderOnlineThemes()}
+            {/* @sencord Theme Library */
+                currentTab === ThemeTab.LIBRARY && renderLibraryThemes()}
         </SettingsTab>
     );
 }

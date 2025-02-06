@@ -35,6 +35,8 @@ export interface Settings {
     enableReactDevtools: boolean;
     themeLinks: string[];
     enabledThemes: string[];
+    // @sencord Theme Library
+    enabledLibraryThemes: string[];
     frameless: boolean;
     transparent: boolean;
     winCtrlQ: boolean;
@@ -83,6 +85,7 @@ const DefaultSettings: Settings = {
     useQuickCss: true,
     themeLinks: [],
     enabledThemes: [],
+    enabledLibraryThemes: [],
     enableReactDevtools: false,
     frameless: false,
     transparent: false,
