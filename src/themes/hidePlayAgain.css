@@ -1,0 +1,4 @@
+[class^="headerContainer"]:has([class*="headerText"], [class*="plusIcon"]),
+[class^="itemContainer"]:has([class*="clickable"]) {
+    display: none;
+}
