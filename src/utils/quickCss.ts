@@ -17,6 +17,7 @@
 */
 
 import { Settings, SettingsStore } from "@api/Settings";
+import { requireStyle } from "@api/Styles";
 import { ThemeStore } from "@webpack/common";
 
 
@@ -58,7 +59,7 @@ export async function toggle(isEnabled: boolean) {
 async function initThemes() {
     themesStyle ??= createStyle("vencord-themes");
 
-    const { themeLinks, enabledThemes } = Settings;
+    const { themeLinks, enabledThemes, enabledLibraryThemes } = Settings;
 
     // "darker" and "midnight" both count as dark
     const activeTheme = ThemeStore.theme === "light" ? "light" : "dark";
@@ -82,7 +83,13 @@ async function initThemes() {
         }
     } else {
         const localThemes = enabledThemes.map(theme => `vencord:///themes/${theme}?v=${Date.now()}`);
-        links.push(...localThemes);
+        // @sencord Theme Library
+        const libraryThemes = enabledLibraryThemes.map(theme => {
+            const { source } = requireStyle(theme);
+            const blob = new Blob([source], { type: "text/css" });
+            return URL.createObjectURL(blob);
+        });
+        links.push(...localThemes, ...libraryThemes);
     }
 
     themesStyle.textContent = links.map(link => `@import url("${link.trim()}");`).join("\n");
@@ -97,6 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     SettingsStore.addChangeListener("themeLinks", initThemes);
     SettingsStore.addChangeListener("enabledThemes", initThemes);
+    // @sencord Theme Library
+    SettingsStore.addChangeListener("enabledLibraryThemes", initThemes);
+
     ThemeStore.addChangeListener(initThemes);
 
     if (!IS_WEB)
