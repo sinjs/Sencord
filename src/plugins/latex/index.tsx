@@ -6,11 +6,21 @@
 
 import "./style.css";
 
+import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { getKatex } from "@utils/dependencies";
 import { classes } from "@utils/misc";
-import definePlugin from "@utils/types";
+import definePlugin, { OptionType } from "@utils/types";
 import { React, Tooltip, useEffect, useMemo, useState } from "@webpack/common";
+
+
+const settings = definePluginSettings({
+    renderBlockLanguages: {
+        description: "Which languages to render in code blocks (comma seperated)",
+        type: OptionType.STRING,
+        default: "latex,tex",
+    },
+});
 
 export function useKatex() {
     const [katex, setKatex] = useState();
@@ -26,17 +36,34 @@ export default definePlugin({
     description: "Latex in messages, written as `$x$` or `$$x$$`.",
     authors: [Devs.sin],
 
+    settings,
+
     patches: [
         {
             find: "inlineCode:{react",
             replacement: {
                 match: /inlineCode:\{react:\((\i,\i,\i)\)=>/,
-                replace: "$&$self.render($1)??"
+                replace: "$&$self.renderInline($1)??"
             },
+        },
+        {
+            find: "codeBlock:{react(",
+            replacement: {
+                match: /codeBlock:\{react\((\i),(\i),(\i)\)\{/,
+                replace: "$&if($self.shouldRenderLanguage($1.lang)) return $self.renderBlock($1,$2,$3);"
+            }
         },
     ],
 
-    render({ content }) {
+    shouldRenderLanguage(language: string) {
+        return this.settings.store.renderBlockLanguages.split(",").map(l => l.trim()).includes(language);
+    },
+
+    renderBlock({ content }) {
+        return <LazyLatex displayMode formula={content} />;
+    },
+
+    renderInline({ content }) {
         const displayMatch = /^\$\$(.*)\$\$$/.exec(content);
         const inlineMatch = /^\$(.*)\$$/.exec(content);
         if (displayMatch)
