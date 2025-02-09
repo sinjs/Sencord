@@ -42,7 +42,7 @@ export default definePlugin({
             find: "codeBlock:{react(",
             replacement: {
                 match: /codeBlock:\{react\((\i),(\i),(\i)\)\{/,
-                replace: "$&return $self.renderHighlighter($1,$2,$3);"
+                replace: "$&if ($self.shouldRenderHighlighter($1)) return $self.renderHighlighter($1,$2,$3);"
             }
         },
         {
@@ -73,6 +73,11 @@ export default definePlugin({
     // exports
     shiki,
     createHighlighter,
+    shouldRenderHighlighter: ({ lang }: { lang: string; content: string; }) => {
+        const plugin = Vencord.Plugins.plugins.LaTeX as unknown as { shouldRenderLanguage: (language: string) => boolean; } | undefined;
+        if (!plugin) return true;
+        return !plugin.shouldRenderLanguage.bind(Vencord.Plugins.plugins.LaTeX)(lang);
+    },
     renderHighlighter: ({ lang, content }: { lang: string; content: string; }) => {
         return createHighlighter({
             lang: lang?.toLowerCase(),
