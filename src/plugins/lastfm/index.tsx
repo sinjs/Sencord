@@ -124,6 +124,11 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         default: true,
     },
+    preferAlbumInLower: {
+        description: "prefer to use the album name in the lower section of the ui over the track name",
+        type: OptionType.BOOLEAN,
+        default: true
+    },
     hideWithActivity: {
         description: "Hide Last.fm presence if you have any other presence",
         type: OptionType.BOOLEAN,
@@ -344,7 +349,7 @@ export default definePlugin({
             application_id: applicationId,
             name: statusName,
 
-            details: trackData.name,
+            details: (settings.store.preferAlbumInLower && trackData.album) ? trackData.album : trackData.name,
             state: trackData.artist,
             assets,
 
