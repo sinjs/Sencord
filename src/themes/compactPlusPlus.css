@@ -1,0 +1,397 @@
+/* stylelint-disable */
+
+/**
+ * @name Compact++ (Default)
+ * @author Grzesiek11
+ * @description Makes Discord's Compact mode more like IRC (and thus better)
+ * @version 1.5.6
+ */
+
+:root {
+    /* Message header width */
+    --compactplusplus-header-width: 160px;
+    /* Message header left margin */
+    --compactplusplus-header-margin-left: 10px;
+    /* Message header right margin */
+    --compactplusplus-header-margin-right: 5px;
+    /* Message container right margin */
+    --compactplusplus-message-margin-right: 15px;
+    /* Message avatar size */
+    --compactplusplus-avatar-size: 20px;
+    /* Thread and reply link line offset */
+    --compactplusplus-link-line-offset: 10px;
+    /* Reply link line width */
+    --compactplusplus-reply-link-line-width: 20px;
+    /* PronounDB pronouns width */
+    --compactplusplus-pronoundb-pronouns-width: 45px;
+}
+/* Message container */
+.compact_c19a55.wrapper_c19a55 {
+    padding-left: 0;
+    padding-right: var(--compactplusplus-message-margin-right) !important;
+}
+/* Message content container */
+.compact_c19a55 .contents_c19a55 {
+    margin-left: 0;
+    padding-left: 0;
+    text-indent: 0;
+}
+/* Message markup first header 1 */
+.compact_c19a55 .markup_f8f345 h1:first-child,
+.compact_c19a55 .markup_f8f345 h2:first-child,
+.compact_c19a55 .markup_f8f345 h3:first-child {
+    margin-top: 0;
+}
+/* Message markup last header 1 */
+.compact_c19a55 .markup_f8f345 h1:last-child,
+.compact_c19a55 .markup_f8f345 h2:last-child,
+.compact_c19a55 .markup_f8f345 h3:last-child {
+    margin-bottom: 0;
+}
+/* Message markup first unordered list */
+.compact_c19a55 .markup_f8f345 ul:first-child,
+.compact_c19a55 .markup_f8f345 ol:first-child {
+    margin-top: 0;
+}
+/* Message markup list last element */
+.compact_c19a55 .markup_f8f345 li:last-child {
+    margin-bottom: 0;
+}
+/* Message markup unordered list */
+.compact_c19a55 .markup_f8f345 ul,
+.compact_c19a55 .markup_f8f345 ol {
+    margin-bottom: 4px;
+}
+/* Message markup last unordered list */
+.compact_c19a55 .markup_f8f345 ul:last-child,
+.compact_c19a55 .markup_f8f345 ol:last-child {
+    margin-bottom: 0px;
+}
+/* Message markup code block */
+.compact_c19a55 .markup_f8f345 pre {
+    max-width: unset;
+}
+/* Message markup quote container */
+.compact_c19a55 .markup_f8f345 blockquote {
+    padding-right: 0;
+    max-width: unset;
+    min-width: 0;
+}
+/* Message markup quote line */
+.compact_c19a55 .blockquoteContainer_f8f345 .blockquoteDivider_f8f345 {
+    flex-shrink: 0;
+}
+/* Message header container */
+.compact_c19a55 .header_c19a55 {
+    margin-left: var(--compactplusplus-header-margin-left);
+    position: absolute;
+    display: flex;
+    width: var(--compactplusplus-header-width);
+    align-items: center;
+}
+/* Message timestamp */
+.compact_c19a55 .header_c19a55 .timestamp_c19a55 {
+    flex-grow: 1;
+    margin-right: 0;
+    text-align: left;
+    white-space: nowrap;
+    width: unset;
+}
+/* Hidden message timestamp */
+.compact_c19a55 .timestampVisibleOnHover_c19a55 {
+    opacity: unset;
+}
+/* Message avatar */
+.compact_c19a55 .avatar_c19a55 {
+    position: static;
+    width: var(--compactplusplus-avatar-size);
+    height: var(--compactplusplus-avatar-size);
+    margin-left: 5px;
+    margin-right: 0;
+    z-index: auto;
+    order: 1;
+}
+/* Message username container */
+.compact_c19a55 .headerText_c19a55 {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 0;
+    min-width: 0;
+    order: 2;
+}
+/* Message tag */
+.compact_c19a55 .botTag_c19a55,
+.compact_c19a55 .systemTag_bc2461,
+.compact_c19a55 .systemTag_df2817,
+.compact_c19a55 .clanTagChiplet_c19a55 {
+    margin-left: 0;
+    margin-right: 5px;
+}
+/* Message tag */
+.compact_c19a55 .botTag_c19a55 {
+    position: static;
+}
+/* Message clan tag */
+.compact_c19a55 .clanTagChiplet_c19a55 {
+    white-space: nowrap;
+}
+/* Message username */
+.compact_c19a55 .headerText_c19a55 .username_c19a55 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: static;
+    flex-shrink: 1;
+    z-index: 1;
+    order: 2;
+}
+/* Message username on hover */
+.mouse-mode .compact_c19a55 .headerText_c19a55 .username_c19a55:hover,
+.mouse-mode .compact_bc2461.usernameContainer_bc2461 > :nth-child(2):hover,
+.mouse-mode .compact_df2817.usernameContainer_df2817 > :nth-child(2):hover,
+.mouse-mode
+    .compact_c19a55
+    .header_c19a55
+    .timestamp_c19a55.vc-pronoundb-compact:hover {
+    /* Show full username */
+    overflow: visible;
+    background-color: var(--background-secondary-alt);
+    outline: 3px solid var(--background-secondary-alt);
+    border-radius: 3px;
+}
+/* Role and new member icon container */
+.compact_c19a55 .headerText_c19a55 :has(.newMemberBadge_ed263a),
+.compact_c19a55 .headerText_c19a55 :has(.roleIcon_c19a55) {
+    order: 1;
+}
+/* Role icon */
+.compact_c19a55 .roleIcon_c19a55,
+.compact_c19a55 .newMemberBadge_ed263a {
+    margin-right: 5px;
+    margin-left: 0;
+}
+/* Message tag in username container (like the Remix tag) */
+.compact_c19a55 .headerText_c19a55 .botTag_c19a55 {
+    order: 0;
+}
+/* Silent message icon container */
+.compact_c19a55 .badgesContainer_c19a55 {
+    margin-right: 0;
+    margin-left: 5px;
+}
+/* Silent message icon */
+/* Silent message icon */
+.compact_c19a55 .badge_ba89c1 {
+    position: static;
+}
+/* Message content */
+.compact_c19a55 .contents_c19a55 .messageContent_c19a55 {
+    display: block;
+}
+/* Message content */
+.compact_c19a55 .contents_c19a55 .messageContent_c19a55,
+.compact_c19a55 > .container_b7e1cb,
+.compact_bc2461.messageContent_bc2461,
+.compact_bc2461.footerContainer_bc2461,
+.compact_c19a55 .channelTextArea_d0696b,
+.compact_c19a55 .operations_baf0d6,
+.embedCard_df2817.compact_df2817 {
+    margin-left: calc(
+        var(--compactplusplus-header-width) +
+            var(--compactplusplus-header-margin-left) +
+            var(--compactplusplus-header-margin-right)
+    );
+}
+/* Message content of message with empty embed container */
+.compact_c19a55:has(> .container_b7e1cb:empty)
+    .contents_c19a55
+    .messageContent_c19a55 {
+    /* Make the content have at least 1 line of height, in case the client
+       * renders a message with no content and no embeds */
+    /* This has happened before with the 2023-09_soundmoji experiment. If a
+       * client without the experiment enabled received a message with only a
+       * soundmoji, it got rendered without content. */
+    min-height: 1lh;
+}
+/* AutoMod blocked message notice container */
+.blockedNoticeContainer_e8366c.compact_e8366c {
+    margin-left: 0;
+}
+/* AutoMod blocked message accessories container */
+.ephemeralAccessories_e8366c.compact_e8366c {
+    margin-left: 0;
+}
+/* System message container */
+.compact_d76df7 {
+    margin-left: 0;
+}
+/* System message content */
+.compact_c19a55.systemMessage_d5deea
+    > .contents_c19a55
+    > .messageContent_c19a55,
+.compact_c19a55 .blockedSystemMessage_c09d0f {
+    margin-left: calc(
+        var(--compactplusplus-header-width) +
+            var(--compactplusplus-header-margin-left) -
+            var(--compactplusplus-avatar-size)
+    );
+}
+/* System message icon */
+.compact_d76df7 .iconContainer_d76df7 {
+    margin-right: var(--compactplusplus-header-margin-right);
+    width: var(--compactplusplus-avatar-size);
+    height: var(--compactplusplus-avatar-size);
+    align-items: center;
+    padding-top: 0;
+}
+/* Send welcome sticker button */
+.compact_c19a55 .welcomeCTA_f6dde0,
+.compact_c19a55 .container_e365d2 {
+    margin-left: calc(
+        var(--compactplusplus-avatar-size) +
+            var(--compactplusplus-header-margin-right)
+    );
+}
+/* Non-AutoMod system message container */
+.compact_d76df7.container_d76df7:not(.mainContainer_bc2461) {
+    align-items: center;
+}
+/* AutoMod message container */
+.compact_bc2461.mainContainer_bc2461,
+.compact_df2817.mainContainer_df2817 {
+    margin-left: 0;
+}
+/* AutoMod message header */
+.compact_bc2461.usernameContainer_bc2461,
+.compact_df2817.usernameContainer_df2817 {
+    margin-left: var(--compactplusplus-header-margin-left) !important;
+}
+/* AutoMod message timestamp */
+.compact_bc2461.mainContainer_bc2461 .timestamp_c19a55,
+.compact_df2817.mainContainer_df2817 .timestamp_c19a55 {
+    flex-shrink: 0;
+}
+/* AutoMod message username container */
+.compact_bc2461.usernameContainer_bc2461 > :nth-child(2),
+.compact_df2817.usernameContainer_df2817 > :nth-child(2) {
+    margin-left: 5px;
+    overflow: hidden;
+}
+/* AutoMod message username container on hover */
+.mouse-mode.full-motion
+    .compact_bc2461.usernameContainer_bc2461
+    > :nth-child(2):hover {
+    z-index: 2;
+}
+/* AutoMod message username */
+.compact_c19a55 .username_bc2461,
+.compact_c19a55 .username_df2817 {
+    font-weight: 500;
+    margin-right: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+/* AutoMod message tag */
+.compact_bc2461.usernameContainer_bc2461 > :nth-child(2) > * > :nth-child(1),
+.compact_df2817.usernameContainer_df2817 > :nth-child(2) > * > :nth-child(1) {
+    order: 1;
+}
+/* AutoMod message action */
+.compact_bc2461.usernameContainer_bc2461 > :nth-child(2) > * > :nth-child(3) {
+    display: none !important;
+}
+/* AutoMod message header flex container */
+.compact_c19a55 .spanCorrection_bc2461,
+.compact_c19a55 .spanCorrection_df2817 {
+    flex-wrap: unset;
+}
+/* AutoMod message content */
+.compact_c19a55
+    .contents_c19a55
+    .messageContent_c19a55:has(> div > .compact_bc2461.mainContainer_bc2461),
+.compact_c19a55
+    .contents_c19a55
+    .messageContent_c19a55:has(> div > .compact_df2817.mainContainer_df2817) {
+    margin-left: 0;
+}
+/* AutoMod referenced message container */
+.compact_bc2461.messageContent_bc2461 {
+    padding-left: 0;
+}
+/* AutoMod referenced message */
+.compact_c19a55 .messageContainer_a0eae1 {
+    margin-left: 0;
+}
+/* AutoMod referenced message content */
+.compact_c19a55 .messageContainer_a0eae1 .messageContent_c19a55 {
+    margin-left: calc(
+        var(--compactplusplus-header-width) +
+            var(--compactplusplus-header-margin-right)
+    );
+}
+/* AutoMod notice content container */
+.compact_df2817.content_df2817 {
+    align-items: unset;
+}
+/* AutoMod notice embed */
+.compact_df2817.embedCard_df2817 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+/* Message reply container */
+.compact_c19a55 .repliedMessage_c19a55 {
+    margin-left: calc(
+        var(--compactplusplus-header-margin-left) +
+            var(--compactplusplus-link-line-offset) +
+            var(--compactplusplus-reply-link-line-width)
+    );
+}
+/* Message reply link line */
+.compact_c19a55 .repliedMessage_c19a55::before {
+    left: calc(0px - var(--compactplusplus-reply-link-line-width));
+}
+/* Message thread link line next to the message content */
+.compact_c19a55.hasThread_c19a55 .contents_c19a55::before {
+    display: none;
+}
+/* Message thread link line next to the message embed container */
+.compact_c19a55 .spine_c15230 {
+    display: none;
+}
+/* Message thread embed */
+.compact_c19a55 .container_c15230 {
+    margin-top: 0;
+}
+/* Edit input */
+.compact_c19a55 .channelTextArea_d0696b {
+    width: unset;
+}
+/* Vencord MessageLatency plugin: Latency indicator */
+/* The selector might be too generic but I don't know how to write a better one,
+   * the element has no class */
+.compact_c19a55 .headerText_c19a55 > svg {
+    flex-shrink: 0;
+    margin-right: 5px !important;
+}
+/* Vencord PronounDB plugin: Message pronouns */
+.compact_c19a55 .header_c19a55 .timestamp_c19a55.vc-pronoundb-compact {
+    width: var(--compactplusplus-pronoundb-pronouns-width);
+    max-width: fit-content;
+    flex-grow: 1;
+    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    order: 1;
+    margin-left: 4px;
+}
+/* Vencord PronounDB plugin: Message pronouns on hover */
+.compact_c19a55 .header_c19a55 .timestamp_c19a55.vc-pronoundb-compact:hover {
+    width: unset;
+}
+/* Vencord PlatformIndicators plugin: Message platform indicator */
+.compact_c19a55 .vc-platform-indicator {
+    margin-left: 0 !important;
+    position: static !important;
+    margin-right: 5px;
+}
