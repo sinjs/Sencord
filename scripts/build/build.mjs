@@ -17,56 +17,41 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import esbuild from "esbuild";
+// @ts-check
+
 import { readdir } from "fs/promises";
 import { join } from "path";
 
-import {
-    BUILD_TIMESTAMP,
-    commonOpts,
-    exists,
-    globPlugins,
-    IS_DEV,
-    IS_REPORTER,
-    IS_STANDALONE,
-    IS_UPDATER_DISABLED,
-    resolvePluginName,
-    VERSION,
-    commonRendererPlugins,
-    watch,
-} from "./common.mjs";
+import { BUILD_TIMESTAMP, commonOpts, exists, globPlugins, IS_DEV, IS_REPORTER, IS_STANDALONE, IS_UPDATER_DISABLED, resolvePluginName, VERSION, commonRendererPlugins, watch, buildOrWatchAll, stringifyValues } from "./common.mjs";
 
-const defines = {
+const defines = stringifyValues({
     IS_STANDALONE,
     IS_DEV,
     IS_REPORTER,
     IS_UPDATER_DISABLED,
     IS_WEB: false,
     IS_EXTENSION: false,
-    VERSION: JSON.stringify(VERSION),
-    BUILD_TIMESTAMP,
-};
+    VERSION,
+    BUILD_TIMESTAMP
+});
 
-if (defines.IS_STANDALONE === false)
+if (defines.IS_STANDALONE === "false") {
     // If this is a local build (not standalone), optimize
     // for the specific platform we're on
     defines["process.platform"] = JSON.stringify(process.platform);
+}
 
 /**
- * @type {esbuild.BuildOptions}
+ * @type {import("esbuild").BuildOptions}
  */
 const nodeCommonOpts = {
     ...commonOpts,
+    define: defines,
     format: "cjs",
     platform: "node",
     target: ["esnext"],
-    external: [
-        "electron",
-        "original-fs",
-        "~pluginNatives",
-        ...commonOpts.external,
-    ],
-    define: defines,
+    // @ts-ignore this is never undefined
+    external: ["electron", "original-fs", "~pluginNatives", ...commonOpts.external]
 };
 
 const sourceMapFooter = (s) =>
@@ -128,9 +113,10 @@ const globNativesPlugin = {
     },
 };
 
-await Promise.all([
+/** @type {import("esbuild").BuildOptions[]} */
+const buildConfigs = ([
     // Discord Desktop main & renderer & preload
-    esbuild.build({
+    {
         ...nodeCommonOpts,
         entryPoints: ["src/main/index.ts"],
         outfile: "dist/patcher.js",
@@ -138,14 +124,18 @@ await Promise.all([
             js: "//# sourceURL=VencordPatcher\n" + sourceMapFooter("patcher"),
         },
         sourcemap,
+        plugins: [
+            // @ts-ignore this is never undefined
+            ...nodeCommonOpts.plugins,
+            globNativesPlugin
+        ],
         define: {
             ...defines,
-            IS_DISCORD_DESKTOP: true,
-            IS_VESKTOP: false,
-        },
-        plugins: [...nodeCommonOpts.plugins, globNativesPlugin],
-    }),
-    esbuild.build({
+            IS_DISCORD_DESKTOP: "true",
+            IS_VESKTOP: "false"
+        }
+    },
+    {
         ...commonOpts,
         entryPoints: ["src/Vencord.ts"],
         outfile: "dist/renderer.js",
@@ -159,11 +149,11 @@ await Promise.all([
         plugins: [globPlugins("discordDesktop"), ...commonRendererPlugins],
         define: {
             ...defines,
-            IS_DISCORD_DESKTOP: true,
-            IS_VESKTOP: false,
-        },
-    }),
-    esbuild.build({
+            IS_DISCORD_DESKTOP: "true",
+            IS_VESKTOP: "false"
+        }
+    },
+    {
         ...nodeCommonOpts,
         entryPoints: ["src/preload.ts"],
         outfile: "dist/preload.js",
@@ -173,13 +163,13 @@ await Promise.all([
         sourcemap,
         define: {
             ...defines,
-            IS_DISCORD_DESKTOP: true,
-            IS_VESKTOP: false,
-        },
-    }),
+            IS_DISCORD_DESKTOP: "true",
+            IS_VESKTOP: "false"
+        }
+    },
 
     // Vencord Desktop main & renderer & preload
-    esbuild.build({
+    {
         ...nodeCommonOpts,
         entryPoints: ["src/main/index.ts"],
         outfile: "dist/vencordDesktopMain.js",
@@ -189,14 +179,17 @@ await Promise.all([
                 sourceMapFooter("vencordDesktopMain"),
         },
         sourcemap,
+        plugins: [
+            ...nodeCommonOpts.plugins,
+            globNativesPlugin
+        ],
         define: {
             ...defines,
-            IS_DISCORD_DESKTOP: false,
-            IS_VESKTOP: true,
-        },
-        plugins: [...nodeCommonOpts.plugins, globNativesPlugin],
-    }),
-    esbuild.build({
+            IS_DISCORD_DESKTOP: "false",
+            IS_VESKTOP: "true"
+        }
+    },
+    {
         ...commonOpts,
         entryPoints: ["src/Vencord.ts"],
         outfile: "dist/vencordDesktopRenderer.js",
@@ -212,11 +205,11 @@ await Promise.all([
         plugins: [globPlugins("vencordDesktop"), ...commonRendererPlugins],
         define: {
             ...defines,
-            IS_DISCORD_DESKTOP: false,
-            IS_VESKTOP: true,
-        },
-    }),
-    esbuild.build({
+            IS_DISCORD_DESKTOP: "false",
+            IS_VESKTOP: "true"
+        }
+    },
+    {
         ...nodeCommonOpts,
         entryPoints: ["src/preload.ts"],
         outfile: "dist/vencordDesktopPreload.js",
@@ -228,13 +221,10 @@ await Promise.all([
         sourcemap,
         define: {
             ...defines,
-            IS_DISCORD_DESKTOP: false,
-            IS_VESKTOP: true,
-        },
-    }),
-]).catch((err) => {
-    console.error("Build failed");
-    console.error(err.message);
-    // make ci fail
-    if (!commonOpts.watch) process.exitCode = 1;
-});
+            IS_DISCORD_DESKTOP: "false",
+            IS_VESKTOP: "true"
+        }
+    }
+]);
+
+await buildOrWatchAll(buildConfigs);
