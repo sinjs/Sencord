@@ -32,9 +32,10 @@ export interface Settings {
     autoUpdate: boolean;
     autoUpdateNotification: boolean,
     useQuickCss: boolean;
+    eagerPatches: boolean;
+    enabledThemes: string[];
     enableReactDevtools: boolean;
     themeLinks: string[];
-    enabledThemes: string[];
     // @sencord Theme Library
     enabledLibraryThemes: string[];
     frameless: boolean;
@@ -84,6 +85,7 @@ const DefaultSettings: Settings = {
     autoUpdateNotification: true,
     useQuickCss: true,
     themeLinks: [],
+    eagerPatches: IS_REPORTER,
     enabledThemes: [],
     enabledLibraryThemes: [],
     enableReactDevtools: false,
