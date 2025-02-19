@@ -1,5 +1,7 @@
 # Installing
 
+You can either use the [prebuilt installer](https://github.com/sinjs/SencordInstaller/releases/latest) or [install from source](#prerequisites).
+
 ## Prerequisites
 
 -   Git
