@@ -20,9 +20,16 @@ import hidePlayAgain from "./hidePlayAgain.css?managed";
 import hideShop from "./hideShop.css?managed";
 import hideStickerButton from "./hideStickerButton.css?managed";
 import system24 from "./system24.css?managed";
+import washingMachineGamingWithExtraSpin from "./washingmachine.theme.css?managed";
 
 
 export const themes: UserThemeHeader[] = [
+    {
+        name: "Washing Machine Simulator",
+        author: "cedric",
+        description: "discord rotat e",
+        fileName: washingMachineGamingWithExtraSpin
+    },
     {
         name: "AmoledCord",
         author: "LuckFire",
