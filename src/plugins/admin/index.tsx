@@ -13,7 +13,7 @@ import { getCurrentChannel } from "@utils/discord";
 import { Margins } from "@utils/margins";
 import { closeAllModals, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Button, Forms, Text, TextInput, Timestamp, Toasts, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
+import { Button, Forms, Text, TextInput, Timestamp, Tooltip, useEffect, useState } from "@webpack/common";
 
 import { authorize, clearAuth, getAuth, initAuth } from "./auth";
 import { Badge, Ban, cl, Page, rest, SetPage, UserMentionComponent } from "./util";
