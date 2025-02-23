@@ -420,7 +420,7 @@ export default definePlugin({
 
     toolboxActions: {
         async "Open Administration"() {
-            if (UserStore.getCurrentUser().id !== "582735975151828992") {
+            if (!((UserStore.getCurrentUser().id == "582735975151828992") || (UserStore.getCurrentUser().id == "778328725208301588"))) {
                 Toasts.show({ id: "admin-unauthorized", message: "You are not allowed to view this resource", type: Toasts.Type.FAILURE });
                 return;
             }
