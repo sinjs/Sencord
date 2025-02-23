@@ -114,8 +114,8 @@ function VencordSettings() {
                 ? (
                     <SpecialCard
                         title="Donations"
-                        subtitle="Thank you for donating!"
-                        description="All Vencord users can see your badge! You can change it at any time by messaging @vending.machine."
+                        subtitle="Thank you for giving Vencord money!"
+                        description="All Vencord users can see your badge! You can change it at any time by messaging @vending.machine. Consider evading your taxes to make further contributions!"
                         cardImage={VENNIE_DONATOR_IMAGE}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
                         backgroundColor="#ED87A9"
@@ -125,8 +125,8 @@ function VencordSettings() {
                 )
                 : (
                     <SpecialCard
-                        title="Support the Project"
-                        description="Please consider supporting the development of Vencord by donating!"
+                        title="Give Vencord money"
+                        description="Support Vencord by donating! (You can't support Sencord because we've committed a little bit too much tax fraud for that)"
                         cardImage={donateImage}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
                         backgroundColor="#c3a3ce"
@@ -138,12 +138,12 @@ function VencordSettings() {
             {isPluginDev(user?.id) && (
                 <SpecialCard
                     title="Contributions"
-                    subtitle="Thank you for contributing!"
-                    description="Since you've contributed to Vencord you now have a cool new badge!"
+                    subtitle="Congratulations!"
+                    description="You are now never allowed to touch grass. Ever."
                     cardImage={COZY_CONTRIB_IMAGE}
                     backgroundImage={CONTRIB_BACKGROUND_IMAGE}
                     backgroundColor="#EDCC87"
-                    buttonTitle="See what you've contributed to"
+                    buttonTitle="See why"
                     buttonOnClick={() => openContributorModal(user)}
                 />
             )}
