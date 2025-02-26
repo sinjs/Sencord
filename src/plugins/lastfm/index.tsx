@@ -125,7 +125,7 @@ const settings = definePluginSettings({
         default: true,
     },
     preferAlbumInLower: {
-        description: "prefer to use the album name in the lower section of the ui over the track name",
+        description: "prefer to use the album name in the lower section of the ui over the track name when playing and not listening",
         type: OptionType.BOOLEAN,
         default: true
     },
@@ -194,6 +194,11 @@ const settings = definePluginSettings({
         description: "show the Last.fm logo by the album cover",
         type: OptionType.BOOLEAN,
         default: true,
+    },
+    defaultLargeImage: {
+        description: "the image url used if there is no album image (by default the Last.fm logo)",
+        type: OptionType.STRING,
+        default: "",
     }
 });
 
@@ -310,7 +315,7 @@ export default definePlugin({
                     small_text: "Last.fm"
                 }),
             } : {
-                large_image: await getApplicationAsset("lastfm-large"),
+                large_image: settings.store.defaultLargeImage ? await getApplicationAsset(settings.store.defaultLargeImage) : await getApplicationAsset("lastfm-large"),
                 large_text: trackData.album || undefined,
             };
 
