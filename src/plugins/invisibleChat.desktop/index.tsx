@@ -237,6 +237,12 @@ export default definePlugin({
 
     renderChatBarButton: ChatBarIcon,
 
+    colorCodeFromNumber(color: number): string {
+        return `#${[color >> 16, color >> 8, color]
+            .map(x => (x & 0xFF).toString(16))
+            .join("")}`;
+    },
+
     // Gets the Embed of a Link
     async getEmbed(url: URL): Promise<Object | {}> {
         const { body } = await RestAPI.post({
@@ -245,6 +251,8 @@ export default definePlugin({
                 urls: [url],
             },
         });
+        // The endpoint returns the color as a number, but Discord expects a string
+        body.embeds[0].color = this.colorCodeFromNumber(body.embeds[0].color);
         return await body.embeds[0];
     },
 
@@ -254,7 +262,7 @@ export default definePlugin({
         message.embeds[0] = {
             type: "rich",
             color: "0xffad01",
-            description: revealed,
+            rawDescription: revealed,
         };
 
         if (urlCheck?.length) {
