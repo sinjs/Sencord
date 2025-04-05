@@ -65,11 +65,11 @@ const nodeCommonOpts = {
     format: "cjs",
     platform: "node",
     target: ["esnext"],
-    // @ts-ignore this is never undefined
     external: [
         "electron",
         "original-fs",
         "~pluginNatives",
+        // @ts-ignore this is never undefined
         ...commonOpts.external,
     ],
 };
