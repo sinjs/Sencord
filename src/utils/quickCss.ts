@@ -107,7 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // @sencord Theme Library
     SettingsStore.addChangeListener("enabledLibraryThemes", initThemes);
 
-    ThemeStore.addChangeListener(initThemes);
+    let currentTheme = ThemeStore.theme;
+    ThemeStore.addChangeListener(() => {
+        if (currentTheme === ThemeStore.theme) return;
+
+        currentTheme = ThemeStore.theme;
+        initThemes();
+    });
 
     if (!IS_WEB)
         VencordNative.quickCss.addThemeChangeListener(initThemes);
