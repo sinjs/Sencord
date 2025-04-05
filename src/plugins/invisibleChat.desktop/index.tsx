@@ -124,6 +124,7 @@ const ChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
                 </div>
             )}
         </Tooltip>
+
     );
 };
 

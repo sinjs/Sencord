@@ -22,7 +22,22 @@
 import { readdir } from "fs/promises";
 import { join } from "path";
 
-import { BUILD_TIMESTAMP, commonOpts, exists, globPlugins, IS_DEV, IS_REPORTER, IS_STANDALONE, IS_UPDATER_DISABLED, resolvePluginName, VERSION, commonRendererPlugins, watch, buildOrWatchAll, stringifyValues } from "./common.mjs";
+import {
+    BUILD_TIMESTAMP,
+    commonOpts,
+    exists,
+    globPlugins,
+    IS_DEV,
+    IS_REPORTER,
+    IS_STANDALONE,
+    IS_UPDATER_DISABLED,
+    resolvePluginName,
+    VERSION,
+    commonRendererPlugins,
+    watch,
+    buildOrWatchAll,
+    stringifyValues,
+} from "./common.mjs";
 
 const defines = stringifyValues({
     IS_STANDALONE,
@@ -32,7 +47,7 @@ const defines = stringifyValues({
     IS_WEB: false,
     IS_EXTENSION: false,
     VERSION,
-    BUILD_TIMESTAMP
+    BUILD_TIMESTAMP,
 });
 
 if (defines.IS_STANDALONE === "false") {
@@ -51,7 +66,12 @@ const nodeCommonOpts = {
     platform: "node",
     target: ["esnext"],
     // @ts-ignore this is never undefined
-    external: ["electron", "original-fs", "~pluginNatives", ...commonOpts.external]
+    external: [
+        "electron",
+        "original-fs",
+        "~pluginNatives",
+        ...commonOpts.external,
+    ],
 };
 
 const sourceMapFooter = (s) =>
@@ -114,7 +134,7 @@ const globNativesPlugin = {
 };
 
 /** @type {import("esbuild").BuildOptions[]} */
-const buildConfigs = ([
+const buildConfigs = [
     // Discord Desktop main & renderer & preload
     {
         ...nodeCommonOpts,
@@ -127,13 +147,13 @@ const buildConfigs = ([
         plugins: [
             // @ts-ignore this is never undefined
             ...nodeCommonOpts.plugins,
-            globNativesPlugin
+            globNativesPlugin,
         ],
         define: {
             ...defines,
             IS_DISCORD_DESKTOP: "true",
-            IS_VESKTOP: "false"
-        }
+            IS_VESKTOP: "false",
+        },
     },
     {
         ...commonOpts,
@@ -150,8 +170,8 @@ const buildConfigs = ([
         define: {
             ...defines,
             IS_DISCORD_DESKTOP: "true",
-            IS_VESKTOP: "false"
-        }
+            IS_VESKTOP: "false",
+        },
     },
     {
         ...nodeCommonOpts,
@@ -164,8 +184,8 @@ const buildConfigs = ([
         define: {
             ...defines,
             IS_DISCORD_DESKTOP: "true",
-            IS_VESKTOP: "false"
-        }
+            IS_VESKTOP: "false",
+        },
     },
 
     // Vencord Desktop main & renderer & preload
@@ -179,15 +199,12 @@ const buildConfigs = ([
                 sourceMapFooter("vencordDesktopMain"),
         },
         sourcemap,
-        plugins: [
-            ...nodeCommonOpts.plugins,
-            globNativesPlugin
-        ],
+        plugins: [...nodeCommonOpts.plugins, globNativesPlugin],
         define: {
             ...defines,
             IS_DISCORD_DESKTOP: "false",
-            IS_VESKTOP: "true"
-        }
+            IS_VESKTOP: "true",
+        },
     },
     {
         ...commonOpts,
@@ -202,12 +219,12 @@ const buildConfigs = ([
         },
         globalName: "Vencord",
         sourcemap,
-        plugins: [globPlugins("vencordDesktop"), ...commonRendererPlugins],
+        plugins: [globPlugins("vesktop"), ...commonRendererPlugins],
         define: {
             ...defines,
             IS_DISCORD_DESKTOP: "false",
-            IS_VESKTOP: "true"
-        }
+            IS_VESKTOP: "true",
+        },
     },
     {
         ...nodeCommonOpts,
@@ -222,9 +239,9 @@ const buildConfigs = ([
         define: {
             ...defines,
             IS_DISCORD_DESKTOP: "false",
-            IS_VESKTOP: "true"
-        }
-    }
-]);
+            IS_VESKTOP: "true",
+        },
+    },
+];
 
 await buildOrWatchAll(buildConfigs);
