@@ -109,7 +109,7 @@ function VencordSettings() {
         ];
 
     return (
-        <SettingsTab title="Vencord Settings">
+        <SettingsTab title="Sencord Settings">
             {isDonor(user?.id)
                 ? (
                     <SpecialCard
