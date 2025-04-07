@@ -16,7 +16,7 @@ function randomUser() {
         return users[Math.floor(Math.random() * users.length)];
     }
     const members = GuildMemberStore.getMembers(guildId);
-    return members[Math.floor(Math.random() * members.length)];
+    return members[Math.floor(Math.random() * members.length)].userId;
 }
 
 export default definePlugin({
