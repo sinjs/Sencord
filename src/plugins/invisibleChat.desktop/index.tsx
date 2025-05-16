@@ -163,7 +163,7 @@ export default definePlugin({
     patches: [
         {
             // Indicator
-            find: "#{intl::MESSAGE_EDITED}",
+            find: ".SEND_FAILED,",
             replacement: {
                 match: /let\{className:\i,message:\i[^}]*\}=(\i)/,
                 replace:

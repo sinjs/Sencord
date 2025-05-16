@@ -140,9 +140,7 @@ const buildConfigs = [
         ...nodeCommonOpts,
         entryPoints: ["src/main/index.ts"],
         outfile: "dist/patcher.js",
-        footer: {
-            js: "//# sourceURL=VencordPatcher\n" + sourceMapFooter("patcher"),
-        },
+        footer: { js: "//# sourceURL=file:///VencordPatcher\n" + sourceMapFooter("patcher") },
         sourcemap,
         plugins: [
             // @ts-ignore this is never undefined
@@ -161,9 +159,7 @@ const buildConfigs = [
         outfile: "dist/renderer.js",
         format: "iife",
         target: ["esnext"],
-        footer: {
-            js: "//# sourceURL=VencordRenderer\n" + sourceMapFooter("renderer"),
-        },
+        footer: { js: "//# sourceURL=file:///VencordRenderer\n" + sourceMapFooter("renderer") },
         globalName: "Vencord",
         sourcemap,
         plugins: [globPlugins("discordDesktop"), ...commonRendererPlugins],
@@ -177,9 +173,7 @@ const buildConfigs = [
         ...nodeCommonOpts,
         entryPoints: ["src/preload.ts"],
         outfile: "dist/preload.js",
-        footer: {
-            js: "//# sourceURL=VencordPreload\n" + sourceMapFooter("preload"),
-        },
+        footer: { js: "//# sourceURL=file:///VencordPreload\n" + sourceMapFooter("preload") },
         sourcemap,
         define: {
             ...defines,
@@ -193,11 +187,7 @@ const buildConfigs = [
         ...nodeCommonOpts,
         entryPoints: ["src/main/index.ts"],
         outfile: "dist/vencordDesktopMain.js",
-        footer: {
-            js:
-                "//# sourceURL=VencordDesktopMain\n" +
-                sourceMapFooter("vencordDesktopMain"),
-        },
+        footer: { js: "//# sourceURL=file:///VencordDesktopMain\n" + sourceMapFooter("vencordDesktopMain") },
         sourcemap,
         plugins: [...nodeCommonOpts.plugins, globNativesPlugin],
         define: {
@@ -212,11 +202,7 @@ const buildConfigs = [
         outfile: "dist/vencordDesktopRenderer.js",
         format: "iife",
         target: ["esnext"],
-        footer: {
-            js:
-                "//# sourceURL=VencordDesktopRenderer\n" +
-                sourceMapFooter("vencordDesktopRenderer"),
-        },
+        footer: { js: "//# sourceURL=file:///VencordDesktopRenderer\n" + sourceMapFooter("vencordDesktopRenderer") },
         globalName: "Vencord",
         sourcemap,
         plugins: [globPlugins("vesktop"), ...commonRendererPlugins],
@@ -230,11 +216,7 @@ const buildConfigs = [
         ...nodeCommonOpts,
         entryPoints: ["src/preload.ts"],
         outfile: "dist/vencordDesktopPreload.js",
-        footer: {
-            js:
-                "//# sourceURL=VencordPreload\n" +
-                sourceMapFooter("vencordDesktopPreload"),
-        },
+        footer: { js: "//# sourceURL=file:///VencordPreload\n" + sourceMapFooter("vencordDesktopPreload") },
         sourcemap,
         define: {
             ...defines,
