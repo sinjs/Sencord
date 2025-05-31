@@ -28,7 +28,7 @@ import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { shouldShowContributorBadge } from "@utils/misc";
-import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
+import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, Modals, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { Button, Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
