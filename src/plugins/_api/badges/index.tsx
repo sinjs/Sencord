@@ -34,7 +34,7 @@ import { Button, Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
 import { Settings } from "Vencord";
 
-const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
+const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 
 const ContributorBadge: ProfileBadge = {
     description: "Vencord Contributor",
