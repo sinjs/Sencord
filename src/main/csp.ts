@@ -18,6 +18,9 @@ export const MediaScriptsAndCssSrc = [...MediaAndCssSrc, "script-src", "worker-s
 // script and just adding to it. But generally, you should just edit this file instead
 
 export const CspPolicies: PolicyMap = {
+    // @sencord
+    "*.sinsose.dev": MediaScriptsAndCssSrc,
+
     "*.github.io": MediaAndCssSrc, // GitHub pages, used by most themes
     "github.com": MediaAndCssSrc, // GitHub content (stuff uploaded to markdown forms), used by most themes
     "raw.githubusercontent.com": MediaAndCssSrc, // GitHub raw, used by some themes

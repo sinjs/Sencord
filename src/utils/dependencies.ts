@@ -73,10 +73,10 @@ export const shikiWorkerSrc = `https://cdn.jsdelivr.net/npm/@vap/shiki-worker@0.
 export const shikiOnigasmSrc = "https://cdn.jsdelivr.net/npm/@vap/shiki@0.10.3/dist/onig.wasm";
 
 // @ts-expect-error
-export const getStegCloak = /* #__PURE__*/ makeLazy(() => import("https://unpkg.com/stegcloak-dist@1.0.0/index.js"));
+export const getStegCloak = /* #__PURE__*/ makeLazy(() => import("https://cdn.jsdelivr.net/npm/stegcloak-dist@1.0.0/index.js"));
 
 // @ts-expect-error
-export const getSocketIO = /* #__PURE__*/ makeLazy(() => import("https://unpkg.com/socket.io@4.8.1/client-dist/socket.io.esm.min.js"));
+export const getSocketIO = /* #__PURE__*/ makeLazy(() => import("https://cdn.jsdelivr.net/npm/socket.io@4.8.1/client-dist/socket.io.esm.min.js"));
 
 // @ts-expect-error
 export const getKatex = /* #__PURE__*/ makeLazy(async () => (await import("https://assets.sinsose.dev/git/sencord/katex/dist/katex.mjs")).default);
