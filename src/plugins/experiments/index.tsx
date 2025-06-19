@@ -68,7 +68,7 @@ export default definePlugin({
             }
         },
         {
-            find: ".CONTEXTLESS,isActivityPanelMode:",
+            find: '"M9 3v18"',
             replacement: {
                 match: /hasBugReporterAccess:(\i)/,
                 replace: "_hasBugReporterAccess:$1=true"
