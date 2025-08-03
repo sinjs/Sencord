@@ -17,7 +17,7 @@
 */
 
 import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
+import { Devs, IS_MAC } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy, findLazy } from "@webpack";
 import { Forms, React } from "@webpack/common";
@@ -25,9 +25,8 @@ import { Forms, React } from "@webpack/common";
 const KbdStyles = findByPropsLazy("key", "combo");
 const BugReporterExperiment = findLazy(m => m?.definition?.id === "2024-09_bug_reporter");
 
-const isMacOS = navigator.platform.includes("Mac");
-const modKey = isMacOS ? "cmd" : "ctrl";
-const altKey = isMacOS ? "opt" : "alt";
+const modKey = IS_MAC ? "cmd" : "ctrl";
+const altKey = IS_MAC ? "opt" : "alt";
 
 const settings = definePluginSettings({
     toolbarDevMenu: {
@@ -103,11 +102,19 @@ export default definePlugin({
                 },
                 // Fix some tricky experiments name causing a client crash
                 {
-                    match: /.getRegisteredExperiments\(\)(?<=(\i)=.+?).+?if\(null==(\i)(?=\)return null;)/,
-                    replace: "$&||!Object.hasOwn($1,$2)"
+                    match: /.getExperimentBucketName.+?if\(null==(\i)\|\|null==\i(?=\)return null;)/,
+                    replace: "$&||({})[$1]!=null"
                 }
             ]
         },
+        // Fix another function which cases crashes with tricky experiment names and the experiment embed
+        {
+            find: "}getServerAssignment(",
+            replacement: {
+                match: /}getServerAssignment\((\i),\i,\i\){/,
+                replace: "$&if($1==null)return;"
+            }
+        }
     ],
 
     settingsAboutComponent: () => {
