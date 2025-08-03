@@ -24,12 +24,15 @@ import { getStylusWebStoreUrl } from "@utils/web";
 import { Card, Forms, React, TabBar, useState } from "@webpack/common";
 
 import { CspErrorCard } from "./CspErrorCard";
+import { LibraryThemesTab } from "./LibraryThemesTab";
 import { LocalThemesTab } from "./LocalThemesTab";
 import { OnlineThemesTab } from "./OnlineThemesTab";
 
 const enum ThemeTab {
     LOCAL,
-    ONLINE
+    ONLINE,
+    // @sencord Theme Library
+    LIBRARY
 }
 
 function ThemesTab() {
@@ -56,12 +59,20 @@ function ThemesTab() {
                 >
                     Online Themes
                 </TabBar.Item>
+                {/* @sencord Theme Library */}
+                <TabBar.Item
+                    className="vc-settings-tab-bar-item"
+                    id={ThemeTab.LIBRARY}
+                >
+                    Library
+                </TabBar.Item>
             </TabBar>
 
             <CspErrorCard />
 
             {currentTab === ThemeTab.LOCAL && <LocalThemesTab />}
             {currentTab === ThemeTab.ONLINE && <OnlineThemesTab />}
+            {currentTab === ThemeTab.LIBRARY && <LibraryThemesTab />}
         </SettingsTab>
     );
 }

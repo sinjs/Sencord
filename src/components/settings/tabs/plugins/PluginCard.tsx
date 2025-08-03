@@ -7,6 +7,7 @@
 import { showNotice } from "@api/Notices";
 import { CogWheel, InfoIcon } from "@components/Icons";
 import { AddonCard } from "@components/settings/AddonCard";
+import { SencordDevs } from "@utils/constants";
 import { proxyLazy } from "@utils/lazy";
 import { classes, isObjectEmpty } from "@utils/misc";
 import { Plugin } from "@utils/types";
@@ -21,6 +22,9 @@ import { openPluginModal } from "./PluginModal";
 const { startDependenciesRecursive, startPlugin, stopPlugin, isPluginEnabled } = proxyLazy(() => require("plugins") as typeof import("plugins"));
 
 export const ButtonClasses = findByPropsLazy("button", "disabled", "enabled");
+
+export const isPluginSencord = (plugin: Plugin) => !!plugin.authors.find(author => SencordDevs.find(sencord => sencord.id === author.id && sencord.name === author.name));
+
 
 interface PluginCardProps extends React.HTMLProps<HTMLDivElement> {
     plugin: Plugin;
@@ -89,6 +93,8 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             name={plugin.name}
             description={plugin.description}
             isNew={isNew}
+            isSencord={isPluginSencord(plugin)}
+
             enabled={isEnabled()}
             setEnabled={toggleEnabled}
             disabled={disabled}
