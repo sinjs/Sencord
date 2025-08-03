@@ -17,9 +17,8 @@
 */
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import BadgeAPIPlugin from "plugins/_api/badges";
 import { ComponentType, HTMLProps } from "react";
-
-import Plugins from "~plugins";
 
 export const enum BadgePosition {
     START,
@@ -91,12 +90,11 @@ export function _getBadges(args: BadgeUserArgs) {
         }
     }
 
-    const badgePlugin = (Plugins.BadgeAPI as unknown as typeof import("../plugins/_api/badges").default);
 
-    const donorBadges = badgePlugin.getDonorBadges(args.userId);
+    const donorBadges = BadgeAPIPlugin.getDonorBadges(args.userId);
     if (donorBadges) badges.unshift(...donorBadges);
 
-    const sencordBadges = badgePlugin.getSencordBadges(args.userId);
+    const sencordBadges = BadgeAPIPlugin.getSencordBadges(args.userId);
     if (sencordBadges) badges.unshift(...sencordBadges);
 
     return badges;
