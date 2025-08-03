@@ -7,8 +7,8 @@
 import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, sendBotMessage } from "@api/Commands";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
+import { Channel, Message } from "@vencord/discord-types";
 import { MessageActions, MessageStore, UserStore } from "@webpack/common";
-import { Channel, Message } from "discord-types/general";
 
 function sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(() => resolve(), ms));
