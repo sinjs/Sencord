@@ -241,7 +241,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
             {/* File Uploader Selection */}
             <Forms.FormDivider />
             <Forms.FormSection title="Upload Limit Bypass">
-                <Forms.FormText type={Forms.FormText.Types.DESCRIPTION}>
+                <Forms.FormText>
                     Select the external file uploader service to be used to bypass the upload limit.
                 </Forms.FormText>
                 <Select
@@ -276,7 +276,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
             {fileUploader === "GoFile" && (
                 <>
                     <Forms.FormSection title="GoFile Token (optional)">
-                        <Forms.FormText type={Forms.FormText.Types.DESCRIPTION}>
+                        <Forms.FormText>
                             Insert your personal GoFile account's token to save all uploads to your GoFile account.
                         </Forms.FormText>
                         <TextInput
@@ -294,7 +294,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
             {fileUploader === "Catbox" && (
                 <>
                     <Forms.FormSection title="Catbox User hash (optional)">
-                        <Forms.FormText type={Forms.FormText.Types.DESCRIPTION}>
+                        <Forms.FormText >
                             Insert your personal Catbox account's hash to save all uploads to your Catbox account.
                         </Forms.FormText>
                         <TextInput
@@ -312,7 +312,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
             {fileUploader === "Litterbox" && (
                 <>
                     <Forms.FormSection title="File Expiration Time">
-                        <Forms.FormText type={Forms.FormText.Types.DESCRIPTION}>
+                        <Forms.FormText>
                             Select how long it should take for your uploads to expire and get deleted.
                         </Forms.FormText>
                         <Select
