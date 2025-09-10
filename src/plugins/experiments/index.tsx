@@ -67,7 +67,7 @@ export default definePlugin({
             }
         },
         {
-            find: '"M9 3v18"',
+            find: '?"BACK_FORWARD_NAVIGATION":',
             replacement: {
                 match: /hasBugReporterAccess:(\i)/,
                 replace: "_hasBugReporterAccess:$1=true"
