@@ -26,6 +26,7 @@ export const CspPolicies: PolicyMap = {
 
     // @sencord
     "*.sinsose.dev": ImageScriptsAndCssSrc,
+    "*.sinsose.dev": ImageScriptsAndCssSrc,
 
     "*.github.io": ImageAndCssSrc, // GitHub pages, used by most themes
     "github.com": ImageAndCssSrc, // GitHub content (stuff uploaded to markdown forms), used by most themes
