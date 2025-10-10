@@ -16,14 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { FormSwitch } from "@components/FormSwitch";
 import {
     ModalCloseButton,
     ModalContent,
     ModalHeader,
     ModalProps,
     ModalRoot,
-    openModal } from "@utils/modal";
-import { Forms, React, Switch, TextArea,TextInput } from "@webpack/common";
+    openModal,
+} from "@utils/modal";
+import { Forms, React, TextArea, TextInput } from "@webpack/common";
 
 import { settings } from "../index";
 
@@ -52,22 +54,20 @@ function EncModal(props: ModalProps) {
                     defaultValue={"change in plugin settings"}
                     disabled
                 />
-                <Switch
+                <FormSwitch
                     value={autoEncrypt}
                     onChange={v => settings.store.autoEncrypt = v}
-                    note={"Automatically encrypt messages"}
+                    description={"Automatically encrypt messages"}
+                    title="Auto Encrypt"
                     hideBorder
-                >
-                    Auto Encrypt
-                </Switch>
-                <Switch
+                />
+                <FormSwitch
                     value={autoDecrypt}
                     onChange={v => settings.store.autoDecrypt = v}
-                    note={"Automatically decrypt messages"}
+                    description={"Automatically decrypt messages"}
                     hideBorder
-                >
-                    Auto Decrypt
-                </Switch>
+                    title="Auto Decrypt"
+                />
             </ModalContent>
 
         </ModalRoot>
