@@ -75,14 +75,13 @@ function AutoFluencyToggle() {
     const value = settings.use(["autoFluent"]).autoFluent;
 
     return (
-        <Switch
+        <FormSwitch
             value={value}
             onChange={v => settings.store.autoFluent = v}
-            note={settings.def.autoFluent.description}
+            description={settings.def.autoFluent.description}
+            title="Auto Fluent"
             hideBorder
-        >
-            Auto Fluent
-        </Switch>
+        />
     );
 }
 

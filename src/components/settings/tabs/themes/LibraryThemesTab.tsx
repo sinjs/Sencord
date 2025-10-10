@@ -32,7 +32,8 @@ export function LibraryThemesTab() {
 
     return (
         <>
-            <Forms.FormSection title="Theme Library">
+            <section>
+                <Forms.FormTitle tag="h5">Theme Library</Forms.FormTitle>
                 <div className={cl("grid")}>
                     {themes.map(theme => (
                         <ThemeCard
@@ -47,7 +48,7 @@ export function LibraryThemesTab() {
                         />
                     ))}
                 </div>
-            </Forms.FormSection>
+            </section>
         </>
     );
 
