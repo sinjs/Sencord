@@ -57,7 +57,8 @@ function EncModal(props: ModalProps) {
                 <FormSwitchCompat
                     value={autoEncrypt}
                     onChange={v => settings.store.autoEncrypt = v}
-                    note={"Automatically encrypt messages"}
+                    description={"Automatically encrypt messages"}
+                    title="Auto Encrypt"
                     hideBorder
                 >
                     Auto Encrypt
@@ -65,7 +66,7 @@ function EncModal(props: ModalProps) {
                 <FormSwitchCompat
                     value={autoDecrypt}
                     onChange={v => settings.store.autoDecrypt = v}
-                    note={"Automatically decrypt messages"}
+                    description={"Automatically decrypt messages"}
                     hideBorder
                 >
                     Auto Decrypt

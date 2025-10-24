@@ -256,6 +256,7 @@ function PluginSettings() {
                 <ErrorBoundary noop>
                     <TextInput autoFocus value={searchValue.value} placeholder="Search for a plugin..." onChange={onSearch} />
                 </ErrorBoundary>
+
                 <div>
                     <ErrorBoundary noop>
                         <Select
