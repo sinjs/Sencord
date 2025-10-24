@@ -111,7 +111,7 @@ function ManageBans({ setPage }: { setPage: SetPage; }) {
                 <td><Text variant="text-sm/normal">{ban.reason || <i>None</i>}</Text></td>
                 <td>
                     <Flex style={{ justifyContent: "center" }}>
-                        <Button color={Button.Colors.RED} size={Button.Sizes.TINY} onClick={removeBan} disabled={removingLoading}>
+                        <Button color={Button.Colors.RED} size={Button.Sizes.SMALL} onClick={removeBan} disabled={removingLoading}>
                             {removingLoading ? <>Loading...</> :
                                 removingError ? (<Tooltip text={removingError}>
                                     {({ onMouseEnter, onMouseLeave }) => <span onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>Failed</span>}
@@ -137,16 +137,16 @@ function ManageBans({ setPage }: { setPage: SetPage; }) {
                     {data && (<table style={{ flexGrow: 1 }} className={cl("table")}>
                         <thead>
                             <tr>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}>User</Forms.FormText></th>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}>Expires</Forms.FormText></th>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}>Reason</Forms.FormText></th>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}></Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}>User</Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}>Expires</Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}>Reason</Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}></Forms.FormText></th>
                             </tr>
                         </thead>
                         <tbody>
                             {data.length === 0 && (<tr>
                                 <td colSpan={3}>
-                                    <Forms.FormText variant="text-lg/normal" style={{ textAlign: "center" }}>No rows.</Forms.FormText>
+                                    <Forms.FormText size="lg" weight="normal" style={{ textAlign: "center" }}>No rows.</Forms.FormText>
                                 </td>
                             </tr>)}
                             {data.map(ban => <BanRow key={ban.user_id} ban={ban} />)}
@@ -278,7 +278,7 @@ function ManageBadges({ setPage }: { setPage: SetPage; }) {
                 </td>
                 <td>
                     <Flex style={{ justifyContent: "center" }}>
-                        <Button color={Button.Colors.RED} size={Button.Sizes.TINY} onClick={removeBadge} disabled={removingLoading}>
+                        <Button color={Button.Colors.RED} size={Button.Sizes.SMALL} onClick={removeBadge} disabled={removingLoading}>
                             {removingLoading ? <>Loading...</> :
                                 removingError ? (<Tooltip text={removingError}>
                                     {({ onMouseEnter, onMouseLeave }) => <span onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>Failed</span>}
@@ -304,17 +304,17 @@ function ManageBadges({ setPage }: { setPage: SetPage; }) {
                     {data && (<table style={{ flexGrow: 1 }} className={cl("table")}>
                         <thead>
                             <tr>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}>ID</Forms.FormText></th>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}>User</Forms.FormText></th>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}>Tooltip</Forms.FormText></th>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}>Badge</Forms.FormText></th>
-                                <th><Forms.FormText variant="text-md/semibold" className={cl("th")}></Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}>ID</Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}>User</Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}>Tooltip</Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}>Badge</Forms.FormText></th>
+                                <th><Forms.FormText size="md" weight="semibold" className={cl("th")}></Forms.FormText></th>
                             </tr>
                         </thead>
                         <tbody>
                             {data.length === 0 && (<tr>
                                 <td colSpan={3}>
-                                    <Forms.FormText variant="text-lg/normal" style={{ textAlign: "center" }}>No rows.</Forms.FormText>
+                                    <Forms.FormText size="lg" weight="normal" style={{ textAlign: "center" }}>No rows.</Forms.FormText>
                                 </td>
                             </tr>)}
                             {data.map(ban => <BadgeRow key={ban.user_id} badge={ban} />)}
@@ -394,17 +394,17 @@ function AdminModal({ modalProps }: { modalProps: ModalProps; }) {
         </ModalContent>
         <ModalFooter>
             <Flex>
-                <Button title="Back" look={Button.Looks.BLANK} size={Button.Sizes.ICON} onClick={() => {
+                <button onClick={() => {
                     setPage(previousPage ?? "root");
                 }}>
                     <BackIcon />
-                </Button>
-                <Button title="Logout" look={Button.Looks.BLANK} size={Button.Sizes.ICON} onClick={async () => {
+                </button>
+                <button onClick={async () => {
                     await clearAuth();
                     closeAllModals();
                 }}>
                     <DoorExitIcon />
-                </Button>
+                </button>
             </Flex>
         </ModalFooter>
     </ModalRoot>);

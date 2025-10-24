@@ -240,7 +240,6 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
     return (
         <Flex flexDirection="column">
             {/* File Uploader Selection */}
-            <Forms.FormDivider />
             <section>
                 <Forms.FormTitle tag="h5">Upload Limit Bypass</Forms.FormTitle>
                 <Forms.FormText>
@@ -410,7 +409,6 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                         />
                     </section>
 
-                    <Forms.FormDivider />
                     <Forms.FormTitle>Custom Uploader Arguments</Forms.FormTitle>
                     {Object.entries(customUploaderStore.get().args).map(([key, value], index) => (
                         <div key={index}>
@@ -431,7 +429,6 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                         </div>
                     ))}
 
-                    <Forms.FormDivider />
                     <Forms.FormTitle>Headers</Forms.FormTitle>
                     {Object.entries(customUploaderStore.get().headers).map(([key, value], index) => (
                         <div key={index}>
@@ -452,7 +449,6 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                         </div>
                     ))}
 
-                    <Forms.FormDivider />
                     <Forms.FormTitle>Import ShareX Config</Forms.FormTitle>
                     <Button
                         onClick={triggerFileUpload}
