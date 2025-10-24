@@ -126,7 +126,7 @@ function ManageBans({ setPage }: { setPage: SetPage; }) {
 
     return (
         <>
-            <Forms.FormSection className={Margins.bottom8}>
+            <section className={Margins.bottom8}>
                 <Forms.FormTitle>
                     Manage Bans
                 </Forms.FormTitle>
@@ -153,8 +153,8 @@ function ManageBans({ setPage }: { setPage: SetPage; }) {
                         </tbody>
                     </table>)}
                 </Flex>
-            </Forms.FormSection>
-            <Forms.FormSection className={Margins.bottom16}>
+            </section>
+            <section className={Margins.bottom16}>
                 <Forms.FormTitle>
                     Create Bans
                 </Forms.FormTitle>
@@ -181,7 +181,7 @@ function ManageBans({ setPage }: { setPage: SetPage; }) {
                 />
 
                 <Button onClick={createBan} disabled={newLoading}>{newLoading ? "Creating.." : "Create"}</Button>
-            </Forms.FormSection>
+            </section>
         </>
     );
 }
@@ -293,7 +293,7 @@ function ManageBadges({ setPage }: { setPage: SetPage; }) {
 
     return (
         <>
-            <Forms.FormSection className={Margins.bottom8}>
+            <section className={Margins.bottom8}>
                 <Forms.FormTitle>
                     Manage Badges
                 </Forms.FormTitle>
@@ -321,8 +321,8 @@ function ManageBadges({ setPage }: { setPage: SetPage; }) {
                         </tbody>
                     </table>)}
                 </Flex>
-            </Forms.FormSection>
-            <Forms.FormSection className={Margins.bottom16}>
+            </section>
+            <section className={Margins.bottom16}>
                 <Forms.FormTitle>
                     Create Bans
                 </Forms.FormTitle>
@@ -349,7 +349,7 @@ function ManageBadges({ setPage }: { setPage: SetPage; }) {
                 />
 
                 <Button onClick={createBadge} disabled={newLoading}>{newLoading ? "Creating.." : "Create"}</Button>
-            </Forms.FormSection>
+            </section>
         </>
     );
 }
@@ -358,7 +358,7 @@ function AdminModalContent({ page, setPage }: { page: Page, setPage: SetPage; })
 
     return <>
         {page === "root" &&
-            <Forms.FormSection>
+            <section>
                 <Flex>
                     <Button onClick={() => setPage("bans")}>
                         Manage Bans
@@ -367,7 +367,7 @@ function AdminModalContent({ page, setPage }: { page: Page, setPage: SetPage; })
                         Manage Badges
                     </Button>
                 </Flex>
-            </Forms.FormSection>
+            </section>
         }
         {page === "bans" && <ManageBans setPage={setPage} />}
         {page === "badges" && <ManageBadges setPage={setPage} />}
