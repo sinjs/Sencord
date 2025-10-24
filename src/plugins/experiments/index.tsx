@@ -17,6 +17,7 @@
 */
 
 import { definePluginSettings } from "@api/Settings";
+import { Paragraph } from "@components/Paragraph";
 import { Devs, IS_MAC } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy, findLazy } from "@webpack";
@@ -74,7 +75,14 @@ export default definePlugin({
             },
             predicate: () => settings.store.toolbarDevMenu
         },
-
+        // Disable opening the bug report menu when clicking the top right toolbar dev button
+        {
+            find: 'navId:"staff-help-popout"',
+            replacement: {
+                match: /(isShown.+?)onClick:\i/,
+                replace: (_, rest) => `${rest}onClick:()=>{}`
+            }
+        },
         // Make the Favourites Server experiment allow favouriting DMs and threads
         {
             find: "useCanFavoriteChannel",
@@ -121,14 +129,14 @@ export default definePlugin({
         return (
             <React.Fragment>
                 <Forms.FormTitle tag="h3">More Information</Forms.FormTitle>
-                <Forms.FormText variant="text-md/normal">
+                <Paragraph size="md">
                     You can open Discord's DevTools via {" "}
                     <div className={KbdStyles.combo} style={{ display: "inline-flex" }}>
                         <kbd className={KbdStyles.key}>{modKey}</kbd> +{" "}
                         <kbd className={KbdStyles.key}>{altKey}</kbd> +{" "}
                         <kbd className={KbdStyles.key}>O</kbd>{" "}
                     </div>
-                </Forms.FormText>
+                </Paragraph>
             </React.Fragment>
         );
     },
