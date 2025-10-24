@@ -145,29 +145,27 @@ function TextReplace({ title, rulesArray }: TextReplaceProps) {
                 {
                     rulesArray.map((rule, index) =>
                         <React.Fragment key={`${rule.find}-${index}`}>
-                            <Flex flexDirection="row" style={{ gap: 0 }}>
-                                <Flex flexDirection="row" style={{ flexGrow: 1, gap: "0.5em" }}>
-                                    <Input
-                                        placeholder="Find"
-                                        initialValue={rule.find}
-                                        onChange={e => onChange(e, index, "find")}
-                                    />
-                                    <Input
-                                        placeholder="Replace"
-                                        initialValue={rule.replace}
-                                        onChange={e => onChange(e, index, "replace")}
-                                    />
-                                    <Input
-                                        placeholder="Only if includes"
-                                        initialValue={rule.onlyIfIncludes}
-                                        onChange={e => onChange(e, index, "onlyIfIncludes")}
-                                    />
-                                    <Input
-                                        placeholder="Channels (comma seperated ids)"
-                                        initialValue={rule.onlyInChannelIds}
-                                        onChange={e => onChange(e, index, "onlyInChannelIds")}
-                                    />
-                                </Flex>
+                            <Flex flexDirection="row" style={{ flexGrow: 1, gap: "0.5em" }}>
+                                <Input
+                                    placeholder="Find"
+                                    initialValue={rule.find}
+                                    onChange={e => onChange(e, index, "find")}
+                                />
+                                <Input
+                                    placeholder="Replace"
+                                    initialValue={rule.replace}
+                                    onChange={e => onChange(e, index, "replace")}
+                                />
+                                <Input
+                                    placeholder="Only if includes"
+                                    initialValue={rule.onlyIfIncludes}
+                                    onChange={e => onChange(e, index, "onlyIfIncludes")}
+                                />
+                                <Input
+                                    placeholder="Channels (comma seperated ids)"
+                                    initialValue={rule.onlyInChannelIds}
+                                    onChange={e => onChange(e, index, "onlyInChannelIds")}
+                                />
                                 <Button
                                     size={Button.Sizes.MIN}
                                     onClick={() => onClickRemove(index)}
@@ -190,7 +188,7 @@ function TextReplace({ title, rulesArray }: TextReplaceProps) {
                         </React.Fragment>
                     )
                 }
-            </Flex>
+            </Flex >
         </>
     );
 }

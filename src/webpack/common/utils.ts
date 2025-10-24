@@ -210,3 +210,5 @@ export const DateUtils: t.DateUtils = mapMangledModuleLazy("millisecondsInUnit:"
 
 // @sencord Added Discord Channel Class
 export const Channel: t.Channel = findByCodeLazy("computeLurkerPermissionsAllowList");
+
+export const MessageTypeSets: t.MessageTypeSets = findByPropsLazy("REPLYABLE", "FORWARDABLE");
