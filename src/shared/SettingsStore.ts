@@ -10,12 +10,7 @@ export const SYM_IS_PROXY = Symbol("SettingsStore.isProxy");
 export const SYM_GET_RAW_TARGET = Symbol("SettingsStore.getRawTarget");
 
 // Resolves a possibly nested prop in the form of "some.nested.prop" to type of T.some.nested.prop
-type ResolvePropDeep<T, P> =
-    P extends `${infer Pre}.*` ?
-    Pre extends keyof T
-    ? T[Pre][keyof T[Pre]]
-    : any
-    : P extends `${infer Pre}.${infer Suf}`
+type ResolvePropDeep<T, P> = P extends `${infer Pre}.${infer Suf}`
     ? Pre extends keyof T
     ? ResolvePropDeep<T[Pre], Suf>
     : any
@@ -47,7 +42,6 @@ interface ProxyContext<T extends object = any> {
  */
 export class SettingsStore<T extends object> {
     private pathListeners = new Map<string, Set<(newData: any) => void>>();
-    private prefixListeners = new Map<string, Set<(newData: any, path: string) => void>>();
     private globalListeners = new Set<(newData: T, path: string) => void>();
     private readonly proxyContexts = new WeakMap<any, ProxyContext<T>>();
 
@@ -158,13 +152,6 @@ export class SettingsStore<T extends object> {
         return new Proxy(object, this.proxyHandler);
     }
 
-    private notifyPrefixListeners(pathString: string, pathElements: string[], value: any) {
-        for (let i = 1; i <= pathElements.length; i++) {
-            const prefix = pathElements.slice(0, i).join(".");
-            this.prefixListeners.get(prefix)?.forEach(cb => cb(value, pathString));
-        }
-    }
-
     private notifyListeners(pathStr: string, value: any, root: T) {
         const paths = pathStr.split(".");
 
@@ -185,7 +172,6 @@ export class SettingsStore<T extends object> {
         }
 
         this.pathListeners.get(pathStr)?.forEach(cb => cb(value));
-        this.notifyPrefixListeners(pathStr, paths, value);
     }
 
     /**
@@ -217,7 +203,6 @@ export class SettingsStore<T extends object> {
             }
 
             this.pathListeners.get(pathToNotify)?.forEach(cb => cb(v));
-            this.notifyPrefixListeners(pathToNotify, path, v);
         }
 
         this.markAsChanged();
@@ -244,6 +229,8 @@ export class SettingsStore<T extends object> {
      * ```js
      * Setting.store.foo.baz = "hi"
      * ```
+     * @param path
+     * @param cb
      */
     public addChangeListener<P extends LiteralUnion<keyof T, string>>(
         path: P,
@@ -252,20 +239,6 @@ export class SettingsStore<T extends object> {
         const listeners = this.pathListeners.get(path as string) ?? new Set();
         listeners.add(cb);
         this.pathListeners.set(path as string, listeners);
-    }
-
-    /**
-     * Add a prefix change listener that will fire whenever a setting matching the specified prefix is changed.
-     * For example if prefix is `"foo"`, the listener will fire on
-     * ```js
-     * Setting.store.foo.bar = "hi"
-     * Setting.store.foo.baz = "hi"
-     * ```
-     */
-    public addPrefixChangeListener<P extends string>(prefix: P, cb: (data: ResolvePropDeep<T, P>, path: string) => void) {
-        const listeners = this.prefixListeners.get(prefix) ?? new Set();
-        listeners.add(cb);
-        this.prefixListeners.set(prefix, listeners);
     }
 
     /**
@@ -286,18 +259,6 @@ export class SettingsStore<T extends object> {
 
         listeners.delete(cb);
         if (!listeners.size) this.pathListeners.delete(path as string);
-    }
-
-    /**
-     * Remove a prefix listener
-     * @see {@link addPrefixChangeListener}
-     */
-    public removePrefixChangeListener(prefix: string, cb: (data: any, path: string) => void) {
-        const listeners = this.prefixListeners.get(prefix);
-        if (!listeners) return;
-
-        listeners.delete(cb);
-        if (!listeners.size) this.prefixListeners.delete(prefix);
     }
 
     /**

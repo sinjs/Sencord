@@ -20,7 +20,7 @@
 // @ts-check
 
 import { readdir } from "fs/promises";
-import { join, resolve } from "path";
+import { join } from "path";
 
 import {
     BUILD_TIMESTAMP,
@@ -100,10 +100,6 @@ const globNativesPlugin = {
             let code = "";
             let natives = "\n";
             let i = 0;
-            /**
-             * @type {string[]}
-             */
-            const watchFiles = [];
             for (const dir of pluginDirs) {
                 const dirPath = join("src", dir);
                 if (!(await exists(dirPath))) continue;
@@ -117,9 +113,10 @@ const globNativesPlugin = {
                         "native/index.ts"
                     );
 
-                    watchFiles.push(resolve(nativePath), resolve(indexNativePath));
-
-                    if (!(await exists(nativePath)) && !(await exists(indexNativePath)))
+                    if (
+                        !(await exists(nativePath)) &&
+                        !(await exists(indexNativePath))
+                    )
                         continue;
 
                     const pluginName = await resolvePluginName(dirPath, file);
@@ -134,8 +131,6 @@ const globNativesPlugin = {
             return {
                 contents: code,
                 resolveDir: "./src",
-                watchDirs: pluginDirs.map(d => resolve("src", d)),
-                watchFiles,
             };
         });
     },

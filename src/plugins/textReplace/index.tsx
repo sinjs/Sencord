@@ -94,7 +94,7 @@ function renderFindError(find: string) {
         return null;
     } catch (e) {
         return (
-            <span style={{ color: "var(--text-feedback-critical)" }}>
+            <span style={{ color: "var(--text-danger)" }}>
                 {String(e)}
             </span>
         );
@@ -145,7 +145,7 @@ function TextReplace({ title, rulesArray }: TextReplaceProps) {
                 {
                     rulesArray.map((rule, index) =>
                         <React.Fragment key={`${rule.find}-${index}`}>
-                            <Flex gap="0.5em" flexDirection="row" style={{ flexGrow: 1 }}>
+                            <Flex flexDirection="row" style={{ flexGrow: 1, gap: "0.5em" }}>
                                 <Input
                                     placeholder="Find"
                                     initialValue={rule.find}

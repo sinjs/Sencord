@@ -23,7 +23,7 @@ export default function DecorationGridNone(props: DecorationGridNoneProps) {
         <NoEntrySignIcon />
         <Text
             variant="text-xs/normal"
-            color="text-strong"
+            color="header-primary"
         >
             {getIntlMessage("NONE")}
         </Text>

@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import * as DataStore from "@api/DataStore";
-import { AUTHORIZE_URL, CLIENT_ID } from "@plugins/decor/lib/constants";
+import { DataStore } from "@api/index";
 import { proxyLazy } from "@utils/lazy";
 import { Logger } from "@utils/Logger";
 import { openModal } from "@utils/modal";
 import { OAuth2AuthorizeModal, showToast, Toasts, UserStore, zustandCreate, zustandPersist } from "@webpack/common";
+
+import { AUTHORIZE_URL, CLIENT_ID } from "../constants";
 
 interface AuthorizationState {
     token: string | null;

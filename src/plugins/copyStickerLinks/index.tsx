@@ -17,13 +17,12 @@
 */
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { isPluginEnabled } from "@api/PluginManager";
-import ExpressionClonerPlugin from "@plugins/expressionCloner";
 import { Devs } from "@utils/constants";
-import { copyWithToast } from "@utils/discord";
+import { copyWithToast } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { Message, Sticker } from "@vencord/discord-types";
 import { Menu, React, StickersStore } from "@webpack/common";
+import ExpressionClonerPlugin from "plugins/expressionCloner";
 
 const StickerExt = [, "png", "png", "json", "gif"] as const;
 
@@ -80,7 +79,7 @@ const expressionPickerPatch: NavContextMenuPatchCallback = (children, props: { t
 
     const sticker = StickersStore.getStickerById(id);
     if (sticker) {
-        children.push(buildMenuItem(sticker, isPluginEnabled(ExpressionClonerPlugin.name)));
+        children.push(buildMenuItem(sticker, Vencord.Plugins.isPluginEnabled(ExpressionClonerPlugin.name)));
     }
 };
 

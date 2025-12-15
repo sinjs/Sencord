@@ -18,11 +18,8 @@
 
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Logger } from "@utils/Logger";
-import { IconComponent } from "@utils/types";
 import { Channel, Message } from "@vencord/discord-types";
 import type { ComponentType, MouseEventHandler } from "react";
-
-import { useSettings } from "./Settings";
 
 const logger = new Logger("MessagePopover");
 
@@ -37,63 +34,41 @@ export interface MessagePopoverButtonItem {
 }
 
 export type MessagePopoverButtonFactory = (message: Message) => MessagePopoverButtonItem | null;
-export type MessagePopoverButtonData = {
-    render: MessagePopoverButtonFactory;
-    /**
-     * This icon is used only for Settings UI. Your render function must still return an icon,
-     * and it can be different from this one.
-     */
-    icon: IconComponent;
-};
 
-export const MessagePopoverButtonMap = new Map<string, MessagePopoverButtonData>();
+export const buttons = new Map<string, MessagePopoverButtonFactory>();
 
-/**
- * The icon argument is used only for Settings UI. Your render function must still return an icon,
- * and it can be different from this one.
- */
 export function addMessagePopoverButton(
     identifier: string,
-    render: MessagePopoverButtonFactory,
-    icon: IconComponent
+    item: MessagePopoverButtonFactory,
 ) {
-    MessagePopoverButtonMap.set(identifier, { render, icon });
+    buttons.set(identifier, item);
 }
 
 export function removeMessagePopoverButton(identifier: string) {
-    MessagePopoverButtonMap.delete(identifier);
-}
-
-function VencordPopoverButtons(props: { Component: React.ComponentType<MessagePopoverButtonItem>, message: Message; }) {
-    const { Component, message } = props;
-
-    const { messagePopoverButtons } = useSettings(["uiElements.messagePopoverButtons.*"]).uiElements;
-
-    const elements = Array.from(MessagePopoverButtonMap.entries())
-        .filter(([key]) => messagePopoverButtons[key]?.enabled !== false)
-        .map(([key, { render }]) => {
-            try {
-                // FIXME: this should use proper React to ensure hooks work
-                const item = render(message);
-                if (!item) return null;
-
-                return (
-                    <ErrorBoundary noop>
-                        <Component key={key} {...item} />
-                    </ErrorBoundary>
-                );
-            } catch (err) {
-                logger.error(`[${key}]`, err);
-                return null;
-            }
-        });
-
-    return <>{elements}</>;
+    buttons.delete(identifier);
 }
 
 export function _buildPopoverElements(
     Component: React.ComponentType<MessagePopoverButtonItem>,
     message: Message
 ) {
-    return <VencordPopoverButtons Component={Component} message={message} />;
+    const items: React.ReactNode[] = [];
+
+    for (const [identifier, getItem] of buttons.entries()) {
+        try {
+            const item = getItem(message);
+            if (item) {
+                item.key ??= identifier;
+                items.push(
+                    <ErrorBoundary noop>
+                        <Component {...item} />
+                    </ErrorBoundary>
+                );
+            }
+        } catch (err) {
+            logger.error(`[${identifier}]`, err);
+        }
+    }
+
+    return <>{items}</>;
 }

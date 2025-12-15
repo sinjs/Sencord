@@ -8,7 +8,6 @@ export * from "./GuildMemberStore";
 export * from "./GuildRoleStore";
 export * from "./GuildStore";
 export * from "./MessageStore";
-export * from "./PresenceStore";
 export * from "./RelationshipStore";
 export * from "./SelectedChannelStore";
 export * from "./SelectedGuildStore";

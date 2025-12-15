@@ -18,7 +18,7 @@
 
 import { Settings } from "@api/Settings";
 import { Devs } from "@utils/constants";
-import { copyWithToast } from "@utils/discord";
+import { copyWithToast } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
 
 export default definePlugin({

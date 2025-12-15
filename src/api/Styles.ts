@@ -16,12 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export interface Style {
-    name: string;
-    source: string;
-    classNames: Record<string, string>;
-    dom: HTMLStyleElement | null;
-}
+import type { MapValue } from "type-fest/source/entry";
+
+export type Style = MapValue<typeof VencordStyles>;
 
 export const styleMap = window.VencordStyles ??= new Map();
 

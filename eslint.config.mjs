@@ -90,7 +90,7 @@ export default tseslint.config(
             "@stylistic/no-extra-semi": "error",
 
             // TS Rules
-            "@stylistic/function-call-spacing": ["error", "never"],
+            "@stylistic/func-call-spacing": ["error", "never"],
 
             // ESLint Rules
             "yoda": "error",
@@ -115,7 +115,7 @@ export default tseslint.config(
             "no-useless-escape": [
                 "error",
                 {
-                    "allowRegexCharacters": ["i"]
+                    "extra": "i"
                 }
             ],
             "no-fallthrough": "error",

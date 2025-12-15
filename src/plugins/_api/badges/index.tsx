@@ -25,10 +25,9 @@ import { Heart } from "@components/Heart";
 import DonateButton from "@components/settings/DonateButton";
 import { openContributorModal } from "@components/settings/tabs";
 import { Devs } from "@utils/constants";
-import { copyWithToast } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
-import { shouldShowContributorBadge } from "@utils/misc";
+import { copyWithToast, shouldShowContributorBadge } from "@utils/misc";
 import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { User } from "@vencord/discord-types";
@@ -39,7 +38,7 @@ const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453
 
 const ContributorBadge: ProfileBadge = {
     description: "Vencord Contributor",
-    iconSrc: CONTRIBUTOR_BADGE,
+    image: CONTRIBUTOR_BADGE,
     position: BadgePosition.START,
     shouldShow: ({ userId }) => shouldShowContributorBadge(userId),
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId))
@@ -78,11 +77,11 @@ function BadgeContextMenu({ badge }: { badge: ProfileBadge & BadgeUserArgs; }) {
                     action={() => copyWithToast(badge.description!)}
                 />
             )}
-            {badge.iconSrc && (
+            {badge.image && (
                 <Menu.MenuItem
                     id="vc-badge-copy-link"
                     label="Copy Badge Image Link"
-                    action={() => copyWithToast(badge.iconSrc!)}
+                    action={() => copyWithToast(badge.image!)}
                 />
             )}
         </Menu.Menu>
@@ -106,11 +105,11 @@ export default definePlugin({
             find: "#{intl::PROFILE_USER_BADGES}",
             replacement: [
                 {
-                    match: /alt:" ","aria-hidden":!0,src:.{0,50}(\i).iconSrc/,
-                    replace: "...$1.props,$&"
+                    match: /(alt:" ","aria-hidden":!0,src:)(.+?)(?=,)(?<=href:(\i)\.link.+?)/,
+                    replace: (_, rest, originalSrc, badge) => `...${badge}.props,${rest}${badge}.image??(${originalSrc})`
                 },
                 {
-                    match: /(?<="aria-label":(\i)\.description,.{0,200}?)children:/g,
+                    match: /(?<="aria-label":(\i)\.description,.{0,200})children:/,
                     replace: "children:$1.component?$self.renderBadgeComponent({...$1}) :"
                 },
                 // handle onClick and onContextMenu
@@ -258,7 +257,7 @@ export default definePlugin({
 
     getDonorBadges(userId: string) {
         return DonorBadges[userId]?.map(badge => ({
-            iconSrc: badge.badge,
+            image: badge.badge,
             description: badge.tooltip,
             position: BadgePosition.START,
             props: {
@@ -286,7 +285,7 @@ export default definePlugin({
                                         margin: 0
                                     }}
                                 >
-                                    <Flex justifyContent="center" alignItems="center" gap="0.5em">
+                                    <Flex style={{ justifyContent: "center", alignItems: "center", gap: "0.5em" }}>
                                         <Heart />
                                         Vencord Donor
                                     </Flex>
@@ -317,7 +316,7 @@ export default definePlugin({
                                 </div>
                             </ModalContent>
                             <ModalFooter>
-                                <Flex justifyContent="center" style={{ width: "100%" }}>
+                                <Flex style={{ width: "100%", justifyContent: "center" }}>
                                     <DonateButton />
                                 </Flex>
                             </ModalFooter>

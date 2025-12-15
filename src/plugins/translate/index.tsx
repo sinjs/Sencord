@@ -112,28 +112,22 @@ export default definePlugin({
 
     renderMessageAccessory: props => <TranslationAccessory message={props.message} />,
 
-    chatBarButton: {
-        icon: TranslateIcon,
-        render: TranslateChatBarIcon
-    },
+    renderChatBarButton: TranslateChatBarIcon,
 
-    messagePopoverButton: {
-        icon: TranslateIcon,
-        render(message: Message) {
-            const content = getMessageContent(message);
-            if (!content) return null;
+    renderMessagePopoverButton(message: Message) {
+        const content = getMessageContent(message);
+        if (!content) return null;
 
-            return {
-                label: "Translate",
-                icon: TranslateIcon,
-                message,
-                channel: ChannelStore.getChannel(message.channel_id),
-                onClick: async () => {
-                    const trans = await translate("received", content);
-                    handleTranslate(message.id, trans);
-                }
-            };
-        }
+        return {
+            label: "Translate",
+            icon: TranslateIcon,
+            message,
+            channel: ChannelStore.getChannel(message.channel_id),
+            onClick: async () => {
+                const trans = await translate("received", content);
+                handleTranslate(message.id, trans);
+            }
+        };
     },
 
     async onBeforeMessageSend(_, message) {

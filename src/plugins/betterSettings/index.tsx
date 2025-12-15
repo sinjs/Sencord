@@ -5,16 +5,16 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
-import { classNameFactory, disableStyle, enableStyle } from "@api/Styles";
-import { buildPluginMenuEntries, buildThemeMenuEntries } from "@plugins/vencordToolbox/menu";
+import { classNameFactory } from "@api/Styles";
 import { Devs } from "@utils/constants";
+import { getIntlMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { waitFor } from "@webpack";
 import { ComponentDispatch, FocusLock, Menu, useEffect, useRef } from "@webpack/common";
 import type { HTMLAttributes, ReactElement } from "react";
 
-import fullHeightStyle from "./fullHeightContext.css?managed";
+import PluginsSubmenu from "./PluginsSubmenu";
 
 type SettingsEntry = { section: string, label: string; };
 
@@ -42,11 +42,6 @@ const settings = definePluginSettings({
         restartNeeded: true
     }
 });
-
-interface TransformedSettingsEntry {
-    section: string;
-    items: SettingsEntry[];
-}
 
 interface LayerProps extends HTMLAttributes<HTMLDivElement> {
     mode: "SHOWN" | "HIDDEN";
@@ -86,15 +81,6 @@ export default definePlugin({
     description: "Enhances your settings-menu-opening experience",
     authors: [Devs.Kyuuhachi],
     settings,
-
-    start() {
-        if (settings.store.organizeMenu)
-            enableStyle(fullHeightStyle);
-    },
-
-    stop() {
-        disableStyle(fullHeightStyle);
-    },
 
     patches: [
         {
@@ -139,20 +125,19 @@ export default definePlugin({
             find: "#{intl::USER_SETTINGS_ACTIONS_MENU_LABEL}",
             replacement: [
                 {
-                    match: /=\[\];if\((\i)(?=\.forEach.{0,100}"logout"!==\i.{0,30}(\i)\.get\(\i\))/,
-                    replace: "=$self.wrapMap([]);if($self.transformSettingsEntries($1,$2)",
+                    match: /=\[\];return (\i)(?=\.forEach)/,
+                    replace: "=$self.wrapMap([]);return $self.transformSettingsEntries($1)",
                     predicate: () => settings.store.organizeMenu
                 },
                 {
                     match: /case \i\.\i\.DEVELOPER_OPTIONS:return \i;/,
-                    replace: "$&case 'VencordPlugins':return $self.buildPluginMenuEntries(true);$&case 'VencordThemes':return $self.buildThemeMenuEntries();"
+                    replace: "$&case 'VencordPlugins':return $self.PluginsSubmenu();"
                 }
             ]
         },
     ],
 
-    buildPluginMenuEntries,
-    buildThemeMenuEntries,
+    PluginsSubmenu,
 
     // This is the very outer layer of the entire ui, so we can't wrap this in an ErrorBoundary
     // without possibly also catching unrelated errors of children.
@@ -169,34 +154,35 @@ export default definePlugin({
         return <Layer {...props} />;
     },
 
-    transformSettingsEntries(list: SettingsEntry[], keyMap: Map<string, string>) {
-        const items = [] as TransformedSettingsEntry[];
+    transformSettingsEntries(list: SettingsEntry[]) {
+        const items = [{ label: null as string | null, items: [] as SettingsEntry[] }];
 
         for (const item of list) {
             if (item.section === "HEADER") {
-                keyMap.set(item.label, item.label);
-                items.push({ section: item.label, items: [] });
-            } else if (item.section !== "DIVIDER" && keyMap.has(item.section)) {
-                items.at(-1)?.items.push(item);
+                items.push({ label: item.label, items: [] });
+            } else if (item.section === "DIVIDER") {
+                items.push({ label: getIntlMessage("OTHER_OPTIONS"), items: [] });
+            } else {
+                items.at(-1)!.items.push(item);
             }
         }
 
         return items;
     },
 
-    wrapMap(toWrap: TransformedSettingsEntry[]) {
+    wrapMap(toWrap: any[]) {
         // @ts-expect-error
         toWrap.map = function (render: (item: SettingsEntry) => ReactElement<any>) {
             return this
                 .filter(a => a.items.length > 0)
-                .map(({ section, items }) => {
+                .map(({ label, items }) => {
                     const children = items.map(render);
-                    if (section) {
+                    if (label) {
                         return (
                             <Menu.MenuItem
-                                key={section}
-                                id={section.replace(/\W/, "_")}
-                                label={section}
+                                key={label}
+                                id={label.replace(/\W/, "_")}
+                                label={label}
                             >
                                 {children}
                             </Menu.MenuItem>

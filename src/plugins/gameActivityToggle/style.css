@@ -1,3 +1,4 @@
-[class^="panels"] [class^="avatarWrapper_"] {
-    min-width: 0;
+/* make gap smaller since we're adding an extra button */
+[class^="panels"] [class^="buttons"] {
+    gap: 4px;
 }
