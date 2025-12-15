@@ -25,6 +25,7 @@ export const CspPolicies: PolicyMap = {
     "127.0.0.1:*": ImageAndCssSrc,
 
     // @sencord
+    "*.techfun.me": ImageScriptsAndCssSrc,
     "*.nigga.church": ImageScriptsAndCssSrc,
     "*.sinsose.dev": ImageScriptsAndCssSrc,
 
