@@ -18,11 +18,10 @@
 
 import "./styles.css";
 
-import { Card } from "@components/Card";
 import { Link } from "@components/Link";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { getStylusWebStoreUrl } from "@utils/web";
-import { Forms, React, TabBar, useState } from "@webpack/common";
+import { Card, Forms, React, TabBar, useState } from "@webpack/common";
 
 import { CspErrorCard } from "./CspErrorCard";
 import { LibraryThemesTab } from "./LibraryThemesTab";
@@ -40,7 +39,7 @@ function ThemesTab() {
     const [currentTab, setCurrentTab] = useState(ThemeTab.LOCAL);
 
     return (
-        <SettingsTab>
+        <SettingsTab title="Themes">
             <TabBar
                 type="top"
                 look="brand"
@@ -80,8 +79,8 @@ function ThemesTab() {
 
 function UserscriptThemesTab() {
     return (
-        <SettingsTab>
-            <Card variant="danger">
+        <SettingsTab title="Themes">
+            <Card className="vc-settings-card">
                 <Forms.FormTitle tag="h5">Themes are not supported on the Userscript!</Forms.FormTitle>
 
                 <Forms.FormText>

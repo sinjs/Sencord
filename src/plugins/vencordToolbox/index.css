@@ -4,13 +4,13 @@
 }
 
 .vc-toolbox-icon {
-    color: var(--interactive-icon-default);
+    color: var(--interactive-normal);
 }
 
 .vc-toolbox-btn[class*="selected"] .vc-toolbox-icon {
-    color: var(--interactive-icon-active);
+    color: var(--interactive-active);
 }
 
 .vc-toolbox-btn:hover .vc-toolbox-icon {
-    color: var(--interactive-icon-hover);
+    color: var(--interactive-hover);
 }

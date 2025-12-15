@@ -92,11 +92,14 @@ export default definePlugin({
     shouldHide(props: MessageDeleteProps): boolean {
         try {
             const collapsedReason = props.collapsedReason();
-            const is = (key: string) => collapsedReason === i18n.t[runtimeHashMessageKey(key)]();
+            const blockedReason = i18n.t[runtimeHashMessageKey("BLOCKED_MESSAGE_COUNT")]();
+            const ignoredReason = settings.store.applyToIgnoredUsers
+                ? i18n.t[runtimeHashMessageKey("IGNORED_MESSAGE_COUNT")]()
+                : null;
 
-            return is("BLOCKED_MESSAGE_COUNT") || (settings.store.applyToIgnoredUsers && is("IGNORED_MESSAGE_COUNT"));
+            return collapsedReason === blockedReason || collapsedReason === ignoredReason;
         } catch (e) {
-            new Logger("NoBlockedMessages").error("Failed to check if message should be hidden:", e);
+            console.error(e);
             return false;
         }
     }

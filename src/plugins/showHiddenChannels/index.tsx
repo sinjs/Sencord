@@ -317,7 +317,7 @@ export default definePlugin({
             ]
         },
         {
-            find: '="interactive-text-default",overflowCountClassName:',
+            find: '="interactive-normal",overflowCountClassName:',
             replacement: [
                 {
                     // Create a variable for the channel prop
@@ -457,11 +457,11 @@ export default definePlugin({
                     // Filter hidden channels from GuildChannelStore.getChannels unless told otherwise
                     match: /(?<=getChannels\(\i)(\){.*?)return (.+?)}/,
                     replace: (_, rest, channels) => `,shouldIncludeHidden${rest}return $self.resolveGuildChannels(${channels},shouldIncludeHidden??arguments[0]==="@favorites");}`
-                },
+                }
             ]
         },
         {
-            find: ".invitesDisabledTooltip",
+            find: "#{intl::FORM_LABEL_MUTED}",
             replacement: {
                 // Make GuildChannelStore.getChannels return hidden channels
                 match: /(?<=getChannels\(\i)(?=\))/,

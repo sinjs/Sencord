@@ -8,14 +8,13 @@
 }
 
 .vc-rdb-input {
-    padding-inline: 12px;
+    padding-left: 12px;
     margin-top: 6px;
     margin-bottom: 12px;
     resize: none;
     overflow: hidden;
     background: transparent;
-    border: 1px solid var(--input-border-default, var(--border-muted));
-    box-sizing: border-box;
+    border: 1px solid var(--profile-message-input-border-color);
 }
 
 .vc-rdb-modal-footer-wrapper {
@@ -40,7 +39,7 @@
 
 .vc-rdb-modal-footer .vc-rdb-input {
     margin-bottom: 0;
-    background: var(--input-background-default);
+    background: var(--input-background);
 }
 
 .vc-rdb-modal-footer [class|="pageControlContainer"] {
@@ -62,7 +61,7 @@
 }
 
 .vc-rdb-review:hover {
-    background: var(--message-background-hover) !important;
+    background: var(--background-message-hover) !important;
     border-radius: 8px;
 }
 

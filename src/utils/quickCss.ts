@@ -18,8 +18,9 @@
 
 import { Settings, SettingsStore } from "@api/Settings";
 import { requireStyle } from "@api/Styles";
-import { createAndAppendStyle } from "@utils/css";
-import { ThemeStore } from "@vencord/discord-types";
+import { ThemeStore } from "@webpack/common";
+
+import { createAndAppendStyle } from "./css";
 
 let style: HTMLStyleElement;
 let themesStyle: HTMLStyleElement;
@@ -53,8 +54,6 @@ async function initThemes() {
     themesStyle ??= createAndAppendStyle("vencord-themes");
 
     const { themeLinks, enabledThemes, enabledLibraryThemes } = Settings;
-
-    const { ThemeStore } = require("@webpack/common/stores") as typeof import("@webpack/common/stores");
 
     // "darker" and "midnight" both count as dark
     // This function is first called on DOMContentLoaded, so ThemeStore may not have been loaded yet
@@ -112,16 +111,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }, { once: true });
 
-export function initQuickCssThemeStore(themeStore: ThemeStore) {
+export function initQuickCssThemeStore() {
     if (IS_USERSCRIPT) return;
 
     initThemes();
 
-    let currentTheme = themeStore.theme;
-    themeStore.addChangeListener(() => {
-        if (currentTheme === themeStore.theme) return;
+    let currentTheme = ThemeStore.theme;
+    ThemeStore.addChangeListener(() => {
+        if (currentTheme === ThemeStore.theme) return;
 
-        currentTheme = themeStore.theme;
+        currentTheme = ThemeStore.theme;
         initThemes();
     });
 }

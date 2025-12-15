@@ -26,7 +26,6 @@ import { Margins } from "@utils/margins";
 import { ModalContent, ModalHeader, ModalRoot, openModalLazy } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { Guild, GuildSticker } from "@vencord/discord-types";
-import { StickerFormatType } from "@vencord/discord-types/enums";
 import { findByCodeLazy } from "@webpack";
 import { Constants, EmojiStore, FluxDispatcher, Forms, GuildStore, IconUtils, Menu, PermissionsBits, PermissionStore, React, RestAPI, StickersStore, Toasts, Tooltip, UserStore } from "@webpack/common";
 import { Promisable } from "type-fest";
@@ -48,32 +47,13 @@ interface Emoji {
 
 type Data = Emoji | Sticker;
 
-const StickerExtMap = {
-    [StickerFormatType.PNG]: "png",
-    [StickerFormatType.APNG]: "png",
-    [StickerFormatType.LOTTIE]: "json",
-    [StickerFormatType.GIF]: "gif"
-} as const;
-
-const PremiumTierStickerLimitMap = {
-    0: 5,
-    1: 15,
-    2: 30,
-    3: 60
-} as const;
-
-function getGuildMaxStickerSlots(guild: Guild) {
-    if (guild.features.has("MORE_STICKERS") && guild.premiumTier === 3)
-        return 120;
-
-    return PremiumTierStickerLimitMap[guild.premiumTier] ?? PremiumTierStickerLimitMap[0];
-}
+const StickerExt = [, "png", "png", "json", "gif"] as const;
 
 function getUrl(data: Data) {
     if (data.t === "Emoji")
         return `${location.protocol}//${window.GLOBAL_ENV.CDN_HOST}/emojis/${data.id}.${data.isAnimated ? "gif" : "png"}?size=4096&lossless=true`;
 
-    return `${window.GLOBAL_ENV.MEDIA_PROXY_ENDPOINT}/stickers/${data.id}.${StickerExtMap[data.format_type]}?size=4096&lossless=true`;
+    return `${window.GLOBAL_ENV.MEDIA_PROXY_ENDPOINT}/stickers/${data.id}.${StickerExt[data.format_type]}?size=4096&lossless=true`;
 }
 
 async function fetchSticker(id: string) {
@@ -138,25 +118,17 @@ function getGuildCandidates(data: Data) {
             (PermissionStore.getGuildPermissions({ id: g.id }) & PermissionsBits.CREATE_GUILD_EXPRESSIONS) === PermissionsBits.CREATE_GUILD_EXPRESSIONS;
         if (!canCreate) return false;
 
-        if (data.t === "Sticker") {
-            const stickerSlots = getGuildMaxStickerSlots(g);
-            const stickers = StickersStore.getStickersByGuildId(g.id);
-
-            return !stickers || stickers.length < stickerSlots;
-        }
+        if (data.t === "Sticker") return true;
 
         const { isAnimated } = data as Emoji;
 
         const emojiSlots = getGuildMaxEmojiSlots(g);
-        const emojis = EmojiStore.getGuildEmoji(g.id);
+        const { emojis } = EmojiStore.getGuilds()[g.id];
 
         let count = 0;
-        for (const emoji of emojis) {
-            if (emoji.animated === isAnimated && !emoji.managed) {
+        for (const emoji of emojis)
+            if (emoji.animated === isAnimated && !emoji.managed)
                 count++;
-            }
-        }
-
         return count < emojiSlots;
     }).sort((a, b) => a.name.localeCompare(b.name));
 }

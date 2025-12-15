@@ -14,8 +14,8 @@
 
 .vc-settings-quickActions-pill {
     all: unset;
-    background: var(--redesign-button-secondary-background);
-    color: var(--text-default);
+    background: var(--button-secondary-background);
+    color: var(--header-secondary);
     display: flex;
     align-items: center;
     gap: 0.5em;
@@ -26,13 +26,13 @@
 }
 
 .vc-settings-quickActions-pill:hover {
-    background: var(--redesign-button-secondary-pressed-background);
+    background: var(--button-secondary-background-hover);
     transform: translateY(-1px);
     box-shadow: var(--elevation-high);
 }
 
 .vc-settings-quickActions-pill:focus-visible {
-    outline: 2px solid var(--border-focus);
+    outline: 2px solid var(--focus-primary);
     outline-offset: 2px;
 }
 

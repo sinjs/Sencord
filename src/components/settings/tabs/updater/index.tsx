@@ -20,8 +20,9 @@ import { useSettings } from "@api/Settings";
 import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
 import { Link } from "@components/Link";
-import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { handleSettingsTabError, SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { Margins } from "@utils/margins";
+import { ModalCloseButton, ModalContent, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { useAwaiter } from "@utils/react";
 import { getRepo, isNewer, UpdateLogger } from "@utils/updater";
 import { Forms, React } from "@webpack/common";
@@ -44,7 +45,9 @@ function Updater() {
     };
 
     return (
-        <SettingsTab>
+        <SettingsTab title="Vencord Updater">
+            <Forms.FormTitle tag="h5">Updater Settings</Forms.FormTitle>
+
             <FormSwitch
                 title="Automatically update"
                 description="Automatically update Vencord without confirmation prompt"
@@ -91,3 +94,22 @@ function Updater() {
 export default IS_UPDATER_DISABLED
     ? null
     : wrapTab(Updater, "Updater");
+
+export const openUpdaterModal = IS_UPDATER_DISABLED
+    ? null
+    : function () {
+        const UpdaterTab = wrapTab(Updater, "Updater");
+
+        try {
+            openModal(wrapTab((modalProps: ModalProps) => (
+                <ModalRoot {...modalProps} size={ModalSize.MEDIUM}>
+                    <ModalContent className="vc-updater-modal">
+                        <ModalCloseButton onClick={modalProps.onClose} className="vc-updater-modal-close-button" />
+                        <UpdaterTab />
+                    </ModalContent>
+                </ModalRoot>
+            ), "UpdaterModal"));
+        } catch {
+            handleSettingsTabError();
+        }
+    };

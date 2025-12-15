@@ -23,7 +23,7 @@ export default function DecorationGridCreate(props: DecorationGridCreateProps) {
         <PlusIcon />
         <Text
             variant="text-xs/normal"
-            color="text-strong"
+            color="header-primary"
         >
             {getIntlMessage("CREATE")}
         </Text>

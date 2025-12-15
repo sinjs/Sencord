@@ -16,17 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import type { MessageObject } from "@api/MessageEvents";
-import type { Channel, CloudUpload, Guild, GuildFeatures, Message, User } from "@vencord/discord-types";
-import { ChannelActionCreators, ChannelStore, ComponentDispatch, Constants, FluxDispatcher, GuildStore, i18n, IconUtils, InviteActions, MessageActions, RestAPI, SelectedChannelStore, SelectedGuildStore, Toasts, UserProfileActions, UserProfileStore, UserSettingsActionCreators, UserUtils } from "@webpack/common";
+import { MessageObject } from "@api/MessageEvents";
+import { Channel, CloudUpload, Guild, GuildFeatures, Message, User } from "@vencord/discord-types";
+import { ChannelActionCreators, ChannelStore, ComponentDispatch, Constants, FluxDispatcher, GuildStore, i18n, IconUtils, InviteActions, MessageActions, RestAPI, SelectedChannelStore, SelectedGuildStore, UserProfileActions, UserProfileStore, UserSettingsActionCreators, UserUtils } from "@webpack/common";
 import { Except } from "type-fest";
 
-import { copyToClipboard } from "./clipboard";
-import { runtimeHashMessageKey } from "./intlHash";
+import { runtimeHashMessageKey, runtimeHashMessageKeyLegacy } from "./intlHash";
 import { Logger } from "./Logger";
 import { MediaModalItem, MediaModalProps, openMediaModal } from "./modal";
 
 const IntlManagerLogger = new Logger("IntlManager");
+
+// TODO: remove legacy hashing function once Discord ships new one everywhere for a while
 
 /**
  * Get an internationalized message from a non hashed key
@@ -34,7 +35,7 @@ const IntlManagerLogger = new Logger("IntlManager");
  * @param values The values to interpolate, if it's a rich message
  */
 export function getIntlMessage(key: string, values?: Record<PropertyKey, any>): any {
-    return getIntlMessageFromHash(runtimeHashMessageKey(key), values, key);
+    return getIntlMessageFromHash(runtimeHashMessageKey(key), values, key) || getIntlMessageFromHash(runtimeHashMessageKeyLegacy(key), values, key);
 }
 
 /**
@@ -112,15 +113,6 @@ export function insertTextIntoChatInputBox(text: string) {
     ComponentDispatch.dispatchToLastSubscribed("INSERT_TEXT", {
         rawText: text,
         plainText: text
-    });
-}
-
-export async function copyWithToast(text: string, toastMessage = "Copied to clipboard!") {
-    await copyToClipboard(text);
-    Toasts.show({
-        message: toastMessage,
-        id: Toasts.genId(),
-        type: Toasts.Type.SUCCESS
     });
 }
 
