@@ -4,6 +4,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ *
+ * FIXME FIXME
+ *
+ * This entire file is a mess.
+ *  - sin
+ *
+ */
+
 import "./style.css";
 
 import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
@@ -108,9 +117,32 @@ export const settings = definePluginSettings({
     },
 });
 
-let pluginInstance: any;
 
-const plugin = definePlugin({
+const INV_REGEX = new RegExp(/( \u200c|\u200d |[\u2060-\u2064])[^\u200b]/);
+const URL_REGEX = new RegExp(
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/
+);
+
+const popOverIcon = () => <PopOverIcon />;
+
+async function buildEmbed(message: any, revealed: string): Promise<void> {
+    const urlCheck = revealed.match(URL_REGEX);
+
+    message.embeds[0] = {
+        type: "rich",
+        color: "0xffad01",
+        rawDescription: revealed,
+    };
+
+    if (urlCheck?.length) {
+        const embed = await (Vencord.Plugins.plugins.EnhancedEncryption as any).getEmbed(new URL(urlCheck[0]));
+        if (embed) message.embeds.push(embed);
+    }
+
+    updateMessage(message.channel_id, message.id, { embeds: message.embeds });
+}
+
+export default definePlugin({
 
     name: "EnhancedEncryption",
     description:
@@ -140,10 +172,7 @@ const plugin = definePlugin({
     ],
 
     EMBED_API_URL: "https://embed.sammcheese.net",
-    INV_REGEX: new RegExp(/( \u200c|\u200d |[\u2060-\u2064])[^\u200b]/),
-    URL_REGEX: new RegExp(
-        /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/
-    ),
+
     tryMasterPassword: tryMasterPassword,
     steggo: steggo,
     settings,
@@ -154,9 +183,9 @@ const plugin = definePlugin({
             msg?.sendMessageOptions
         )
             return;
-        if (!this.INV_REGEX.test(message.content)) return;
+        if (!INV_REGEX.test(message.content)) return;
         const res = await tryMasterPassword(message);
-        if (res) return void this.buildEmbed(message, res);
+        if (res) return void buildEmbed(message, res);
     },
 
     // FIXME: start/stop maybe
@@ -179,18 +208,17 @@ const plugin = definePlugin({
     messagePopoverButton: {
         icon: PopOverIcon,
         render(message) {
-            if (!pluginInstance) return null;
-            return pluginInstance.INV_REGEX.test(message?.content)
+            return INV_REGEX.test(message?.content)
                 ? {
                     label: "Decrypt Message",
-                    icon: pluginInstance.popOverIcon,
+                    icon: popOverIcon,
                     message: message,
                     channel: ChannelStore.getChannel(message.channel_id),
                     onClick: async () => {
                         const res = await iteratePasswords(message);
 
                         if (res)
-                            pluginInstance.buildEmbed(message, res);
+                            buildEmbed(message, res);
                         else
                             buildDecModal({ message });
                     }
@@ -235,32 +263,15 @@ const plugin = definePlugin({
         return await body.embeds[0];
     },
 
-    async buildEmbed(message: any, revealed: string): Promise<void> {
-        const urlCheck = revealed.match(this.URL_REGEX);
 
-        message.embeds[0] = {
-            type: "rich",
-            color: "0xffad01",
-            rawDescription: revealed,
-        };
-
-        if (urlCheck?.length) {
-            const embed = await this.getEmbed(new URL(urlCheck[0]));
-            if (embed) message.embeds.push(embed);
-        }
-
-        updateMessage(message.channel_id, message.id, { embeds: message.embeds });
-    },
 
     // FIXME? go fix this whoever wrote this
     // chatBarIcon: () => <ChatBarIcon isMainChat={true} />,
-    popOverIcon: () => <PopOverIcon />,
+    // FIXME 2: ??? - sin
+
     indicator: ErrorBoundary.wrap(Indicator, { noop: true }),
 });
 
-pluginInstance = plugin;
-
-export default plugin;
 
 export function encrypt(
     secret: string,
