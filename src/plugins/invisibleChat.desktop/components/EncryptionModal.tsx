@@ -17,6 +17,7 @@
 */
 
 import { FormSwitchCompat } from "@components/FormSwitch";
+import { settings } from "@plugins/invisibleChat.desktop/index";
 import {
     ModalCloseButton,
     ModalContent,
@@ -26,8 +27,6 @@ import {
     openModal,
 } from "@utils/modal";
 import { Forms, React, TextArea, TextInput } from "@webpack/common";
-
-import { settings } from "../index";
 
 function EncModal(props: ModalProps) {
 
