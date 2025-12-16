@@ -194,6 +194,7 @@ export default definePlugin({
     },
 
     renderChatBarButton: ChatBarIcon,
+    chatBarIcon: ChatBarIcon,
 
     colorCodeFromNumber(color: number): string {
         return `#${[color >> 16, color >> 8, color]

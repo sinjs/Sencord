@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { updateMessage } from "@api/MessageUpdater";
 import {
     ModalContent,
     ModalFooter,
@@ -50,11 +51,13 @@ export function DecModal(props: any) {
             <ModalFooter>
                 <Button
                     color={Button.Colors.GREEN}
-                    onClick={() => {
+                    onClick={async () => {
                         const toSend = decrypt(encryptedMessage, password, true);
                         if (!toSend || !props?.message) return;
-                        // @ts-expect-error
-                        Vencord.Plugins.plugins.EnhancedEncryption.buildEmbed(props?.message, toSend);
+                        const plugin = (window as any).Vencord?.Plugins?.plugins?.EnhancedEncryption;
+                        if (plugin?.buildEmbed) {
+                            await plugin.buildEmbed(props.message, toSend);
+                        }
                         props.onClose();
                     }}>
                     Decrypt
