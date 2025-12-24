@@ -31,7 +31,6 @@ import { Margins } from "@utils/margins";
 import { shouldShowContributorBadge } from "@utils/misc";
 import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { User } from "@vencord/discord-types";
 import { Button, ContextMenuApi, Forms, Menu, Toasts, UserStore } from "@webpack/common";
 import { Settings } from "Vencord";
 
