@@ -20,8 +20,9 @@ import { Settings, SettingsStore } from "@api/Settings";
 import { requireStyle } from "@api/Styles";
 import { createAndAppendStyle } from "@utils/css";
 import { ThemeStore } from "@vencord/discord-types";
+import { PopoutWindowStore } from "@webpack/common";
 
-import { userStyleRootNode } from "./Styles";
+import { userStyleRootNode, vencordRootNode } from "./Styles";
 
 let style: HTMLStyleElement;
 let themesStyle: HTMLStyleElement;
@@ -34,6 +35,7 @@ async function toggle(isEnabled: boolean) {
                 style.textContent = css;
                 // At the time of writing this, changing textContent resets the disabled state
                 style.disabled = !Settings.useQuickCss;
+                updatePopoutWindows();
             });
             style.textContent = await VencordNative.quickCss.get();
         }
@@ -83,6 +85,27 @@ async function initThemes() {
     }
 
     themesStyle.textContent = links.map(link => `@import url("${link.trim()}");`).join("\n");
+    updatePopoutWindows();
+}
+
+function applyToPopout(popoutWindow: Window | undefined, key: string) {
+    if (!popoutWindow?.document) return;
+    // skip game overlay cuz it needs to stay transparent, themes broke it
+    if (key === "DISCORD_OutOfProcessOverlay") return;
+
+    const doc = popoutWindow.document;
+
+    doc.querySelector("vencord-root")?.remove();
+
+    doc.documentElement.appendChild(vencordRootNode.cloneNode(true));
+}
+
+function updatePopoutWindows() {
+    if (!PopoutWindowStore) return;
+
+    for (const key of PopoutWindowStore.getWindowKeys()) {
+        applyToPopout(PopoutWindowStore.getWindow(key), key);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -97,6 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
     SettingsStore.addChangeListener("enabledThemes", initThemes);
     // @sencord Theme Library
     SettingsStore.addChangeListener("enabledLibraryThemes", initThemes);
+
+    window.addEventListener("message", event => {
+        const { discordPopoutEvent } = event.data || {};
+        if (discordPopoutEvent?.type !== "loaded") return;
+
+        applyToPopout(PopoutWindowStore.getWindow(discordPopoutEvent.key), discordPopoutEvent.key);
+    });
 
     if (!IS_WEB) {
         VencordNative.quickCss.addThemeChangeListener(initThemes);
