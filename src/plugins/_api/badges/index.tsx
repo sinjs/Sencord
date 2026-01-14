@@ -29,10 +29,9 @@ import { copyWithToast } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { shouldShowContributorBadge } from "@utils/misc";
-import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
+import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { Button, ContextMenuApi, Forms, Menu, Toasts, UserStore } from "@webpack/common";
-import { Settings } from "Vencord";
 
 const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 
@@ -44,21 +43,31 @@ const ContributorBadge: ProfileBadge = {
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId))
 };
 
-let DonorBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
-let SencordBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
+// @sencord add type
+type Badge = {
+    tooltip: string;
+    badge: string;
+    type?: "donor" | "sencord";
+};
+
+// @sencord rename and change type
+let Badges = {} as Record<string, Badge[]>;
 
 async function loadBadges(noCache = false) {
     const init = {} as RequestInit;
     if (noCache)
         init.cache = "no-cache";
 
-    DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
-        .then(r => r.json());
 
-    const res = (await fetch(`${Settings.sencordApiBaseUrl}/v2/badges`, init)
-        .then(r => r.json()) as any[]);
+    // @sencord fetch from both sources and combine
+    const [donorBadges, sencordBadges] = await Promise.all([
+        fetch("https://badges.vencord.dev/badges.json", init).then(r => r.json()),
+        fetch("https://git.sinsose.dev/sencord/data/raw/branch/main/badges.json", init).then(r => r.json())]
+    );
 
-    SencordBadges = Object.fromEntries(res.map(item => [item.user_id, [item]]));
+    const badges: Record<string, Badge[]> = { ...donorBadges, ...sencordBadges };
+
+    Badges = badges;
 }
 
 let intervalId: any;
@@ -123,7 +132,12 @@ export default definePlugin({
 
     // for access from the console or other plugins
     get DonorBadges() {
-        return DonorBadges;
+        return Badges;
+    },
+
+    // @sencord
+    get Badges() {
+        return Badges;
     },
 
     toolboxActions: {
@@ -166,72 +180,6 @@ export default definePlugin({
         return <Component {...badge} />;
     }, { noop: true }),
 
-    getSencordBadges(userId: string) {
-        return SencordBadges[userId]?.map(badge => ({
-            image: badge.badge,
-            description: badge.tooltip,
-            position: BadgePosition.START,
-            props: {
-                style: {
-                    borderRadius: "50%",
-                    transform: "scale(0.9)" // The image is a bit too big compared to default badges
-                }
-            },
-            onClick() {
-                const modalKey = openModal(props => (
-                    <ErrorBoundary noop onError={() => {
-                        closeModal(modalKey);
-                    }}>
-                        <ModalRoot {...props}>
-                            <ModalHeader>
-                                <Flex style={{ width: "100%", justifyContent: "center" }}>
-                                    <Forms.FormTitle
-                                        tag="h2"
-                                        style={{
-                                            width: "100%",
-                                            textAlign: "center",
-                                            margin: 0
-                                        }}
-                                    >
-                                        <Heart />
-                                        Sencord Badge
-                                    </Forms.FormTitle>
-                                </Flex>
-                            </ModalHeader>
-                            <ModalContent>
-                                <Flex style={{ paddingTop: "1em" }}>
-                                    <img
-                                        role="presentation"
-                                        src="https://git.sinsose.dev/sencord/website/raw/branch/master/public/assets/sencord_64x64.png"
-                                        alt=""
-                                        style={{ margin: "auto" }}
-                                    />
-                                </Flex>
-                                <div style={{ padding: "1em", textAlign: "center" }}>
-                                    <Forms.FormText>
-                                        Oh, hello there :3
-                                    </Forms.FormText>
-                                </div>
-                            </ModalContent>
-                            <ModalFooter>
-                                <Flex style={{ width: "100%", justifyContent: "center" }}>
-                                    <Button
-                                        {...props}
-                                        look={Button.Looks.LINK}
-                                        color={Button.Colors.TRANSPARENT}
-                                        onClick={() => VencordNative.native.openExternal("https://github.com/sinjs/sencord")}
-                                    >
-                                        View source code
-                                    </Button>
-                                </Flex>
-                            </ModalFooter>
-                        </ModalRoot>
-                    </ErrorBoundary>
-                ));
-            }
-        }));
-    },
-
 
     getBadgeMouseEventHandlers(badge: ProfileBadge & BadgeUserArgs) {
         const handlers = {} as Record<string, (e: React.MouseEvent) => void>;
@@ -247,7 +195,7 @@ export default definePlugin({
     },
 
     getDonorBadges(userId: string) {
-        return DonorBadges[userId]?.map(badge => ({
+        return Badges[userId]?.map(badge => ({
             iconSrc: badge.badge,
             description: badge.tooltip,
             position: BadgePosition.START,
@@ -261,60 +209,87 @@ export default definePlugin({
                 ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge} />);
             },
             onClick() {
-                const modalKey = openModal(props => (
-                    <ErrorBoundary noop onError={() => {
-                        closeModal(modalKey);
-                        VencordNative.native.openExternal("https://github.com/sponsors/Vendicated");
-                    }}>
-                        <ModalRoot {...props}>
-                            <ModalHeader>
-                                <Forms.FormTitle
-                                    tag="h2"
-                                    style={{
-                                        width: "100%",
-                                        textAlign: "center",
-                                        margin: 0
-                                    }}
-                                >
-                                    <Flex justifyContent="center" alignItems="center" gap="0.5em">
-                                        <Heart />
-                                        Vencord Donor
-                                    </Flex>
-                                </Forms.FormTitle>
-                            </ModalHeader>
-                            <ModalContent>
-                                <Flex>
-                                    <img
-                                        role="presentation"
-                                        src="https://cdn.discordapp.com/emojis/1026533070955872337.png"
-                                        alt=""
-                                        style={{ margin: "auto" }}
-                                    />
-                                    <img
-                                        role="presentation"
-                                        src="https://cdn.discordapp.com/emojis/1026533090627174460.png"
-                                        alt=""
-                                        style={{ margin: "auto" }}
-                                    />
-                                </Flex>
-                                <div style={{ padding: "1em" }}>
-                                    <Forms.FormText>
-                                        This Badge is a special perk for Vencord Donors
-                                    </Forms.FormText>
-                                    <Forms.FormText className={Margins.top20}>
-                                        Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
-                                    </Forms.FormText>
-                                </div>
-                            </ModalContent>
-                            <ModalFooter>
-                                <Flex justifyContent="center" style={{ width: "100%" }}>
-                                    <DonateButton />
-                                </Flex>
-                            </ModalFooter>
-                        </ModalRoot>
-                    </ErrorBoundary>
-                ));
+                // @sencord refactor DonorModal into generic component for both types of badges (see below)
+                const modalKey = openModal(props => <BadgeModal badge={badge} modalKey={modalKey} {...props} />);
             },
         } satisfies ProfileBadge));
     }
 });
+
+// @sencord refactor DonorModal into generic component for both types of badges
+function BadgeModal({ badge, modalKey, ...props }: { badge: Badge; modalKey: string; } & ModalProps) {
+    return (<ErrorBoundary noop onError={() => {
+        closeModal(modalKey);
+        VencordNative.native.openExternal("https://github.com/sponsors/Vendicated");
+    }}>
+        <ModalRoot {...props}>
+            <ModalHeader>
+                <Forms.FormTitle
+                    tag="h2"
+                    style={{
+                        width: "100%",
+                        textAlign: "center",
+                        margin: 0
+                    }}
+                >
+                    <Flex justifyContent="center" alignItems="center" gap="0.5em">
+                        <Heart />
+                        {badge.type === "sencord" ? "Sencord Badge" : "Vencord Donor"}
+                    </Flex>
+                </Forms.FormTitle>
+            </ModalHeader>
+            <ModalContent>
+                <Flex>
+                    {badge.type === "sencord" ?
+                        <img
+                            role="presentation"
+                            src="https://git.sinsose.dev/sencord/website/raw/branch/master/public/assets/sencord_64x64.png"
+                            alt="Sencord Logo"
+                            style={{ margin: "auto" }}
+                        /> :
+                        <>
+                            <img
+                                role="presentation"
+                                src="https://cdn.discordapp.com/emojis/1026533070955872337.png"
+                                alt=""
+                                style={{ margin: "auto" }}
+                            />
+                            <img
+                                role="presentation"
+                                src="https://cdn.discordapp.com/emojis/1026533090627174460.png"
+                                alt=""
+                                style={{ margin: "auto" }}
+                            />
+                        </>
+                    }
+                </Flex>
+                <div style={{ padding: "1em" }}>
+                    {badge.type === "sencord" ?
+                        <Forms.FormText>Hi :pp</Forms.FormText> :
+                        <>
+                            <Forms.FormText>
+                                This Badge is a special perk for Vencord Donors
+                            </Forms.FormText>
+                            <Forms.FormText className={Margins.top20}>
+                                Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
+                            </Forms.FormText>
+                        </>
+                    }
+                </div>
+            </ModalContent>
+            <ModalFooter>
+                <Flex justifyContent="center" style={{ width: "100%" }}>
+                    {badge.type === "sencord" ? <Button
+                        {...props}
+                        look={Button.Looks.LINK}
+                        color={Button.Colors.TRANSPARENT}
+                        onClick={() => VencordNative.native.openExternal("https://github.com/sinjs/sencord")}
+                    >
+                        View Source
+                    </Button> : <DonateButton />}
+                </Flex>
+            </ModalFooter>
+        </ModalRoot>
+    </ErrorBoundary>
+    );
+}

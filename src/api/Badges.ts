@@ -108,9 +108,6 @@ export function _getBadges(args: BadgeUserArgs) {
         );
     }
 
-    const sencordBadges = BadgeAPIPlugin.getSencordBadges(args.userId);
-    if (sencordBadges) badges.unshift(...sencordBadges);
-
     return badges;
 }
 
