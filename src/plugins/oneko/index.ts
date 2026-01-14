@@ -21,7 +21,7 @@ import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
 const settings = definePluginSettings({
-    image: {
+    imageV2: {
         description: "The URL to the image to use for the cat",
         type: OptionType.STRING,
         default: "https://git.sinsose.dev/sencord/oneko/raw/branch/main/oneko.gif",
@@ -32,7 +32,7 @@ const settings = definePluginSettings({
 function start() {
     fetch("https://git.sinsose.dev/sencord/oneko/raw/branch/main/oneko.js")
         .then(r => r.text())
-        .then(s => s.replace("$$nekofile$$", settings.store.image))
+        .then(s => s.replace("$$nekofile$$", settings.store.imageV2))
         .then(eval);
 }
 
