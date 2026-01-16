@@ -18,6 +18,7 @@ The source code for the API worker is located at [sinjs/nc-api](https://github.c
 
 You can filter the plugin list to only show these plugins by selecting the `Show Sencord` option. You can see all changes in the [diff view](https://github.com/Vendicated/Vencord/compare/main...sinjs:Sencord:main)
 
+-   **autoQuests** Enrolls in available quests and completes them automatically on startup!
 -   **BigFileUpload:** Bypass Discord's upload limit by uploading files and they'll get uploaded as links into chat via other services
 -   **ClydeGPT:** Bring back Clyde on Discord
 -   **EnhancedEncryption** Encrypt your Messages in a non-suspicious way!
