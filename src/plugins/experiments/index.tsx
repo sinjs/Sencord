@@ -24,7 +24,7 @@ import { findByPropsLazy, findLazy } from "@webpack";
 import { Forms, React } from "@webpack/common";
 
 const KbdStyles = findByPropsLazy("key", "combo");
-const BugReporterExperiment = findLazy(m => m?.definition?.id === "2024-09_bug_reporter");
+const BugReporterExperiment = findLazy(m => m?.definition?.name === "2026-01-bug-reporter");
 
 const modKey = IS_MAC ? "cmd" : "ctrl";
 const altKey = IS_MAC ? "opt" : "alt";
@@ -93,10 +93,11 @@ export default definePlugin({
         },
         // Enable experiment embed on sent experiment links
         {
-            find: '"Clear Treatment "',
+            find: "Clear Treatment ",
             replacement: [
                 {
-                    match: /\i\.isStaff\(\)/,
+                    // TODO: stable compat optional chaining remove once some time has passed
+                    match: /\i\??\.isStaff\(\)/,
                     replace: "true"
                 },
                 // Fix some tricky experiments name causing a client crash
@@ -115,6 +116,9 @@ export default definePlugin({
             }
         }
     ],
+
+    /* start: () => !BugReporterExperiment.getConfig().hasBugReporterAccess && enableStyle(hideBugReport),
+    stop: () => disableStyle(hideBugReport), */
 
     settingsAboutComponent: () => {
         return (
