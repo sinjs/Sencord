@@ -20,7 +20,6 @@ import { definePluginSettings } from "@api/Settings";
 import { BackupRestoreIcon, CloudIcon, MainSettingsIcon, PaintbrushIcon, PatchHelperIcon, PlaceholderIcon, PluginsIcon, UpdaterIcon, VesktopSettingsIcon } from "@components/Icons";
 import { BackupAndRestoreTab, CloudTab, PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab, VencordTab } from "@components/settings/tabs";
 import { Devs } from "@utils/constants";
-import { getIntlMessage } from "@utils/discord";
 import { isTruthy } from "@utils/guards";
 import definePlugin, { IconProps, OptionType } from "@utils/types";
 import { waitFor } from "@webpack";
@@ -92,6 +91,16 @@ const settings = definePluginSettings({
     }
 });
 
+const settingsSectionMap: [string, string][] = [
+    ["VencordSettings", "vencord_main_panel"],
+    ["VencordPlugins", "vencord_plugins_panel"],
+    ["VencordThemes", "vencord_themes_panel"],
+    ["VencordUpdater", "vencord_updater_panel"],
+    ["VencordCloud", "vencord_cloud_panel"],
+    ["VencordBackupAndRestore", "vencord_backup_restore_panel"],
+    ["VencordPatchHelper", "vencord_patch_helper_panel"]
+];
+
 export default definePlugin({
     name: "Settings",
     description: "Adds Settings UI and debug info",
@@ -99,6 +108,7 @@ export default definePlugin({
     required: true,
 
     settings,
+    settingsSectionMap,
 
     patches: [
         {
@@ -121,19 +131,6 @@ export default definePlugin({
                 {
                     match: /copyValue:\i\.join\(" "\)/g,
                     replace: "$& + $self.getInfoString()"
-                }
-            ]
-        },
-        {
-            find: ".SEARCH_NO_RESULTS&&0===",
-            replacement: [
-                {
-                    match: /(?<=section:(.{0,50})\.DIVIDER\}\))([,;])(?=.{0,200}(\i)\.push.{0,100}label:(\i)\.header)/,
-                    replace: (_, sectionTypes, commaOrSemi, elements, element) => `${commaOrSemi} $self.addSettings(${elements}, ${element}, ${sectionTypes}) ${commaOrSemi}`
-                },
-                {
-                    match: /({(?=.+?function (\i).{0,160}(\i)=\i\.useMemo.{0,140}return \i\.useMemo\(\(\)=>\i\(\3).+?\(\)=>)\2/,
-                    replace: (_, rest, settingsHook) => `${rest}$self.wrapSettingsHook(${settingsHook})`
                 }
             ]
         },
@@ -205,15 +202,7 @@ export default definePlugin({
     },
 
     getSettingsSectionMappings() {
-        return [
-            ["VencordSettings", "vencord_main_panel"],
-            ["VencordPlugins", "vencord_plugins_panel"],
-            ["VencordThemes", "vencord_themes_panel"],
-            ["VencordUpdater", "vencord_updater_panel"],
-            ["VencordCloud", "vencord_cloud_panel"],
-            ["VencordBackupAndRestore", "vencord_backup_restore_panel"],
-            ["VencordPatchHelper", "vencord_patch_helper_panel"]
-        ];
+        return settingsSectionMap;
     },
 
     buildLayout(originalLayoutBuilder: SettingsLayoutBuilder) {
