@@ -48,6 +48,7 @@ function reload() {
 export default definePlugin({
     name: "oneko",
     description: "cat follow mouse (real)",
+    tags: ["Fun", "Appearance"],
     // Listing adryd here because this literally just evals her script
     authors: [Devs.sin, Devs.Ven, Devs.adryd],
     settings,

@@ -11,7 +11,7 @@
 import { useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
 import { Forms } from "@webpack/common";
-import { themes } from "themes";
+import { themes } from "@sencord/themes";
 
 import { ThemeCard } from "./ThemeCard";
 
