@@ -10,8 +10,8 @@
 
 import { useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
-import { Forms } from "@webpack/common";
 import { themes } from "@sencord/themes";
+import { Forms } from "@webpack/common";
 
 import { ThemeCard } from "./ThemeCard";
 
