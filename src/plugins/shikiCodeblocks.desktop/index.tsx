@@ -70,6 +70,11 @@ export default definePlugin({
 
     // exports
     shiki,
+    shouldRenderHighlighter: ({ lang }: { lang: string; content: string; }) => {
+        const plugin = Vencord.Plugins.plugins.LaTeX as unknown as { shouldRenderLanguage: (language: string) => boolean; } | undefined;
+        if (!plugin) return true;
+        return !plugin.shouldRenderLanguage.bind(Vencord.Plugins.plugins.LaTeX)(lang);
+    },
     renderHighlighter: ({ lang, content }: { lang: string; content: string; }) => {
         return <HighlighterContainer lang={lang?.toLowerCase()} content={content} isPreview={false} />;
     },
