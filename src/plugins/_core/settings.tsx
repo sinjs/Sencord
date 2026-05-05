@@ -90,6 +90,11 @@ const settings = definePluginSettings({
             { label: "Below Activity Settings", value: "belowActivity" },
             { label: "At the very bottom", value: "bottom" },
         ] as { label: string; value: SettingsLocation; default?: boolean; }[]
+    },
+    includeVencordInfoWhenCopying: {
+        type: OptionType.BOOLEAN,
+        description: "Also copy Vencord info (Vencord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page",
+        default: true
     }
 });
 
@@ -240,7 +245,7 @@ export default definePlugin({
             belowNitro: "billing_section",
             aboveActivity: "activity_section",
             belowActivity: "activity_section",
-            bottom: "logout_section"
+            bottom: "utility_section"
         };
 
         const key = places[settingsLocation] ?? places.top;
@@ -401,6 +406,7 @@ export default definePlugin({
     },
 
     getInfoString() {
+        if (!settings.store.includeVencordInfoWhenCopying) return "";
         return "\n" + this.getInfoRows().join("\n");
     },
 
