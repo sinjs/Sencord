@@ -37,6 +37,16 @@ const settings = definePluginSettings({
     }
 });
 
+const enableStyle = (element: string) => {
+    return null;
+};
+
+const disableStyle = (element: string) => {
+    return null;
+};
+
+const hideBugReport = "";
+
 export default definePlugin({
     name: "Experiments",
     description: "Enable Access to Experiments & other dev-only features in Discord!",

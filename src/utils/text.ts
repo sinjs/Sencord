@@ -147,6 +147,8 @@ export function toInlineCode(s: string) {
     return "``" + ZWSP + s.replaceAll("`", ZWSP + "`" + ZWSP) + ZWSP + "``";
 }
 
-export const escapeRegExp: (s: string) => string = RegExp.escape ?? function (s: string) {
-    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-};
+export const escapeRegExp: (s: string) => string =
+    (RegExp as any).escape ??
+    function (s: string) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    };
