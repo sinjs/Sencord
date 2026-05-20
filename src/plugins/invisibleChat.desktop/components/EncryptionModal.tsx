@@ -19,29 +19,26 @@
 import { FormSwitchCompat } from "@components/FormSwitch";
 import { settings } from "@plugins/invisibleChat.desktop/index";
 import {
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalProps,
-    ModalRoot,
     openModal,
 } from "@utils/modal";
-import { Forms, React, TextArea, TextInput } from "@webpack/common";
+import { Forms, React, TextArea, TextInput, Modal } from "@webpack/common";
 
-function EncModal(props: ModalProps) {
+function EncModal(props) {
 
     const { cover } = settings.use(["cover"]);
     const { autoEncrypt } = settings.use(["autoEncrypt"]);
     const { autoDecrypt } = settings.use(["autoDecrypt"]);
 
     return (
-        <ModalRoot {...props}>
-            <ModalHeader>
+        <Modal
+            {...props}
+            title={
                 <Forms.FormTitle tag="h4">Encrypt Message</Forms.FormTitle>
-                <ModalCloseButton onClick={props.onClose} />
-            </ModalHeader>
+                // <ModalCloseButton onClick={props.onClose} />
+            }
+        >
 
-            <ModalContent>
+            <div>
                 <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Cover</Forms.FormTitle>
                 <TextArea
                     value={cover}
@@ -71,9 +68,9 @@ function EncModal(props: ModalProps) {
                     Auto Decrypt
                 </FormSwitchCompat>
 
-            </ModalContent >
+            </div>
 
-        </ModalRoot >
+        </Modal>
     );
 }
 
