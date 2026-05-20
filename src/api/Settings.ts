@@ -66,6 +66,7 @@ export interface Settings {
     | undefined;
     // @sencord leaving this here as a reminder not to use this in the future
     // sencordApiBaseUrl: string;
+    windowsMaterial: "none" | "mica" | "tabbed" | "acrylic";
     disableMinSize: boolean;
     winNativeTitleBar: boolean;
     plugins: {
@@ -108,6 +109,7 @@ const DefaultSettings: Settings = {
     transparent: false,
     winCtrlQ: false,
     macosVibrancyStyle: undefined,
+    windowsMaterial: "none",
     disableMinSize: false,
     winNativeTitleBar: false,
     plugins: {},

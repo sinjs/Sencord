@@ -29,9 +29,10 @@ import { copyWithToast } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { shouldShowContributorBadge } from "@utils/misc";
-import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModal } from "@utils/modal";
+import { closeModal, ModalContent, ModalFooter, ModalHeader} from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Button, ContextMenuApi, Forms, Menu, Toasts, UserStore } from "@webpack/common";
+import {ModalProps} from "@vencord/discord-types";
+import { Button, ContextMenuApi, Forms, Menu, Modal,openModal, Toasts, UserStore } from "@webpack/common";
 
 const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 
@@ -212,7 +213,63 @@ export default definePlugin({
             },
             onClick() {
                 // @sencord refactor DonorModal into generic component for both types of badges (see below)
-                const modalKey = openModal(props => <BadgeModal badge={badge} modalKey={modalKey} {...props} />);
+                // const modalKey = openModal(props => <BadgeModal badge={badge} modalKey={modalKey} {...props} />);
+
+                openModal(props => (
+                    <ErrorBoundary noop onError={() => {
+                        props.onClose();
+                        VencordNative.native.openExternal("https://github.com/sponsors/Vendicated");
+                    }}>
+                        <Modal
+                            {...props}
+                            title={
+                                <Forms.FormTitle
+                                    tag="h2"
+                                    style={{
+                                        width: "100%",
+                                        textAlign: "center",
+                                        margin: 0
+                                    }}
+                                >
+                                    <Flex justifyContent="center" alignItems="center" gap="0.5em">
+                                        <Heart />
+                                        Vencord Donor
+                                    </Flex>
+                                </Forms.FormTitle>
+                            }
+                        >
+                            <div>
+                                <Flex>
+                                    <img
+                                        role="presentation"
+                                        src="https://cdn.discordapp.com/emojis/1026533070955872337.png"
+                                        alt=""
+                                        style={{ margin: "auto" }}
+                                    />
+                                    <img
+                                        role="presentation"
+                                        src="https://cdn.discordapp.com/emojis/1026533090627174460.png"
+                                        alt=""
+                                        style={{ margin: "auto" }}
+                                    />
+                                </Flex>
+                                <div style={{ padding: "1em" }}>
+                                    <Forms.FormText>
+                                        This Badge is a special perk for Vencord Donors
+                                    </Forms.FormText>
+                                    <Forms.FormText className={Margins.top20}>
+                                        Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
+                                    </Forms.FormText>
+                                </div>
+                            </div>
+                            <div>
+                                <Flex justifyContent="center" style={{ width: "100%" }}>
+                                    <DonateButton />
+                                </Flex>
+                            </div>
+                        </Modal>
+                    </ErrorBoundary>
+                ));
             },
         } satisfies ProfileBadge));
     }
@@ -224,8 +281,9 @@ function BadgeModal({ badge, modalKey, ...props }: { badge: Badge; modalKey: str
         closeModal(modalKey);
         VencordNative.native.openExternal("https://github.com/sponsors/Vendicated");
     }}>
-        <ModalRoot {...props}>
-            <ModalHeader>
+        <Modal
+            {...props}
+            title={
                 <Forms.FormTitle
                     tag="h2"
                     style={{
@@ -239,8 +297,9 @@ function BadgeModal({ badge, modalKey, ...props }: { badge: Badge; modalKey: str
                         {badge.type === "sencord" ? "Sencord Badge" : "Vencord Donor"}
                     </Flex>
                 </Forms.FormTitle>
-            </ModalHeader>
-            <ModalContent>
+            }
+        >
+            <div>
                 <Flex>
                     {badge.type === "sencord" ?
                         <img
@@ -278,20 +337,20 @@ function BadgeModal({ badge, modalKey, ...props }: { badge: Badge; modalKey: str
                         </>
                     }
                 </div>
-            </ModalContent>
-            <ModalFooter>
+            </div>
+            <div>
                 <Flex justifyContent="center" style={{ width: "100%" }}>
-                    {badge.type === "sencord" ? <Button
-                        {...props}
-                        look={Button.Looks.LINK}
-                        color={Button.Colors.TRANSPARENT}
-                        onClick={() => VencordNative.native.openExternal("https://github.com/sinjs/sencord")}
+                    // {badge.type === "sencord" ? <Button
+                    //     {...props}
+                    //     look={Button.Looks.LINK}
+                    //     color={Button.Colors.TRANSPARENT}
+                    //     onClick={() => VencordNative.native.openExternal("https://github.com/sinjs/sencord")}
                     >
                         View Source
                     </Button> : <DonateButton />}
                 </Flex>
-            </ModalFooter>
-        </ModalRoot>
+            </div>
+        </Modal>
     </ErrorBoundary>
     );
 }
