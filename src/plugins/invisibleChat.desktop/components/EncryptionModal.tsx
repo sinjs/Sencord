@@ -21,7 +21,7 @@ import { settings } from "@plugins/invisibleChat.desktop/index";
 import {
     openModal,
 } from "@utils/modal";
-import { Forms, React, TextArea, TextInput, Modal } from "@webpack/common";
+import { Forms, Modal,React, TextArea, TextInput } from "@webpack/common";
 
 function EncModal(props) {
 

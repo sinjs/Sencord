@@ -20,7 +20,7 @@ import { decrypt } from "@plugins/invisibleChat.desktop/index";
 import {
     openModal
 } from "@utils/modal";
-import { Button, Forms, React, TextInput, Modal } from "@webpack/common";
+import { Button, Forms, Modal,React, TextInput } from "@webpack/common";
 
 export function DecModal(props: any) {
     const encryptedMessage: string = props?.message?.content;

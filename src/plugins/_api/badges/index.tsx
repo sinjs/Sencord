@@ -29,10 +29,10 @@ import { copyWithToast } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { shouldShowContributorBadge } from "@utils/misc";
-import { closeModal, ModalContent, ModalFooter, ModalHeader} from "@utils/modal";
+import { closeModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import {ModalProps} from "@vencord/discord-types";
-import { Button, ContextMenuApi, Forms, Menu, Modal,openModal, Toasts, UserStore } from "@webpack/common";
+import { ModalProps } from "@vencord/discord-types";
+import { ContextMenuApi, Forms, Menu, Modal,openModal, Toasts, UserStore } from "@webpack/common";
 
 const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 
@@ -340,14 +340,16 @@ function BadgeModal({ badge, modalKey, ...props }: { badge: Badge; modalKey: str
             </div>
             <div>
                 <Flex justifyContent="center" style={{ width: "100%" }}>
+                    {
                     // {badge.type === "sencord" ? <Button
                     //     {...props}
                     //     look={Button.Looks.LINK}
                     //     color={Button.Colors.TRANSPARENT}
                     //     onClick={() => VencordNative.native.openExternal("https://github.com/sinjs/sencord")}
-                    >
-                        View Source
-                    </Button> : <DonateButton />}
+                    // >
+                    //     View Source
+                    // </Button> : <DonateButton />}
+                    }
                 </Flex>
             </div>
         </Modal>
