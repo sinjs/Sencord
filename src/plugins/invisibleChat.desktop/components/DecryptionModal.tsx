@@ -18,25 +18,23 @@
 
 import { decrypt } from "@plugins/invisibleChat.desktop/index";
 import {
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalRoot,
     openModal
 } from "@utils/modal";
-import { Button, Forms, React, TextInput } from "@webpack/common";
+import { Button, Forms, React, TextInput, Modal } from "@webpack/common";
 
 export function DecModal(props: any) {
     const encryptedMessage: string = props?.message?.content;
     const [password, setPassword] = React.useState("password");
 
     return (
-        <ModalRoot {...props}>
-            <ModalHeader>
+        <Modal
+            {...props}
+            title={
                 <Forms.FormTitle tag="h4">Decrypt Message</Forms.FormTitle>
-            </ModalHeader>
+            }
+        >
 
-            <ModalContent>
+            <div>
                 <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Message with Encryption</Forms.FormTitle>
                 <TextInput defaultValue={encryptedMessage} disabled={true}></TextInput>
                 <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Password</Forms.FormTitle>
@@ -44,9 +42,9 @@ export function DecModal(props: any) {
                     style={{ marginBottom: "20px" }}
                     onChange={setPassword}
                 />
-            </ModalContent>
+            </div>
 
-            <ModalFooter>
+            <div>
                 <Button
                     color={Button.Colors.GREEN}
                     onClick={async () => {
@@ -68,8 +66,8 @@ export function DecModal(props: any) {
                 >
                     Cancel
                 </Button>
-            </ModalFooter>
-        </ModalRoot>
+            </div>
+        </Modal>
     );
 }
 
