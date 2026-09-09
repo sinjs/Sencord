@@ -72,6 +72,7 @@ export interface Settings {
     plugins: {
         [plugin: string]: {
             enabled: boolean;
+            isFavorite?: boolean;
             [setting: string]: any;
         };
     };

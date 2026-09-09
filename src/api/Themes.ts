@@ -19,6 +19,7 @@
 import { Settings, SettingsStore } from "@api/Settings";
 import { requireStyle } from "@api/Styles";
 import { createAndAppendStyle } from "@utils/css";
+import { isNonNullish } from "@utils/guards";
 import { ThemeStore } from "@vencord/discord-types";
 import { PopoutWindowStore } from "@webpack/common";
 
@@ -26,6 +27,8 @@ import { userStyleRootNode, vencordRootNode } from "./Styles";
 
 let style: HTMLStyleElement;
 let themesStyle: HTMLStyleElement;
+
+const themeChangeListeners = new Set<() => void>();
 
 async function toggle(isEnabled: boolean) {
     if (!style) {
@@ -42,6 +45,9 @@ async function toggle(isEnabled: boolean) {
     } else
         style.disabled = !isEnabled;
 }
+
+// for cleanup
+let previousThemeBlobObjectURLs = [] as string[];
 
 async function initThemes() {
     themesStyle ??= createAndAppendStyle("vencord-themes", userStyleRootNode);
@@ -67,12 +73,18 @@ async function initThemes() {
         .filter(link => link !== null);
 
     if (IS_WEB) {
-        for (const theme of enabledThemes) {
+        previousThemeBlobObjectURLs.forEach(url => URL.revokeObjectURL(url));
+
+        const objectUrls = await Promise.all(enabledThemes.map(async theme => {
             const themeData = await VencordNative.themes.getThemeData(theme);
-            if (!themeData) continue;
+            if (!themeData) return null;
+
             const blob = new Blob([themeData], { type: "text/css" });
-            links.push(URL.createObjectURL(blob));
-        }
+            return URL.createObjectURL(blob);
+        }));
+
+        previousThemeBlobObjectURLs = objectUrls.filter(isNonNullish);
+        links.push(...previousThemeBlobObjectURLs);
     } else {
         const localThemes = enabledThemes.map(theme => `vencord:///themes/${theme}?v=${Date.now()}`);
         // @sencord Theme Library
@@ -86,6 +98,7 @@ async function initThemes() {
 
     themesStyle.textContent = links.map(link => `@import url("${link.trim()}");`).join("\n");
     updatePopoutWindows();
+    themeChangeListeners.forEach(listener => listener());
 }
 
 function applyToPopout(popoutWindow: Window | undefined, key: string) {
@@ -145,4 +158,12 @@ export function initQuickCssThemeStore(themeStore: ThemeStore) {
         currentTheme = themeStore.theme;
         initThemes();
     });
+}
+
+export function addThemeChangeListener(listener: () => void) {
+    themeChangeListeners.add(listener);
+}
+
+export function removeThemeChangeListener(listener: () => void) {
+    themeChangeListeners.delete(listener);
 }
