@@ -16,36 +16,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { definePluginSettings } from "@api/Settings";
+import { BaseText } from "@components/BaseText";
+import ErrorBoundary from "@components/ErrorBoundary";
+import { ErrorCard } from "@components/ErrorCard";
+import { Flex } from "@components/Flex";
 import { Paragraph } from "@components/Paragraph";
 import { Devs, IS_MAC } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
+import { Margins } from "@utils/margins";
+import definePlugin from "@utils/types";
 import { findByPropsLazy } from "@webpack";
-import { ExperimentStore, Forms, React } from "@webpack/common";
+import { React } from "@webpack/common";
+
 
 const KbdStyles = findByPropsLazy("key", "combo");
-
 const modKey = IS_MAC ? "cmd" : "ctrl";
 const altKey = IS_MAC ? "opt" : "alt";
-
-const settings = definePluginSettings({
-    toolbarDevMenu: {
-        type: OptionType.BOOLEAN,
-        description: "Change the Help (?) toolbar button (top right in chat) to Discord's developer menu",
-        default: false,
-        restartNeeded: true
-    }
-});
-
-const enableStyle = (element: string) => {
-    return null;
-};
-
-const disableStyle = (element: string) => {
-    return null;
-};
-
-const hideBugReport = "";
 
 export default definePlugin({
     name: "Experiments",
@@ -59,8 +44,6 @@ export default definePlugin({
         Devs.Nuckyz,
         Devs.Airbus
     ],
-
-    settings,
 
     patches: [
         {
@@ -77,22 +60,20 @@ export default definePlugin({
                 replace: "!($1=true)"
             }
         },
-        // Change top right toolbar button from the help one to the dev one
         {
-            find: '?"BACK_FORWARD_NAVIGATION":',
-            replacement: {
-                match: /hasBugReporterAccess:(\i)/,
-                replace: "_hasBugReporterAccess:$1=true"
-            },
-            predicate: () => settings.store.toolbarDevMenu
-        },
-        // Disable opening the bug report menu when clicking the top right toolbar dev button
-        {
-            find: 'navId:"staff-help-popout"',
-            replacement: {
-                match: /(isShown.+?)onClick:\i/,
-                replace: (_, rest) => `${rest}onClick:()=>{}`
-            }
+            find: 'placeholder:"Search experiments"',
+            replacement: [
+                {
+                    match: /(?<=children:\[)(?=null!=.{0,150}"Installation ID:)/,
+                    replace: "$self.WarningCard(),"
+                },
+                // for some reason the installation id and copy buttons are on
+                // different lines so it looks stupid when the card above is added
+                {
+                    match: /(?<=,marginBottom:16)(?=\},children:\[)/,
+                    replace: ',flexDirection:"row",alignItems:"center"'
+                }
+            ]
         },
         // Enable experiment embed on sent experiment links
         {
@@ -117,25 +98,59 @@ export default definePlugin({
                 replace: "$&if($1==null)return;"
             }
         },
-
+        // Enable playground embed on sent playground links
+        // dev://playground/mana, dev://playground/payments, dev://playground/virtual-currency,
+        // dev://playground/nitro, dev://playground/mfa, dev://playground/cms, dev://playground/void
+        {
+            find: '"Open Playground',
+            replacement: {
+                match: "isStaff()||",
+                replace: "$& true||"
+            }
+        },
+        {
+            // Expands the experiment uri regex to allow negative numbers, e.g. dev://experiment/2026-02-mana-playground-access/-1
+            // -1 is "Not Eligible"
+            find: '"^dev://experiment/',
+            replacement: {
+                match: /(?<=dev:\/\/experiment.{0,20}?)\[0-9\]\+/,
+                replace: "[0-9-]+"
+            }
+        }
     ],
-
-    start: () => ExperimentStore.getUserExperimentBucket("2026-01-bug-reporter") > 0 && enableStyle(hideBugReport),
-    stop: () => disableStyle(hideBugReport),
 
     settingsAboutComponent: () => {
         return (
-            <React.Fragment>
-                <Forms.FormTitle tag="h3">More Information</Forms.FormTitle>
-                <Paragraph size="md">
-                    You can open Discord's DevTools via {" "}
-                    <div className={KbdStyles.combo} style={{ display: "inline-flex" }}>
-                        <kbd className={KbdStyles.key}>{modKey}</kbd>{" "}
-                        <kbd className={KbdStyles.key}>{altKey}</kbd>{" "}
-                        <kbd className={KbdStyles.key}>O</kbd>{" "}
-                    </div>
-                </Paragraph>
-            </React.Fragment>
+            <Paragraph size="md">
+                Tip: You can open Discord's DevTools via {" "}
+                <div className={KbdStyles.combo} style={{ display: "inline-flex" }}>
+                    <kbd className={KbdStyles.key}>{modKey}</kbd>{" "}
+                    <kbd className={KbdStyles.key}>{altKey}</kbd>{" "}
+                    <kbd className={KbdStyles.key}>O</kbd>{" "}
+                </div>
+            </Paragraph>
         );
     },
+
+    WarningCard: ErrorBoundary.wrap(() => (
+        <ErrorCard id="vc-experiments-warning-card" className={Margins.bottom16}>
+            <Flex flexDirection="column" gap={8}>
+                <BaseText tag="h2" weight="bold" size="lg">Hold on!!</BaseText>
+
+                <Paragraph>
+                    Experiments are unreleased Discord features. They might not work, or even break your client or get your account disabled.
+                </Paragraph>
+
+                <Paragraph>
+                    Only use experiments if you know what you're doing. Vencord is not responsible for any damage caused by enabling experiments.
+
+                    If you don't know what an experiment does, ignore it. Do not ask us what experiments do either, we probably don't know.
+                </Paragraph>
+
+                <Paragraph>
+                    <b>You cannot use server-side features like checking the "Send to Client" box.</b>
+                </Paragraph>
+            </Flex>
+        </ErrorCard>
+    ), { noop: true })
 });
