@@ -22,7 +22,8 @@ import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import { ExpandableSection } from "@components/ExpandableCard";
 import { Flex } from "@components/Flex";
-import { HeadingSecondary } from "@components/Heading";
+import { Heading } from "@components/Heading";
+import { Margins } from "@components/margins";
 import { Paragraph } from "@components/Paragraph";
 import { Span } from "@components/Span";
 import { TooltipContainer } from "@components/TooltipContainer";
@@ -40,6 +41,7 @@ interface Rule {
     find: string;
     replace: string;
     onlyIfIncludes: string;
+    onlyInChannelIds?: string;
     id: string;
 }
 
@@ -238,7 +240,7 @@ function TextReplace({ title, description, rulesArray, isRegex = false }: TextRe
     return (
         <>
             <div>
-                <HeadingSecondary>{title}</HeadingSecondary>
+                <Heading className={Margins.bottom8}>{title}</Heading>
                 <Paragraph>{description}</Paragraph>
                 <div className={cl("search-input")}>
                     <TextInput
@@ -348,7 +350,7 @@ function TextReplaceTesting() {
 
     return (
         <div>
-            <HeadingSecondary>Rule Tester</HeadingSecondary>
+            <Heading className={Margins.bottom8}>Rule Tester</Heading>
             <Flex flexDirection="column" gap={6}>
                 <TextInput placeholder="Type a message to test rules on" onChange={setValue} />
                 <TextInput placeholder="Message with rules applied" editable={false} value={applyRules(value)} style={{ opacity: 0.7 }} />
@@ -367,7 +369,7 @@ function applyRules(content: string): string {
     for (const rule of settings.store.stringRules) {
         if (!rule.find) continue;
         if (rule.onlyIfIncludes && !content.includes(rule.onlyIfIncludes)) continue;
-        if (currentChannel && rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(currentChannel.id)) continue;
+        if (currentChannel && rule.onlyInChannelIds?.trim() && !rule.onlyInChannelIds.trim().split(",").includes(currentChannel.id)) continue;
 
         content = ` ${content} `.replaceAll(rule.find, rule.replace.replaceAll("\\n", "\n")).replace(/^\s|\s$/g, "");
     }
@@ -375,7 +377,7 @@ function applyRules(content: string): string {
     for (const rule of settings.store.regexRules) {
         if (!rule.find) continue;
         if (rule.onlyIfIncludes && !content.includes(rule.onlyIfIncludes)) continue;
-        if (currentChannel && rule.onlyInChannelIds.trim() && !rule.onlyInChannelIds.trim().split(",").includes(currentChannel.id)) continue;
+        if (currentChannel && rule.onlyInChannelIds?.trim() && !rule.onlyInChannelIds.trim().split(",").includes(currentChannel.id)) continue;
 
         try {
             const regex = stringToRegex(rule.find);

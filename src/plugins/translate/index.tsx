@@ -31,7 +31,7 @@ import { handleTranslate, TranslationAccessory } from "./TranslationAccessory";
 import { translate } from "./utils";
 
 const messageCtxPatch: NavContextMenuPatchCallback = (children, { message }: { message: Message; }) => {
-    const content = getMessageContent(message);
+    const content = document.getSelection()?.toString() || getMessageContent(message);
     if (!content) return;
 
     const group = findGroupChildrenByChildId("copy-text", children);
@@ -51,32 +51,21 @@ const messageCtxPatch: NavContextMenuPatchCallback = (children, { message }: { m
     ));
 };
 
-
 const alphabets = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,./<>?;'’:\"[]{}\\|`~!@#$%^&*()_+-=\n ";
 
-const autoTranslate = async msg => {
-    const { message } = msg;
-
-    if (!settings.store.autoFluent) return;
-
-    if (!message.content) return;
-
-    if (message.author.id === UserStore.getCurrentUser().id && msg?.sendMessageOptions) return;
-
+const autoTranslate = async ({ message, sendMessageOptions }) => {
+    if (!settings.store.autoFluent || !message.content) return;
+    if (message.author.id === UserStore.getCurrentUser().id && sendMessageOptions) return;
     if (getCurrentChannel()?.id !== message.channel_id) return;
-
-    if (new RegExp(/( \u200c|\u200d |[\u2060-\u2064])[^\u200b]/).test(message.content)) return;
+    if (/( \u200c|\u200d |[\u2060-\u2064])[^\u200b]/.test(message.content)) return;
 
     message.content = message.content.replaceAll("­", "");
-
     if (message.content.split("").every(c => alphabets.includes(c))) return;
 
     const trans = await translate("received", message.content);
-
-    if (trans.sourceLanguage === "en") return;
-
-    handleTranslate(message.id, trans);
+    if (trans.sourceLanguage !== "en") handleTranslate(message.id, trans);
 };
+
 
 function getMessageContent(message: Message) {
     // Message snapshots is an array, which allows for nested snapshots, which Discord does not do yet.
@@ -88,7 +77,6 @@ function getMessageContent(message: Message) {
 }
 
 let tooltipTimeout: any;
-
 
 export default definePlugin({
     name: "Translate",
@@ -102,7 +90,6 @@ export default definePlugin({
     // not used, just here in case some other plugin wants it or w/e
     translate,
 
-    // FIXME: Start/Stop is some old stuff, idk what exactly this is supposed to do
     start() {
         FluxDispatcher.subscribe("MESSAGE_CREATE", autoTranslate);
     },

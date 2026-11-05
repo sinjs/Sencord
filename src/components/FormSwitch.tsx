@@ -40,10 +40,6 @@ export function FormSwitch({ onChange, title, value, description, disabled, clas
     );
 }
 
-// #region Old compatibility
-
 export function FormSwitchCompat({ note, children, ...restProps }: PropsWithChildren<any>) {
-    return <FormSwitch title={children ?? ""} description={note} {...restProps} />;
+    return <FormSwitch title={children ?? restProps.title ?? ""} description={note ?? restProps.description} {...restProps} />;
 }
-
-// #endregion
