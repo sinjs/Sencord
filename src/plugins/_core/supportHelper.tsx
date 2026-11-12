@@ -36,7 +36,7 @@ import { onlyOnce } from "@utils/onlyOnce";
 import { makeCodeblock } from "@utils/text";
 import definePlugin from "@utils/types";
 import { checkForUpdates, isOutdated, update } from "@utils/updater";
-import { Channel, RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@vencord/discord-types";
 import { ChannelStore, ConfirmModal, GuildMemberStore, openModal, Parser, PermissionsBits, PermissionStore, RelationshipStore, showToast, UserStore } from "@webpack/common";
 import { JSX } from "react";
 
@@ -45,10 +45,6 @@ import plugins, { PluginMeta } from "~plugins";
 
 import SettingsPlugin from "./settings";
 
-const AdditionalAllowedChannelIds = [
-    "1024286218801926184", // Vencord > #bot-commands
-];
-
 const TrustedRolesIds = [
     CONTRIB_ROLE_ID, // contributor
     REGULAR_ROLE_ID, // regular
@@ -56,8 +52,6 @@ const TrustedRolesIds = [
 ];
 
 const ShowCurrentGame = getUserSettingLazy<boolean>("status", "showCurrentGame")!;
-
-const isSupportAllowedChannel = (channel: Channel) => channel.parent_id === SUPPORT_CATEGORY_ID || AdditionalAllowedChannelIds.includes(channel.id);
 
 async function forceUpdate() {
     const outdated = await checkForUpdates();

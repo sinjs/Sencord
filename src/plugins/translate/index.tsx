@@ -98,7 +98,10 @@ export default definePlugin({
         FluxDispatcher.unsubscribe("MESSAGE_CREATE", autoTranslate);
     },
 
-    renderMessageAccessory: props => <TranslationAccessory message={props.message} />,
+    renderMessageAccessory: props =>
+        !props.isMessageSnapshot
+            ? <TranslationAccessory message={props.message} />
+            : null,
 
     chatBarButton: {
         icon: TranslateIcon,

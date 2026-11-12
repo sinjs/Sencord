@@ -82,8 +82,7 @@
     --primary-860-hsl: 240 calc(var(--saturation-factor, 1) * 7.7%)
         calc(var(--lightness-800-860, 0) + 2.5%);
     --primary-900: hsl(var(--primary-900-hsl) / 1);
-    --primary-900-hsl: 0 calc(var(--saturation-factor, 1) * 0%)
-        calc(var(--lightness-900, 0) + 0.8%);
+    --primary-900-hsl: 0 calc(var(--saturation-factor, 1) * 0%) calc(var(--lightness-900, 0) + 0.8%);
 }
 
 .theme-dark {
@@ -95,14 +94,10 @@
     --background-mobile-primary: var(--black) !important;
     --background-mobile-secondary: var(--primary-830) !important;
     --background-modifier-accent: hsl(var(--primary-760-hsl) / 0.48) !important;
-    --background-modifier-accent-2: hsl(
-        var(--primary-760-hsl) / 0.48
-    ) !important;
+    --background-modifier-accent-2: hsl(var(--primary-760-hsl) / 0.48) !important;
     --background-modifier-active: hsl(var(--primary-760-hsl) / 0.48) !important;
     --background-modifier-hover: hsl(var(--primary-760-hsl) / 0.4) !important;
-    --background-modifier-selected: hsl(
-        var(--primary-760-hsl) / 0.6
-    ) !important;
+    --background-modifier-selected: hsl(var(--primary-760-hsl) / 0.6) !important;
     --background-nested-floating: var(--primary-830) !important;
     --background-primary: var(--black) !important;
     --background-secondary: var(--primary-830) !important;
@@ -164,8 +159,8 @@
     --text-secondary: var(--plum-8) !important;
     --textbox-markdown-syntax: var(--plum-9) !important;
     --elevation-stroke: 0 0 0 1px hsl(var(--primary-600-hsl) / 0.15) !important;
-    --elevation-low: 0 1px 0 hsl(var(--primary-630-hsl) / 0.2),
-        0 1.5px 0 hsl(var(--primary-600-hsl) / 0.05),
+    --elevation-low:
+        0 1px 0 hsl(var(--primary-630-hsl) / 0.2), 0 1.5px 0 hsl(var(--primary-600-hsl) / 0.05),
         0 2px 0 hsl(var(--primary-630-hsl) / 0.05) !important;
     --elevation-medium: 0 4px 4px hsl(var(--black-500-hsl) / 0.16) !important;
     --elevation-high: 0 8px 16px hsl(var(--black-500-hsl) / 0.24) !important;
@@ -185,19 +180,13 @@
     --profile-gradient-primary-color: var(--background-floating) !important;
     --profile-gradient-secondary-color: var(--background-floating) !important;
     --profile-gradient-overlay-color: transparent !important;
-    --profile-gradient-button-color: var(
-        --button-secondary-background
-    ) !important;
+    --profile-gradient-button-color: var(--button-secondary-background) !important;
     --profile-avatar-border-color: var(--background-floating) !important;
     --profile-body-background-color: var(--background-primary) !important;
-    --profile-body-background-hover: var(
-        --background-modifier-hover
-    ) !important;
+    --profile-body-background-hover: var(--background-modifier-hover) !important;
     --profile-body-divider-color: var(--background-modifier-accent) !important;
     --profile-body-border-color: var(--border-faint) !important;
-    --profile-message-input-border-color: var(
-        --background-modifier-accent
-    ) !important;
+    --profile-message-input-border-color: var(--background-modifier-accent) !important;
     --profile-note-background-color: var(--background-tertiary) !important;
     --profile-role-pill-background-color: var(--background-floating) !important;
     --profile-role-pill-border-color: var(--interactive-normal) !important;
@@ -228,8 +217,7 @@
         --background-message-hover: color-mix(
             in oklab,
             hsl(var(--primary-530-hsl) / 0.06) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.06)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.06) var(--theme-base-color-amount, 0%)
         ) !important;
         --background-mobile-primary: color-mix(
             in oklab,
@@ -244,32 +232,27 @@
         --background-modifier-accent: color-mix(
             in oklab,
             hsl(var(--primary-760-hsl) / 0.48) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48) var(--theme-base-color-amount, 0%)
         ) !important;
         --background-modifier-accent-2: color-mix(
             in oklab,
             hsl(var(--primary-760-hsl) / 0.48) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48) var(--theme-base-color-amount, 0%)
         ) !important;
         --background-modifier-active: color-mix(
             in oklab,
             hsl(var(--primary-760-hsl) / 0.48) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48) var(--theme-base-color-amount, 0%)
         ) !important;
         --background-modifier-hover: color-mix(
             in oklab,
             hsl(var(--primary-760-hsl) / 0.4) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.4)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.4) var(--theme-base-color-amount, 0%)
         ) !important;
         --background-modifier-selected: color-mix(
             in oklab,
             hsl(var(--primary-760-hsl) / 0.6) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.6)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.6) var(--theme-base-color-amount, 0%)
         ) !important;
         --background-nested-floating: color-mix(
             in oklab,
@@ -319,14 +302,12 @@
         --bg-mod-strong: color-mix(
             in oklab,
             hsl(var(--primary-760-hsl) / 0.54) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.54)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.54) var(--theme-base-color-amount, 0%)
         ) !important;
         --bg-mod-subtle: color-mix(
             in oklab,
             hsl(var(--primary-760-hsl) / 0.48) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.48) var(--theme-base-color-amount, 0%)
         ) !important;
         --bg-surface-overlay: color-mix(
             in oklab,
@@ -441,8 +422,7 @@
         --input-focused-border: color-mix(
             in oklab,
             hsl(var(--white-hsl) / 0.03) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.03)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.03) var(--theme-base-color-amount, 0%)
         ) !important;
         --input-placeholder-text: color-mix(
             in oklab,
@@ -452,8 +432,7 @@
         --live-stage-tile-border: color-mix(
             in oklab,
             hsl(var(--primary-860-hsl) / 0.6) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.6)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0.6) var(--theme-base-color-amount, 0%)
         ) !important;
         --modal-background: color-mix(
             in oklab,
@@ -493,8 +472,7 @@
         --scrollbar-thin-track: color-mix(
             in oklab,
             hsl(var(--black-hsl) / 0) 100%,
-            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0)
-                var(--theme-base-color-amount, 0%)
+            hsl(var(--theme-base-color-hsl, 0 0% 0%) / 0) var(--theme-base-color-amount, 0%)
         ) !important;
         --text-low-contrast: color-mix(
             in oklab,
@@ -537,10 +515,7 @@
     background-color: var(--background-primary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container__9293f
-    [class*="searchBar"] {
+:is(.theme-dark, .theme-midnight) #app-mount .container__9293f [class*="searchBar"] {
     background-color: var(--background-secondary);
 }
 :is(.theme-dark, .theme-midnight)
@@ -556,11 +531,7 @@
     background-color: var(--background-primary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .form_f75fb0
-    .optionPill__1464f,
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .form_f75fb0 .optionPill__1464f,
 .container__01ae2 .form_f75fb0 .optionPill__1464f {
     background-color: var(--primary-730);
 }
@@ -586,44 +557,20 @@
         .container__9a337:is(.isOpen__9a337, :hover, :active),
         .container_faa96b:is(.isOpen_faa96b, :active)
     ),
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .container__93db4,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .container_ca49a1,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .container_a68543 {
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .container__93db4,
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .container_ca49a1,
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .container_a68543 {
     background-color: var(--background-tertiary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .matchingPostsRow_f369db {
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .matchingPostsRow_f369db {
     background-color: var(--background-secondary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .loadingCard_f369db {
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .loadingCard_f369db {
     background-color: var(--background-tertiary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .sortDropdown_f369db,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .tag_f369db:not(.selected_a2c9e8),
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .tagsButton_f369db {
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .sortDropdown_f369db,
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .tag_f369db:not(.selected_a2c9e8),
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .tagsButton_f369db {
     background-color: var(--background-secondary);
 }
 :is(.theme-dark, .theme-midnight)
@@ -632,10 +579,7 @@
     .pill_a2c9e8.clickable_a2c9e8:not(.disabled_a2c9e8):hover {
     background-color: var(--background-secondary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container_f369db
-    .textContentFooter__9a337 {
+:is(.theme-dark, .theme-midnight) #app-mount .container_f369db .textContentFooter__9a337 {
     background: linear-gradient(
         to top,
         hsl(var(--black-hsl) / 1),
@@ -647,18 +591,10 @@
     #app-mount
     .container_f369db
     .textContentFooter__9a337.noTags__9a337 {
-    background: linear-gradient(
-        to top,
-        hsl(var(--black-hsl) / 1),
-        hsl(var(--black-hsl) / 0)
-    );
+    background: linear-gradient(to top, hsl(var(--black-hsl) / 1), hsl(var(--black-hsl) / 0));
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .headerContent_a7218d
-    .searchBox_a7218d {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .headerContent_a7218d .searchBox_a7218d {
     background-color: var(--input-background);
 }
 :is(.theme-dark, .theme-midnight)
@@ -730,21 +666,14 @@
     .answerInner__4c520.currentlyVoting__4c520:not(.selected__4c520) {
     outline-color: var(--background-secondary-alt);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container__0be77
-    .votePercentageBar__4c520 {
+:is(.theme-dark, .theme-midnight) #app-mount .container__0be77 .votePercentageBar__4c520 {
     background-color: var(--background-secondary-alt);
 }
 
 :is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .prompt__5d7c9 {
     background-color: var(--background-tertiary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .prompt__5d7c9
-    .selected__270d7 {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .prompt__5d7c9 .selected__270d7 {
     background-color: var(--background-modifier-active);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .profileCard__5d7c9 {
@@ -760,30 +689,18 @@
     background-color: var(--background-modifier-hover);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .wrapper_cb9592.minimum_cb9592 {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .wrapper_cb9592.minimum_cb9592 {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .iconBackground__0b34e {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .iconBackground__0b34e {
     background-color: var(--background-secondary-alt);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .container__6b38f:hover {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .container__6b38f:hover {
     background-color: var(--background-modifier-hover);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .videoWrapper__2f4f7,
 :is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .streamHidden_c30e20,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .streamPreview__2f4f7 {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .streamPreview__2f4f7 {
     background-color: var(--background-secondary);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .cta_a3a802 {
@@ -792,31 +709,16 @@
 :is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .cta_a3a802:hover {
     background-color: var(--button-secondary-background-hover);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .participantsButton__211d1,
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .participantsButton__211d1,
 :is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .buttonColor__7b3e8 {
     background-color: var(--background-secondary-alt);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .participantsButton__211d1:hover,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .buttonColor__7b3e8:hover {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .participantsButton__211d1:hover,
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .buttonColor__7b3e8:hover {
     background-color: var(--background-secondary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .colorable_f1ceac.primaryDark_f1ceac,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .primaryButtonColor_fcb27c {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .colorable_f1ceac.primaryDark_f1ceac,
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .primaryButtonColor_fcb27c {
     background-color: var(--background-secondary-alt);
 }
 :is(.theme-dark, .theme-midnight)
@@ -831,24 +733,12 @@
     #app-mount
     .chat_f75fb0
     .colorable_f1ceac.primaryDark_f1ceac:hover,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .primaryButtonColor_fcb27c.active_f1ceac,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .primaryButtonColor_fcb27c.active_fcb27c,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .primaryButtonColor_fcb27c:hover {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .primaryButtonColor_fcb27c.active_f1ceac,
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .primaryButtonColor_fcb27c.active_fcb27c,
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .primaryButtonColor_fcb27c:hover {
     background-color: var(--background-modifier-hover);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .chat_f75fb0
-    .raisedHandButtonIconActive_fcb27c {
+:is(.theme-dark, .theme-midnight) #app-mount .chat_f75fb0 .raisedHandButtonIconActive_fcb27c {
     color: var(--background-secondary);
 }
 
@@ -860,9 +750,7 @@
     #app-mount
     .wrapper__6e9f8:not(.selected__6e9f8)
     .childWrapperNoHoverBg__6e9f8,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .circleIconButton__5bc7e:not(.selected__5bc7e) {
+:is(.theme-dark, .theme-midnight) #app-mount .circleIconButton__5bc7e:not(.selected__5bc7e) {
     background-color: var(--background-secondary-alt);
 }
 
@@ -904,9 +792,7 @@
     background-color: var(--primary-660);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .bar_a562c8:not(.microphone_ac7648) {
+:is(.theme-dark, .theme-midnight) #app-mount .bar_a562c8:not(.microphone_ac7648) {
     background-color: var(--background-accent);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .markDash_a562c8 {
@@ -916,9 +802,7 @@
 :is(.theme-dark, .theme-midnight) .container_c8ffbb {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .theme-midnight)
-    .container_c8ffbb
-    .container__0f2e8:not(.selected__0f2e8) {
+:is(.theme-dark, .theme-midnight) .container_c8ffbb .container__0f2e8:not(.selected__0f2e8) {
     background-color: var(--background-tertiary);
 }
 
@@ -927,10 +811,7 @@
     background-color: var(--background-primary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .root__49fc1
-    .contentWrapper__9b0f4 {
+:is(.theme-dark, .theme-midnight) #app-mount .root__49fc1 .contentWrapper__9b0f4 {
     background: var(--modal-background);
 }
 
@@ -948,10 +829,7 @@
     background-color: var(--modal-footer-background);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .root__49fc1
-    .footerSeparator__49fc1 {
+:is(.theme-dark, .theme-midnight) #app-mount .root__49fc1 .footerSeparator__49fc1 {
     box-shadow: inset 0 1px 0 var(--modal-footer-background);
 }
 
@@ -962,25 +840,16 @@
     background-color: var(--modal-footer-background);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .root__49fc1
-    .keyboardShortcutsModal_f061f6 {
+:is(.theme-dark, .theme-midnight) #app-mount .root__49fc1 .keyboardShortcutsModal_f061f6 {
     background-color: var(--modal-background);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .modal_e59759
-    .verifiedRoleHasRole_e59759 {
+:is(.theme-dark, .theme-midnight) #app-mount .modal_e59759 .verifiedRoleHasRole_e59759 {
     background-color: var(--background-secondary);
     border-color: var(--background-secondary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .uploadModal_dbca3c
-    .footer_dbca3c {
+:is(.theme-dark, .theme-midnight) #app-mount .uploadModal_dbca3c .footer_dbca3c {
     background-color: var(--modal-footer-background);
 }
 
@@ -994,10 +863,7 @@
     .optionButtonWrapper__270d7.selected__270d7 {
     background-color: var(--background-secondary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .promptContent_fe70ca
-    .overlay_fe70ca {
+:is(.theme-dark, .theme-midnight) #app-mount .promptContent_fe70ca .overlay_fe70ca {
     background: linear-gradient(
         to top,
         hsl(var(--primary-860-hsl)),
@@ -1096,17 +962,14 @@
 :is(.theme-dark, .platform-overlay) .opacityHeader__0aebc {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .platform-overlay)
-    .background-opacity-high
-    .scrollableContainer_d0696b {
+:is(.theme-dark, .platform-overlay) .background-opacity-high .scrollableContainer_d0696b {
     background-color: var(--channeltextarea-background);
 }
 
 :is(.theme-dark, .platform-overlay) .themePrimary__350af.container__350af {
     background-color: hsl(var(--primary-900-hsl) / 0.95);
 }
-:is(.theme-dark, .platform-overlay)
-    .themePrimary__350af.container__350af.clickable__350af:hover {
+:is(.theme-dark, .platform-overlay) .themePrimary__350af.container__350af.clickable__350af:hover {
     background-color: var(--background-secondary);
 }
 :is(.theme-dark, .platform-overlay) .themePrimary__350af .divider__350af {
@@ -1117,12 +980,10 @@
     background-color: var(--background-secondary);
 }
 
-:is(.theme-dark, .platform-overlay)
-    .option_e03935:not(.selected_e03935, :hover) {
+:is(.theme-dark, .platform-overlay) .option_e03935:not(.selected_e03935, :hover) {
     background-color: var(--primary-600);
 }
-:is(.theme-dark, .platform-overlay)
-    .disabled_e03935:not(.selected_e03935, :hover) {
+:is(.theme-dark, .platform-overlay) .disabled_e03935:not(.selected_e03935, :hover) {
     color: var(--primary-600);
 }
 
@@ -1149,10 +1010,7 @@
     background-color: hsl(var(--primary-900-hsl) / 0.85);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .nowPlayingColumn__133bf
-    .separator__00943 {
+:is(.theme-dark, .theme-midnight) #app-mount .nowPlayingColumn__133bf .separator__00943 {
     background-color: var(--background-secondary);
 }
 
@@ -1257,11 +1115,7 @@
 .theme-dark body .contentWrapper-3RqEiS .cardLink-H6gvNe:hover {
     background-color: var(--background-secondary-alt);
 }
-.theme-dark
-    body
-    .contentWrapper-3RqEiS
-    .cardLink-H6gvNe
-    .cardImagePlaceholder-EjWnzT {
+.theme-dark body .contentWrapper-3RqEiS .cardLink-H6gvNe .cardImagePlaceholder-EjWnzT {
     background-color: var(--background-primary);
 }
 .theme-dark body .contentWrapper-3RqEiS .avatarUploaderInner-yEhTv5 {
@@ -1274,10 +1128,7 @@
 :is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .backdrop__8a7fc {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .content_c48ade
-    .darkThemeGradient_b5b7aa {
+:is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .darkThemeGradient_b5b7aa {
     background: linear-gradient(
         0deg,
         var(--background-secondary-alt) 0%,
@@ -1286,10 +1137,7 @@
     );
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .page_c791b2
-    .mainTableContainer__09a38 {
+:is(.theme-dark, .theme-midnight) #app-mount .page_c791b2 .mainTableContainer__09a38 {
     background-color: var(--background-tertiary);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .page_c791b2 .container_a45028 {
@@ -1302,10 +1150,7 @@
 :is(.theme-dark, .theme-midnight) #app-mount .row_d13feb:hover {
     background-color: var(--background-modifier-hover);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .clickableAction_c66e86:hover
-    .action_c66e86 {
+:is(.theme-dark, .theme-midnight) #app-mount .clickableAction_c66e86:hover .action_c66e86 {
     background-color: var(--background-modifier-hover);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .action_c66e86 {
@@ -1322,10 +1167,7 @@
 :is(.theme-dark, .theme-midnight) #app-mount .container__49668 {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .container__49668
-    .opaqueBackground__79d38 {
+:is(.theme-dark, .theme-midnight) #app-mount .container__49668 .opaqueBackground__79d38 {
     background-color: hsl(var(--primary-800-hsl) / 0.85);
 }
 
@@ -1336,16 +1178,10 @@
     background-color: hsl(var(--black-hsl) / 0.8) !important;
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .popout_af3b89
-    .interactionsContainerHeader_af3b89 {
+:is(.theme-dark, .theme-midnight) #app-mount .popout_af3b89 .interactionsContainerHeader_af3b89 {
     border-top-color: var(--background-modifier-accent);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .popout_af3b89
-    .shareToChannelButton_af3b89 {
+:is(.theme-dark, .theme-midnight) #app-mount .popout_af3b89 .shareToChannelButton_af3b89 {
     border-right-color: var(--background-secondary);
 }
 
@@ -1353,16 +1189,10 @@
     background-color: var(--background-tertiary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .draggableContainer__6a6d6
-    .container__6a6d6 {
+:is(.theme-dark, .theme-midnight) #app-mount .draggableContainer__6a6d6 .container__6a6d6 {
     background-color: var(--background-tertiary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .draggableContainer__6a6d6
-    .footerContainer__6a6d6 {
+:is(.theme-dark, .theme-midnight) #app-mount .draggableContainer__6a6d6 .footerContainer__6a6d6 {
     background: linear-gradient(
         180deg,
         hsla(var(--primary-760-hsl) / 0) 0%,
@@ -1380,10 +1210,7 @@
 :is(.theme-dark, .theme-midnight) #app-mount .contentWarningPopout_be95d0 {
     background-color: var(--background-floating);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .contentWarningPopout_be95d0
-    .footer_be95d0 {
+:is(.theme-dark, .theme-midnight) #app-mount .contentWarningPopout_be95d0 .footer_be95d0 {
     background-color: hsl(var(--primary-900-hsl) / 0.8);
 }
 
@@ -1391,16 +1218,10 @@
     background-color: var(--background-floating);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .drawerSizingWrapper__08434
-    .emptyHintCard__2dc39 {
+:is(.theme-dark, .theme-midnight) #app-mount .drawerSizingWrapper__08434 .emptyHintCard__2dc39 {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .drawerSizingWrapper__08434
-    .imageLoading__1859b {
+:is(.theme-dark, .theme-midnight) #app-mount .drawerSizingWrapper__08434 .imageLoading__1859b {
     border-radius: 35%;
     background-color: var(--background-secondary-alt);
     background-image: none;
@@ -1469,16 +1290,10 @@
     background-color: var(--background-tertiary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .picker__09f65
-    .soundButton__6d4ed {
+:is(.theme-dark, .theme-midnight) #app-mount .picker__09f65 .soundButton__6d4ed {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .picker__09f65
-    .keybindHint__46002 {
+:is(.theme-dark, .theme-midnight) #app-mount .picker__09f65 .keybindHint__46002 {
     background-color: var(--background-primary);
 }
 
@@ -1491,35 +1306,19 @@
 :is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .background_c44edb {
     color: var(--background-secondary-alt);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .prefixInput__9d137 {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .prefixInput__9d137 {
     background-color: hsl(var(--primary-700-hsl) / 0.2);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .backgroundContainer_eaaeee {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .backgroundContainer_eaaeee {
     background-color: var(--background-secondary-alt);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .containerFooter_eaaeee {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .containerFooter_eaaeee {
     background-color: var(--background-secondary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .iconWrapper__96f95 {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .iconWrapper__96f95 {
     background: var(--button-secondary-background);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .iconWrapper__96f95
-    .icon__96f95:hover {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .iconWrapper__96f95 .icon__96f95:hover {
     background: var(--button-secondary-background-hover);
 }
 :is(.theme-dark, .theme-midnight)
@@ -1532,11 +1331,7 @@
 :is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .auditLog__43dab {
     border-color: var(--background-secondary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .auditLog__43dab
-    .headerDefault__43dab,
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .auditLog__43dab .headerDefault__43dab,
 :is(.theme-dark, .theme-midnight)
     #app-mount
     .layers__960e4
@@ -1551,35 +1346,21 @@
     .headerExpanded__43dab {
     background-color: hsl(var(--primary-660-hsl) / 0.5);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .auditLog__43dab
-    .divider__43dab {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .auditLog__43dab .divider__43dab {
     background-color: var(--background-modifier-accent);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .auditLog__43dab
-    .changeDetails__43dab {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .auditLog__43dab .changeDetails__43dab {
     background-color: hsl(var(--primary-660-hsl) / 0.3);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .tierBody_f15dca {
     background-color: var(--background-secondary-alt);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .sidebarRegionScroller__23e6b {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .sidebarRegionScroller__23e6b {
     background-color: var(--background-primary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .cardPrimary__73069.outline__73069 {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .cardPrimary__73069.outline__73069 {
     background-color: var(--background-secondary);
 }
 :is(.theme-dark, .theme-midnight)
@@ -1603,20 +1384,14 @@
     .bottomDivider__01014 {
     border-bottom-color: var(--background-modifier-accent);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .codeRedemptionRedirect_a706ba {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .codeRedemptionRedirect_a706ba {
     border-color: var(--background-tertiary);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .preview__3e443 {
     border-color: var(--background-secondary);
     background-color: var(--background-primary) !important;
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .layers__960e4
-    .notches__06283.gray__06283 {
+:is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .notches__06283.gray__06283 {
     color: var(--background-primary);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .layers__960e4 .progress__06283 {
@@ -1665,10 +1440,7 @@
 :is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .sidebar_c48ade,
 :is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .container__2637a,
 :is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .container__551b0,
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .content_c48ade
-    .privateChannels__35e86 {
+:is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .privateChannels__35e86 {
     background-color: var(--background-primary);
 }
 :is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .users__260e1 {
@@ -1677,10 +1449,7 @@
 :is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .total__260e1 {
     background-color: var(--background-secondary);
 }
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .content_c48ade
-    .total__260e1::after {
+:is(.theme-dark, .theme-midnight) #app-mount .content_c48ade .total__260e1::after {
     border-right-color: var(--background-secondary);
 }
 
@@ -1688,32 +1457,16 @@
     background-color: var(--background-secondary);
 }
 
-:is(.theme-dark, .theme-midnight)
-    #app-mount
-    .sidebar_c48ade
-    .bannerImage_f37cb1:before {
-    background: linear-gradient(
-        to bottom,
-        var(--primary-900),
-        transparent 100%
-    );
+:is(.theme-dark, .theme-midnight) #app-mount .sidebar_c48ade .bannerImage_f37cb1:before {
+    background: linear-gradient(to bottom, var(--primary-900), transparent 100%);
 }
 
 :is(.theme-dark, .theme-midnight) .sidebar_c48ade .panels_c48ade {
     background-color: var(--background-primary);
 }
-:is(.theme-dark, .theme-midnight)
-    .sidebar_c48ade
-    .panels_c48ade
-    .wrapper__0d616,
+:is(.theme-dark, .theme-midnight) .sidebar_c48ade .panels_c48ade .wrapper__0d616,
 :is(.theme-dark, .theme-midnight) .sidebar_c48ade .panels_c48ade .panel__5dec7,
-:is(.theme-dark, .theme-midnight)
-    .sidebar_c48ade
-    .panels_c48ade
-    .container_e131a9,
-:is(.theme-dark, .theme-midnight)
-    .sidebar_c48ade
-    .panels_c48ade
-    .container__37e49 {
+:is(.theme-dark, .theme-midnight) .sidebar_c48ade .panels_c48ade .container_e131a9,
+:is(.theme-dark, .theme-midnight) .sidebar_c48ade .panels_c48ade .container__37e49 {
     background-color: var(--background-primary);
 }

@@ -82,9 +82,7 @@
         var(--acc-0),
         transparent 95%
     ); /* overlay color of messages that mention you when hovered. */
-    --reply-overlay: var(
-        --active
-    ); /* overlay color of message you are replying to. */
+    --reply-overlay: var(--active); /* overlay color of message you are replying to. */
     --reply-hover-overlay: var(
         --hover
     ); /* overlay color of message you are replying to when hovered. */

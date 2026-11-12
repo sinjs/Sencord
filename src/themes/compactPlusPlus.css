@@ -150,10 +150,7 @@
 .mouse-mode .compact_c19a55 .headerText_c19a55 .username_c19a55:hover,
 .mouse-mode .compact_bc2461.usernameContainer_bc2461 > :nth-child(2):hover,
 .mouse-mode .compact_df2817.usernameContainer_df2817 > :nth-child(2):hover,
-.mouse-mode
-    .compact_c19a55
-    .header_c19a55
-    .timestamp_c19a55.vc-pronoundb-compact:hover {
+.mouse-mode .compact_c19a55 .header_c19a55 .timestamp_c19a55.vc-pronoundb-compact:hover {
     /* Show full username */
     overflow: visible;
     background-color: var(--background-secondary-alt);
@@ -198,15 +195,12 @@
 .compact_c19a55 .operations_baf0d6,
 .embedCard_df2817.compact_df2817 {
     margin-left: calc(
-        var(--compactplusplus-header-width) +
-            var(--compactplusplus-header-margin-left) +
+        var(--compactplusplus-header-width) + var(--compactplusplus-header-margin-left) +
             var(--compactplusplus-header-margin-right)
     );
 }
 /* Message content of message with empty embed container */
-.compact_c19a55:has(> .container_b7e1cb:empty)
-    .contents_c19a55
-    .messageContent_c19a55 {
+.compact_c19a55:has(> .container_b7e1cb:empty) .contents_c19a55 .messageContent_c19a55 {
     /* Make the content have at least 1 line of height, in case the client
        * renders a message with no content and no embeds */
     /* This has happened before with the 2023-09_soundmoji experiment. If a
@@ -227,13 +221,10 @@
     margin-left: 0;
 }
 /* System message content */
-.compact_c19a55.systemMessage_d5deea
-    > .contents_c19a55
-    > .messageContent_c19a55,
+.compact_c19a55.systemMessage_d5deea > .contents_c19a55 > .messageContent_c19a55,
 .compact_c19a55 .blockedSystemMessage_c09d0f {
     margin-left: calc(
-        var(--compactplusplus-header-width) +
-            var(--compactplusplus-header-margin-left) -
+        var(--compactplusplus-header-width) + var(--compactplusplus-header-margin-left) -
             var(--compactplusplus-avatar-size)
     );
 }
@@ -249,8 +240,7 @@
 .compact_c19a55 .welcomeCTA_f6dde0,
 .compact_c19a55 .container_e365d2 {
     margin-left: calc(
-        var(--compactplusplus-avatar-size) +
-            var(--compactplusplus-header-margin-right)
+        var(--compactplusplus-avatar-size) + var(--compactplusplus-header-margin-right)
     );
 }
 /* Non-AutoMod system message container */
@@ -279,9 +269,7 @@
     overflow: hidden;
 }
 /* AutoMod message username container on hover */
-.mouse-mode.full-motion
-    .compact_bc2461.usernameContainer_bc2461
-    > :nth-child(2):hover {
+.mouse-mode.full-motion .compact_bc2461.usernameContainer_bc2461 > :nth-child(2):hover {
     z-index: 2;
 }
 /* AutoMod message username */
@@ -326,8 +314,7 @@
 /* AutoMod referenced message content */
 .compact_c19a55 .messageContainer_a0eae1 .messageContent_c19a55 {
     margin-left: calc(
-        var(--compactplusplus-header-width) +
-            var(--compactplusplus-header-margin-right)
+        var(--compactplusplus-header-width) + var(--compactplusplus-header-margin-right)
     );
 }
 /* AutoMod notice content container */
@@ -342,8 +329,7 @@
 /* Message reply container */
 .compact_c19a55 .repliedMessage_c19a55 {
     margin-left: calc(
-        var(--compactplusplus-header-margin-left) +
-            var(--compactplusplus-link-line-offset) +
+        var(--compactplusplus-header-margin-left) + var(--compactplusplus-link-line-offset) +
             var(--compactplusplus-reply-link-line-width)
     );
 }

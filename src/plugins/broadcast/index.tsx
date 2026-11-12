@@ -115,7 +115,6 @@ export default definePlugin({
     toolboxActions: {
         async "Authenticate"() {
 
-            const callback = () => {};
             const auth = await getAuth();
 
             if (!auth?.token || (auth?.expires && (auth.expires < Date.now() / 1000)))
